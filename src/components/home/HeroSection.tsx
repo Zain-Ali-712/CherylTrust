@@ -25,7 +25,7 @@ export default function HeroSection() {
         >
             {/* Background image */}
             <Image
-                src="/Kiri1.jpg"
+                src="/kiri1.jpg"
                 alt="A dog in a peaceful setting"
                 fill
                 priority

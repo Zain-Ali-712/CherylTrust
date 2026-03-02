@@ -9,12 +9,12 @@ const panels = [
     {
         title: "Dogs", tagline: "Behaviour · Rehabilitation · Body Therapy",
         points: ["Aggression & fear behaviour", "Anxiety & PTSD recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
-        href: "/care#dogs", image: "/Foster-story1-3.jpg", stat: { val: "100+", label: "Dogs Helped" },
+        href: "/services/dogs", image: "/Foster-story1-3.jpg", stat: { val: "100+", label: "Dogs Helped" },
     },
     {
         title: "Horses", tagline: "Paddock Sessions · Musculoskeletal Care",
         points: ["Trust Technique® at your paddock", "Laminitis recovery guidance", "Musculoskeletal unwinding", "Pre-season sessions"],
-        href: "/care#horses", image: "/horse.jpg", stat: { val: "NZ", label: "Wellington & Online" },
+        href: "/services/horses", image: "/horse.jpg", stat: { val: "NZ", label: "Wellington & Online" },
     },
 ];
 
