@@ -58,7 +58,7 @@ export default function TrustTechniqueIntro() {
                         {/* Top Section: Image */}
                         <div className="relative z-10 w-full mb-8">
                             <div className="relative w-full aspect-[5/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-                                <Image src="/red.jpg" alt="Trust Technique session with horse" fill className="object-cover transition-transform duration-1000 hover:scale-105" />
+                                <Image src="/red2.jpg" alt="Trust Technique session with horse" fill className="object-cover transition-transform duration-1000 hover:scale-105" />
                                 {/* Overlay gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark/60 via-dark/10 to-transparent" />
 
