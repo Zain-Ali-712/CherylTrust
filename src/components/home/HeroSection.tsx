@@ -94,8 +94,8 @@ export default function HeroSection() {
                         Enquire & Book <FiArrowRight size={13} />
                     </Link>
                     <Link
-                        href="/services"
-                        className="inline-flex items-center gap-2 px-9 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 text-dark/90 border border-dark/30 hover:text-dark hover:border-dark/70 hover:bg-dark/5"
+                        href="#services-overview"
+                        className="inline-flex items-center justify-center gap-2 px-9 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 text-white border border-white/40 hover:bg-white hover:text-dark hover:border-white"
                     >
                         Explore Services
                     </Link>

@@ -257,12 +257,12 @@ export default function CanineClubPage() {
                                     <h3 className="font-serif text-[1.6rem] lg:text-[1.8rem] text-white mb-3 leading-[1.2]">{plan.title}</h3>
                                     <div className="mb-6 flex items-baseline gap-2">
                                         <span className="font-serif font-bold text-4xl text-accent">{plan.price}</span>
-                                        <span className="font-sans text-[0.8rem] text-white/50 uppercase tracking-widest relative top-[-6px]">/ {plan.duration}</span>
+                                        <span className="font-sans text-[0.8rem] text-white/90 uppercase tracking-widest relative top-[-6px]">/ {plan.duration}</span>
                                     </div>
 
                                     <div className="h-px w-full bg-white/[0.08] mb-8" />
 
-                                    <p className="font-sans text-[1.05rem] text-white/70 leading-[1.8] mb-8">
+                                    <p className="font-sans text-[1.05rem] text-white/90 leading-[1.8] mb-8">
                                         Exclusive {plan.subtitle.toLowerCase()} access to the Canine Adventure Park, swimming spots, and farm walks.
                                     </p>
 

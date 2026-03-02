@@ -21,7 +21,7 @@ export default function ServicesOverview() {
     const s = services[active];
 
     return (
-        <section className="bg-bg-section py-16">
+        <section id="services-overview" className="bg-bg-section py-16">
             <div className="max-w-[1280px] mx-auto" style={{ paddingLeft: "clamp(1.25rem,6vw,4rem)", paddingRight: "clamp(1.25rem,6vw,4rem)" }}>
 
                 {/* Centered header */}
@@ -114,10 +114,7 @@ export default function ServicesOverview() {
                                     className="inline-flex items-center justify-center gap-2 px-7 py-3 text-[0.72rem] font-bold tracking-[0.2em] uppercase font-sans no-underline text-white bg-primary-dark border border-primary-dark hover:bg-dark hover:border-dark transition-all duration-300">
                                     Book This Service <FiArrowRight size={13} />
                                 </Link>
-                                <Link href="/services"
-                                    className="text-[0.75rem] font-semibold font-sans text-dark/40 no-underline hover:text-primary-dark transition-colors">
-                                    View all services →
-                                </Link>
+
                             </div>
                         </div>
                     </div>
