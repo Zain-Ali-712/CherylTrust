@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import { FiClock, FiArrowRight } from "react-icons/fi";
 import HomeCTA from "@/components/home/HomeCTA";
+import BookingModal from "@/components/canine-club/BookingModal";
+import { useState } from "react";
 
 const hours = [
     { day: "Sunday", time: "08:00 AM - 06:00 PM" },
@@ -49,10 +51,34 @@ const plans = [
         duration: "1 year",
         sessions: "Unlimited",
         date: "02-03-2026"
+    },
+    {
+        title: "Feb Valentines Special",
+        subtitle: "2 Members",
+        price: "$35.00",
+        duration: "45 mins",
+        sessions: "1 Canine Adventure Park Session",
+        membershipRequired: true
+    },
+    {
+        title: "Feb Valentines Special",
+        subtitle: "Bring a Friend",
+        price: "$45.00",
+        duration: "45 mins",
+        sessions: "1 Canine Adventure Park Session",
+        membershipRequired: true
     }
 ];
 
 export default function CanineClubPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedPlanName, setSelectedPlanName] = useState("");
+
+    const openBookingModal = (planName: string) => {
+        setSelectedPlanName(planName);
+        setIsModalOpen(true);
+    };
+
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -255,7 +281,9 @@ export default function CanineClubPage() {
                                         </div>
                                     </div>
 
-                                    <button className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
+                                    <button
+                                        onClick={() => openBookingModal(plan.title)}
+                                        className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
                                         Select Plan
                                     </button>
                                 </div>
@@ -263,15 +291,17 @@ export default function CanineClubPage() {
                         ))}
                     </div>
 
-                    <div className="mt-12 text-center">
-                        <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-dark text-white rounded-xl font-sans font-bold tracking-[0.1em] uppercase text-xs hover:bg-primary-dark transition-colors shadow-sm">
-                            See all plans <FiArrowRight size={14} />
-                        </button>
-                    </div>
+
                 </div>
             </section>
 
             <HomeCTA />
+
+            <BookingModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                planName={selectedPlanName}
+            />
         </main>
     );
 }
