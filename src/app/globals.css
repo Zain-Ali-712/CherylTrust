@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME — Blue-Gray Pet Care Palette
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@theme inline {
+  --color-primary: #6C8FA3;
+  --color-primary-light: #A2BAC9;
+  --color-primary-dark: #507E98;
+  --color-primary-deeper: #3D6B85;
+  --color-accent: #F2CBA9;
+  --color-accent-light: #F7DFC4;
+  --color-accent-dark: #D4A878;
+  --color-bg-light: #DCE5E9;
+  --color-bg-section: #F0F4F6;
+  --color-warm-white: #F8F5F1;
+  --color-dark: #1C2B36;
+  --color-dark-footer: #111E27;
+  --color-muted: #6B7E8A;
+  --color-background: #F8F5F1;
+  --color-foreground: #1C2B36;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Montserrat', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BASE STYLES — inside @layer base so that
+   Tailwind's @layer utilities can override them
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #F8F5F1;
+    color: #1C2B36;
+    font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: 'Playfair Display', Georgia, serif;
+    line-height: 1.2;
+    color: #1C2B36;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NAVBAR RESPONSIVE — stays unlayered so
+   it beats everything and !important works
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.desktop-nav {
+  display: flex !important;
+}
+
+.mobile-menu-btn {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCENDANT HOVER — Tailwind can't do these
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.about-img-wrap:hover .about-img {
+  transform: scale(1.04);
+}
+
+.care-panel:hover .care-img {
+  transform: scale(1.06);
+}
+
+.care-panel:hover .care-stat-val {
+  opacity: 1 !important;
+}
+
+.care-panel:hover .care-bullets {
+  opacity: 1 !important;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLLBAR
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #DCE5E9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #507E98;
+  border-radius: 3px;
+}
