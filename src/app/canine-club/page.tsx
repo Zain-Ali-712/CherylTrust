@@ -25,19 +25,19 @@ const features = [
     },
     {
         title: "Off-leash enrichment",
-        desc: "Exploration and off lead fun activities that will enrich your dogs day - the adventure park is filled with a confidence course, a swimming hole, a sensory garden, agility jumps, and more....fun for everyone.",
+        desc: "Exploration and off lead fun activities that will enrich your dogs day - Adventure Park Cheryl is filled with a confidence course, a swimming hole, a sensory garden, agility jumps, and more....fun for everyone.",
         img: "/club2.jpg",
     },
     {
         title: "Safe play space",
-        desc: "Fully deer fenced and double gated entry - super safe so you can relax and enjoy the countryside with your bestie at Canine Adventure Park. Have an amazing adventure with your dog in an enclosed private park - it's great exercise, it's safe, and it's fun for both of you.",
+        desc: "Fully deer fenced and double gated entry - super safe so you can relax and enjoy the countryside with your bestie at Adventure Park Cheryl. Have an amazing adventure with your dog in an enclosed private park - it's great exercise, it's safe, and it's fun for both of you.",
         img: "/club3.jpg",
     }
 ];
 
 const plans = [
     {
-        title: "Canine Country Club Membership",
+        title: "Adventure Park Cheryl Membership",
         subtitle: "Trust Client",
         price: "$30.00",
         duration: "1 year",
@@ -45,7 +45,7 @@ const plans = [
         date: "02-03-2026"
     },
     {
-        title: "Canine Country Club Membership",
+        title: "Adventure Park Cheryl Membership",
         subtitle: "Non-Trust Client",
         price: "$30.00",
         duration: "1 year",
@@ -57,7 +57,7 @@ const plans = [
         subtitle: "2 Members",
         price: "$35.00",
         duration: "45 mins",
-        sessions: "1 Canine Adventure Park Session",
+        sessions: "1 Adventure Park Cheryl Session",
         membershipRequired: true
     },
     {
@@ -65,7 +65,7 @@ const plans = [
         subtitle: "Bring a Friend",
         price: "$45.00",
         duration: "45 mins",
-        sessions: "1 Canine Adventure Park Session",
+        sessions: "1 Adventure Park Cheryl Session",
         membershipRequired: true
     }
 ];
@@ -124,10 +124,10 @@ export default function CanineClubPage() {
                         className="font-serif font-normal text-white leading-[1.1] max-w-[800px] mb-6 tracking-[-0.01em]"
                         style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}
                     >
-                        Canine Country <span className="text-accent italic">Club.</span>
+                        Adventure Park <span className="text-accent italic">Cheryl.</span>
                     </h1>
                     <p className="text-white/80 font-sans leading-[1.8] max-w-[600px] text-[1.05rem] mb-8">
-                        Exclusive access to our Canine Adventure Park, Swim Spot, and scenic farm and bush walks in Wainuiomata, Wellington.
+                        Exclusive access to Adventure Park Cheryl, Swim Spot, and scenic farm and bush walks in Wainuiomata, Wellington.
                     </p>
                     <a href="#membership-plans" className="inline-flex items-center gap-2 px-8 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 bg-accent text-dark border border-accent hover:bg-white hover:border-white w-fit">
                         Join The Club <FiArrowRight size={13} />
@@ -148,13 +148,13 @@ export default function CanineClubPage() {
                             </h2>
                             <div className="space-y-6 text-dark/75 font-sans leading-[1.8] text-[1.05rem]">
                                 <p>
-                                    Canine Country Club is a private membership (all welcome to join) for responsible dog owners and their dogs, providing exclusive access to booking the Canine Adventure Park, the Swim Spot, Farm and Bush walks, plus other fun activities run by the club.
+                                    Adventure Park Cheryl is a private membership (all welcome to join) for responsible dog owners and their dogs, providing exclusive access to booking Adventure Park Cheryl, the Swim Spot, Farm and Bush walks, plus other fun activities run by the club.
                                 </p>
                                 <p>
-                                    On joining the Canine Country Club you will be able to purchase visits to the Adventure Park, the swim spot, and enjoy private outings and activities on our farm in Wainuiomata, Wellington.
+                                    On joining Adventure Park Cheryl you will be able to purchase visits to Adventure Park Cheryl, the swim spot, and enjoy private outings and activities on our farm in Wainuiomata, Wellington.
                                 </p>
                                 <p>
-                                    The Canine Adventure Park has been created for dog owners to enjoy a fully enclosed and private space to visit. Designed for all types of dogs and activities – there is plenty of room to zoom, obstacles to play and train on, as well as some quiet spots to enjoy the sounds and scenery of the countryside.
+                                    Adventure Park Cheryl has been created for dog owners to enjoy a fully enclosed and private space to visit. Designed for all types of dogs and activities – there is plenty of room to zoom, obstacles to play and train on, as well as some quiet spots to enjoy the sounds and scenery of the countryside.
                                 </p>
                                 <div className="p-6 bg-primary-dark/5 border border-primary-dark/10 rounded-2xl mt-8">
                                     <p className="text-[0.95rem] font-medium text-dark/90 italic m-0">
@@ -240,7 +240,7 @@ export default function CanineClubPage() {
                             <div className="w-5 h-px bg-primary-dark" />
                         </div>
                         <h2 className="font-serif font-normal text-dark leading-[1.12] mb-4 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                            Join Canine Country Club
+                            Join Adventure Park Cheryl
                         </h2>
                         <p className="text-dark/60 font-sans max-w-2xl mx-auto">Select the membership plan that matches your current relationship with the Trust Technique to gain access to our facilities.</p>
                     </div>
@@ -263,7 +263,7 @@ export default function CanineClubPage() {
                                     <div className="h-px w-full bg-white/[0.08] mb-8" />
 
                                     <p className="font-sans text-[1.05rem] text-white/90 leading-[1.8] mb-8">
-                                        Exclusive {plan.subtitle.toLowerCase()} access to the Canine Adventure Park, swimming spots, and farm walks.
+                                        Exclusive {plan.subtitle.toLowerCase()} access to Adventure Park Cheryl, swimming spots, and farm walks.
                                     </p>
 
                                     <div className="flex-grow space-y-5 mb-10">

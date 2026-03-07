@@ -16,8 +16,8 @@ const navLinks = [
         ]
     },
     { href: "/trust-technique", label: "Trust Technique" },
+    { href: "/donate", label: "Charitable Trust" },
     { href: "/canine-club", label: "Adventure Park" },
-    { href: "/donate", label: "Donate" },
 ];
 
 export default function Navbar() {
@@ -44,7 +44,7 @@ export default function Navbar() {
                         ${isScrolled ? "border-primary-dark bg-primary-dark" : "border-white/30 bg-white/10"}`}>
                         <Image src="/logo.png" alt="Cheryl Trust" width={22} height={22} className="object-contain" />
                     </div>
-                    <div>
+                    <div className="whitespace-nowrap">
                         <div className={`font-serif font-bold text-base leading-[1.1] transition-colors duration-300 ${isScrolled ? "text-dark" : "text-white"}`}>
                             Cheryl
                         </div>

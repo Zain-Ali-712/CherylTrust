@@ -39,7 +39,7 @@ export default function Footer() {
                         <div className="w-8 h-8 border border-primary-light/30 flex items-center justify-center shrink-0">
                             <GiPawPrint size={16} className="text-primary-light" />
                         </div>
-                        <div>
+                        <div className="whitespace-nowrap">
                             <div className="font-serif font-bold text-base text-white leading-[1.1]">Cheryl</div>
                             <div className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase font-sans text-primary-light">Trust Technique NZ</div>
                         </div>

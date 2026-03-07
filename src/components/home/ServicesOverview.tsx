@@ -20,11 +20,11 @@ const businesses = [
     },
     {
         id: "adventure",
-        name: "Adventure Park",
+        name: "Adventure Park Cheryl",
         subservices: [
-            { id: "adv-1", num: "01", title: "Canine Country Club Membership", available: "Yearly Access", tagline: "Exclusive park access", desc: "Join our private membership for responsible dog owners. Grants you access to book the Adventure Park, Swim Spot, and farm walks.", bullets: ["Private booking access", "Secure environment", "Seasonal Swim Spot", "All breeds welcome"] },
+            { id: "adv-1", num: "01", title: "Adventure Park Cheryl Membership", available: "Yearly Access", tagline: "Exclusive park access", desc: "Join our private membership for responsible dog owners. Grants you access to book Adventure Park Cheryl, Swim Spot, and farm walks.", bullets: ["Private booking access", "Secure environment", "Seasonal Swim Spot", "All breeds welcome"] },
             { id: "adv-2", num: "02", title: "Distraction-Free Dog Time", available: "Private Booking", tagline: "Safe and private spaces", desc: "Minimize distractions and triggers to maximize quality time with your dog in an enclosed environment with no other dogs to worry about.", bullets: ["No off-leash surprises", "Ideal for reactive dogs", "Stress-free exercise", "Fully deer-fenced"] },
-            { id: "adv-3", num: "03", title: "Off-Leash Enrichment", available: "Adventure Park", tagline: "Explore, sniff, and play", desc: "Exploration and off-lead fun activities that enrich your dog's day. Features include a confidence course, a sensory garden, and agility jumps.", bullets: ["Confidence course included", "Sensory garden exploration", "Agility jumps", "Mental and physical fun"] },
+            { id: "adv-3", num: "03", title: "Off-Leash Enrichment", available: "Adventure Park Cheryl", tagline: "Explore, sniff, and play", desc: "Exploration and off-lead fun activities that enrich your dog's day. Features include a confidence course, a sensory garden, and agility jumps.", bullets: ["Confidence course included", "Sensory garden exploration", "Agility jumps", "Mental and physical fun"] },
             { id: "adv-4", num: "04", title: "Safe Play Space", available: "Wainuiomata", tagline: "Relax in the countryside", desc: "Fully deer fenced and double-gated entry so you can relax and truly enjoy the beautiful Wellington countryside with your best friend.", bullets: ["Double-gated entry", "High deer fencing", "Peace of mind", "Beautiful farm scenery"] }
         ]
     },
@@ -88,8 +88,8 @@ export default function ServicesOverview() {
                                 setActiveSubId(0);
                             }}
                             className={`px-5 py-2.5 rounded-full border text-[0.8rem] font-bold font-sans tracking-wide transition-all ${activeBusId === idx
-                                    ? "bg-dark text-white border-dark shadow-md"
-                                    : "bg-white text-dark/70 border-dark/10 hover:bg-dark hover:text-white"
+                                ? "bg-dark text-white border-dark shadow-md"
+                                : "bg-white text-dark/70 border-dark/10 hover:bg-dark hover:text-white"
                                 }`}
                         >
                             {bus.name}

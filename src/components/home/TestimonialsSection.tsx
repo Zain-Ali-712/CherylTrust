@@ -5,13 +5,13 @@ const testimonials = [
     {
         name: "Sarah & Buster",
         service: "Trust Technique Session",
-        text: "Cheryl completely changed our lives. Buster was so anxious around other dogs, but after just a few sessions, he's much calmer. The Canine Country Club is our safe haven!",
+        text: "Cheryl completely changed our lives. Buster was so anxious around other dogs, but after just a few sessions, he's much calmer. Adventure Park Cheryl is our safe haven!",
         rating: 5
     },
     {
         name: "James & Bella",
-        service: "Canine Country Club",
-        text: "We absolutely love the adventure park. Knowing it's fully secure allows Bella to run free without me worrying. The swimming hole is her favorite spot in the world.",
+        service: "Adventure Park Cheryl",
+        text: "We absolutely love Adventure Park Cheryl. Knowing it's fully secure allows Bella to run free without me worrying. The swimming hole is her favorite spot in the world.",
         rating: 5
     },
     {
