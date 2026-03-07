@@ -40,12 +40,12 @@ export default function Footer() {
                             <GiPawPrint size={16} className="text-primary-light" />
                         </div>
                         <div>
-                            <div className="font-serif font-bold text-base text-white leading-[1.1]">Cheryl Trust</div>
+                            <div className="font-serif font-bold text-base text-white leading-[1.1]">Cheryl</div>
                             <div className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase font-sans text-primary-light">Trust Technique NZ</div>
                         </div>
                     </Link>
                     <p className="text-[0.95rem] text-white/80 font-sans leading-[1.8] mb-8 max-w-[280px]">
-                        Certified Trust Technique® Practitioner & Pet Behaviourist, helping people build peaceful, trusting relationships with their animals.
+                        Certified and insured Trust Technique® Practitioner & ConTact C.A.R.E bodyworker, helping people build peaceful, trusting relationships with their animals.
                     </p>
                     <div className="flex gap-3">
                         {socials.map((s, i) => (
@@ -86,7 +86,6 @@ export default function Footer() {
                     <p className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-primary-light/90 mb-6">Get in Touch</p>
                     <div className="flex flex-col gap-4 mb-8">
                         {[
-                            { icon: <FiMapPin size={13} />, content: <>566 Coast Road, Wainuiomata,<br />Wellington 5014, New Zealand</> },
                             { icon: <FiMail size={13} />, content: <a href="mailto:ponyblue_1@hotmail.com" className="text-white/80 no-underline hover:text-white transition-colors">ponyblue_1@hotmail.com</a> },
                             { icon: <FiPhone size={13} />, content: <a href="tel:021822186" className="text-white/80 no-underline hover:text-white transition-colors">021 822 186</a> },
                         ].map((item, i) => (
@@ -108,7 +107,7 @@ export default function Footer() {
                 <div className="max-w-[1280px] mx-auto py-6 flex items-center justify-between flex-wrap gap-4"
                     style={{ paddingLeft: "clamp(1.25rem,6vw,4rem)", paddingRight: "clamp(1.25rem,6vw,4rem)" }}>
                     <p className="text-[0.75rem] font-sans text-white/60 tracking-[0.05em]">
-                        © {new Date().getFullYear()} Cheryl Trust — Trust Technique NZ. All rights reserved.
+                        © {new Date().getFullYear()} Cheryl — Trust Technique NZ. All rights reserved.
                     </p>
                     <p className="text-[0.75rem] font-sans text-white/60">
                         Wellington, New Zealand &nbsp;·&nbsp; Serving clients worldwide

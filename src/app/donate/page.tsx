@@ -139,7 +139,7 @@ export default function DonatePage() {
                                         Specifically, we work with animal rescue centres and shelters to promote positive behavioural change, create resources to assist with animal settling, and provide additional support and assistance in line with our charitable purpose.
                                     </p>
                                     <p>
-                                        We offer support for anxious, fearful, or aggressive animals, specifically dogs, using the Trust Technique&reg;. Our pet behaviourist works closely with people to help dogs in a variety of situations, assisting with specific exercises and practices so the dog can settle in the new home or environment, lessening the high numbers of return-to-rescues or unadoptable classification due to behavioural issues.
+                                        We offer support for anxious, fearful, or aggressive animals, specifically dogs, using the Trust Technique&reg;. Our team works closely with people to help dogs in a variety of situations, assisting with specific exercises and practices so the dog can settle in the new home or environment, lessening the high numbers of return-to-rescues or unadoptable classification due to behavioural issues.
                                     </p>
                                     <div className="mt-6 flex gap-3 p-5 rounded-2xl border border-primary-dark/10 bg-primary-dark/5 items-start">
                                         <FaPaw className="text-primary-dark shrink-0 mt-1" size={16} />

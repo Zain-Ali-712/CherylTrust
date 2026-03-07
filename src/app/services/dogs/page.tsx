@@ -11,6 +11,29 @@ export const metadata: Metadata = {
 };
 
 
+const dogTherapies = [
+    {
+        title: "Trust Technique - Foundation Programme",
+        desc: "A comprehensive program teaching you and your dog to share a deep nervous system connection, eliminating fear-based reactions and building unshakeable confidence.",
+    },
+    {
+        title: "Puppy / New adopted dog set up",
+        desc: "Start your new relationship off right. Learn how to introduce your new dog to your home, family, and other animals with peace and clarity.",
+    },
+    {
+        title: "Trust Technique Consult for Clients",
+        desc: "Private coaching tailored to specific behavioral challenges, trauma, aggression, PTSD, and adoption transitions.",
+    },
+    {
+        title: "ConTact C.A.R.E for Dogs *and other small animals",
+        desc: "A practical method for releasing trapped physical pressure and tension. We ensure the body is as comfortable as the mind.",
+    },
+    {
+        title: "Emergency Assistance Consult",
+        desc: "Immediate support and guidance for sudden behavioral issues, injuries, or when you are navigating an acute crisis.",
+    }
+];
+
 export default function DogServicesPage() {
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
@@ -107,7 +130,7 @@ export default function DogServicesPage() {
                                     When a dog lunges, barks continuously, or panics when left alone, they aren&apos;t trying to be &quot;bad&quot; or dominant. They are overwhelmed, fearful, or trapped in high anxiety.
                                 </p>
                                 <p>
-                                    Regular obedience training frequently suppresses these symptoms without addressing the emotional distress causing them. At CherylTrust, we don&apos;t use commands, corrections, or force. We teach you how to lower your dog&apos;s &quot;thinking levels&quot; so they process their environment safely.
+                                    Regular obedience training frequently suppresses these symptoms without addressing the emotional distress causing them. At Cheryl - Trust Technique NZ, we don&apos;t use commands, corrections, or force. We teach you how to lower your dog&apos;s &quot;thinking levels&quot; so they process their environment safely.
                                 </p>
                             </div>
                         </div>
@@ -148,73 +171,19 @@ export default function DogServicesPage() {
                         <div className="w-16 h-1 bg-primary-dark/20 mx-auto rounded-full mt-6" />
                     </div>
 
-                    <div className="space-y-24 lg:space-y-32">
-                        {/* Therapy 1 */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-dark/5">
-                                <Image src="/Kash.jpg" alt="Trust Technique with dogs" fill className="object-cover" />
-                            </div>
-                            <div>
-                                <div className="text-primary-dark/30 font-serif font-bold text-6xl mb-4">01</div>
-                                <h3 className="font-serif font-normal text-3xl text-dark mb-5 tracking-[-0.01em]">Trust Technique® Sessions</h3>
-                                <p className="text-dark/70 font-sans leading-[1.8] text-base mb-6">
-                                    Overcome fear and reactive patterns peacefully. We work at a pace that suits you and your dog, addressing trauma, aggression, PTSD, and adoption transitions.
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {dogTherapies.map((therapy, idx) => (
+                            <div key={idx} className="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-dark/5 hoverError:-translate-y-1 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                                <div className="text-primary-dark/20 font-serif font-bold text-5xl mb-6">0{idx + 1}</div>
+                                <h3 className="font-serif font-normal text-2xl text-dark mb-4 tracking-[-0.01em]">{therapy.title}</h3>
+                                <p className="text-dark/70 font-sans leading-[1.8] text-[0.95rem] mb-8 flex-grow">
+                                    {therapy.desc}
                                 </p>
-                                <ul className="space-y-3 font-sans text-[0.95rem] text-dark/80 mb-8 font-medium">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Private 1-on-1 coaching</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Immediate lowering of anxiety levels</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> No force or dominance used</li>
-                                </ul>
-                                <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors">
-                                    Book a Session <FiArrowRight size={14} />
+                                <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors mt-auto">
+                                    Enquire <FiArrowRight size={14} />
                                 </Link>
                             </div>
-                        </div>
-
-                        {/* Therapy 2 */}
-                        <div className="bg-dark text-white rounded-[2.5rem] p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center shadow-2xl relative overflow-hidden">
-                            <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-                            <div className="relative z-10 w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 lg:order-2">
-                                <Image src="/adopt5.jpg" alt="Rehabilitation Board and Train" fill className="object-cover" />
-                            </div>
-                            <div className="lg:order-1 relative z-10">
-                                <div className="text-accent/30 font-serif font-bold text-6xl mb-4">02</div>
-                                <h3 className="font-serif font-normal text-3xl text-white mb-5 tracking-[-0.01em]">Rehabilitation Immersion</h3>
-                                <p className="text-white/70 font-sans leading-[1.8] text-base mb-6">
-                                    Full immersion behavioural recovery where your dog stays with Cheryl. Ideal for entrenched trauma or severe aggression cases that require a complete reset in a safe environment.
-                                </p>
-                                <ul className="space-y-3 font-sans text-[0.95rem] text-white/80 mb-8 font-medium">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-accent" /> Multi-day intensive program</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-accent" /> Interrupts severe aggressive routines</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-accent" /> Deep owner preparation for homecoming</li>
-                                </ul>
-                                <Link href="/contact" className="inline-flex items-center gap-2 text-accent font-bold font-sans uppercase tracking-widest text-xs hover:text-white transition-colors">
-                                    Enquire about Immersion <FiArrowRight size={14} />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Therapy 3 */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-dark/5">
-                                <Image src="/adopt4.jpg" alt="Physical & Emotional therapy" fill className="object-cover" />
-                            </div>
-                            <div>
-                                <div className="text-primary-dark/30 font-serif font-bold text-6xl mb-4">03</div>
-                                <h3 className="font-serif font-normal text-3xl text-dark mb-5 tracking-[-0.01em]">Body & Energy Work</h3>
-                                <p className="text-dark/70 font-sans leading-[1.8] text-base mb-6">
-                                    Behavioural issues are often linked to hidden physical pain. We ensure the body is as comfortable as the mind using Red Light Therapy, Musculoskeletal Unwinding, and Emotion Code Releasing.
-                                </p>
-                                <ul className="space-y-3 font-sans text-[0.95rem] text-dark/80 mb-8 font-medium">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Red Light Therapy for injury/surgery recovery</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Fascia & deep trauma release</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Clearing trapped emotional baggage</li>
-                                </ul>
-                                <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors">
-                                    Book a Therapy Session <FiArrowRight size={14} />
-                                </Link>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>

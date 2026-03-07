@@ -21,20 +21,20 @@ const horseIssues = [
 
 const horseTherapies = [
     {
-        title: "Trust Technique®",
+        title: "Trust Technique - Foundation Programme",
         desc: "Teaching you and your horse to share a deep nervous system connection, eliminating fear-based reactions and building unshakeable confidence.",
     },
     {
-        title: "Musculoskeletal Unwinding",
-        desc: "A blend of acupressure, Kinesiology, ortho bionomy, and massage to release deep fascial tension and skeleton misalignment.",
+        title: "Trust Technique Consult for Clients",
+        desc: "Tailored sessions for your specific needs, addressing spooking, floating issues, and general tension.",
     },
     {
-        title: "Red Light Therapy",
-        desc: "Therapeutic wavelengths applied to accelerate healing for acute injuries, joint issues, or post-surgery recovery right in your paddock.",
+        title: "Emergency Assistance Consult",
+        desc: "Immediate support for acute issues, sudden behavioral changes, or post-injury trauma.",
     },
     {
-        title: "Emotion Code Releasing",
-        desc: "Releasing trapped energetic trauma. Horses hold immense emotional memory in their bodies; clearing this creates space for physical healing.",
+        title: "ConTact C.A.R.E for Horses *and other large animals",
+        desc: "Releasing trapped energetic trauma and physical pressure. Horses hold immense emotional memory; clearing this creates space for physical healing.",
     },
 ];
 

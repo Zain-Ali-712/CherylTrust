@@ -16,7 +16,7 @@ const navLinks = [
         ]
     },
     { href: "/trust-technique", label: "Trust Technique" },
-    { href: "/canine-club", label: "Canine Club" },
+    { href: "/canine-club", label: "Adventure Park" },
     { href: "/donate", label: "Donate" },
 ];
 
@@ -46,7 +46,7 @@ export default function Navbar() {
                     </div>
                     <div>
                         <div className={`font-serif font-bold text-base leading-[1.1] transition-colors duration-300 ${isScrolled ? "text-dark" : "text-white"}`}>
-                            Cheryl Trust
+                            Cheryl
                         </div>
                         <div className={`text-[0.62rem] font-semibold tracking-[0.1em] uppercase font-sans transition-colors duration-300 ${isScrolled ? "text-muted" : "text-white/50"}`}>
                             Trust Technique NZ

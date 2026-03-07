@@ -38,7 +38,7 @@ export default function HomeCTA() {
                         <div className="h-px bg-white/[0.08] mb-5 max-w-[500px]" />
 
                         <p className="text-[0.9rem] text-white/45 font-sans leading-[1.85] max-w-[460px]">
-                            Whether you have an anxious dog, a fearful horse, or a rescue animal with a difficult past — Cheryl can help. Sessions available in Wellington or online globally. Reach out for a free initial consultation.
+                            Whether you have an anxious dog, a fearful horse, or a rescue animal with a difficult past — Cheryl can help. Sessions available in Wellington or online globally.
                         </p>
                     </div>
 

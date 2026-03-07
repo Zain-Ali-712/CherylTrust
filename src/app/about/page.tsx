@@ -10,7 +10,7 @@ import HomeCTA from "@/components/home/HomeCTA";
 export const metadata: Metadata = {
     title: "About Cheryl McDonough | Trust Technique Practitioner NZ",
     description:
-        "Meet Cheryl McDonough — Certified Trust Technique Practitioner & Pet Behaviorist in Wellington NZ, specialising in fear, aggression, and anxiety in dogs and horses.",
+        "Meet Cheryl McDonough — Certified Trust Technique Practitioner & ConTact C.A.R.E Bodyworker in Wellington NZ, specialising in fear, aggression, and anxiety in dogs and horses.",
 };
 
 const tools = [
@@ -42,11 +42,11 @@ const tools = [
 
 const credentials = [
     "Certified Trust Technique® Practitioner",
-    "Equine & Canine Bodywork Specialist",
+    "ConTact C.A.R.E Bodyworker",
     "Emotion Code Releasing Practitioner",
     "Red Light Therapy Therapist",
-    "Dog Rehabilitation Specialist",
-    "Over 6 years of hands-on animal therapy",
+    "Equine & Canine Bodywork Specialist",
+    "Over 9 years of hands-on animal therapy",
 ];
 
 export default function AboutPage() {
@@ -115,7 +115,7 @@ export default function AboutPage() {
                     <p
                         className="text-white/75 font-sans leading-[1.8] max-w-[500px] text-[0.95rem] sm:text-base mb-8"
                     >
-                        Certified Trust Technique® Practitioner, Pet Behaviourist & Animal Body Therapist
+                        Certified Trust Technique® Practitioner & ConTact C.A.R.E Bodyworker
                         — helping animals and their people find safety, trust, and deep emotional healing.
                     </p>
 
@@ -175,7 +175,7 @@ export default function AboutPage() {
 
                             <div className="prose prose-lg prose-p:text-dark/65 prose-p:font-sans prose-p:leading-[1.85] prose-p:text-[0.95rem] mb-10">
                                 <p className="mb-5">
-                                    Cheryl McDonough is a certified Trust Technique pet behaviourist who has dedicated her practice to helping animals and their people find peace, trust, and deep connection. Working from Wellington, New Zealand, she serves clients both in person and globally online.
+                                    Cheryl McDonough is a certified Trust Technique® practitioner and ConTact C.A.R.E bodyworker who has dedicated her practice to helping animals and their people find peace, trust, and deep connection. Working from Wellington, New Zealand, she serves clients both in person and globally online.
                                 </p>
                                 <p className="mb-5">
                                     She specialises in working with animals experiencing fear, aggression, and anxiety — the cases that feel impossible. Her holistic toolkit includes the Trust Technique®, Emotion Code Releasing, Musculoskeletal Unwinding, and Red Light Therapy.

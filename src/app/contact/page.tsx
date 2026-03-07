@@ -156,7 +156,7 @@ export default function ContactPage() {
                             Reach out to <span className="text-primary-dark">Cheryl</span> directly
                         </h2>
                         <p className="text-dark/70 font-sans leading-[1.8] text-[0.95rem]">
-                            Whether you need to discuss your animal&apos;s unique situation, book a specific session, or ask about travel arrangements, please don&apos;t hesitate to reach out. I aim to reply to all enquiries within 48 hours.
+                            Whether you need to discuss your animal&apos;s unique situation, book a specific session, or ask about travel arrangements, please don&apos;t hesitate to reach out. I aim to reply to all enquiries within 3 business days.
                         </p>
                     </div>
 
@@ -178,7 +178,7 @@ export default function ContactPage() {
                                 <FiPhone size={24} className="text-accent" />
                             </div>
                             <h3 className="font-serif font-normal text-2xl text-white mb-2 relative z-10">Phone</h3>
-                            <p className="text-white/60 font-sans text-[0.9rem] mb-6 relative z-10 leading-relaxed">Call directly during business hours.</p>
+                            <p className="text-white/60 font-sans text-[0.9rem] mb-6 relative z-10 leading-relaxed">Phone between 10.30-5.30pm anyday.</p>
                             <a href="tel:+64021822186" className="font-sans font-bold text-accent hover:text-white transition-colors mt-auto relative z-10 text-[0.95rem]">021 822 186</a>
                         </div>
                         {/* Dark Card - Location */}
@@ -188,8 +188,7 @@ export default function ContactPage() {
                                 <FiMapPin size={24} className="text-accent" />
                             </div>
                             <h3 className="font-serif font-normal text-2xl text-white mb-2 relative z-10">Location</h3>
-                            <p className="text-white/60 font-sans text-[0.9rem] mb-6 relative z-10 leading-relaxed">Based in Wellington, NZ<br />(Online available)</p>
-                            <span className="font-sans font-bold text-accent mt-auto relative z-10 text-[0.95rem]">566 Coast Road</span>
+                            <p className="text-white/60 font-sans text-[0.9rem] mb-6 relative z-10 leading-relaxed mt-auto">Based in Wellington, NZ<br />(Online available)</p>
                         </div>
                     </div>
                 </div>
