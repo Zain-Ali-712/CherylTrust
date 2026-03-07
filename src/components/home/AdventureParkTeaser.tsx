@@ -9,7 +9,7 @@ const features = [
     "Access to swimming hole & agility jumps"
 ];
 
-export default function CanineClubTeaser() {
+export default function AdventureParkTeaser() {
     return (
         <section className="py-20 lg:py-28 bg-dark text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
@@ -71,7 +71,7 @@ export default function CanineClubTeaser() {
                             ))}
                         </ul>
 
-                        <Link href="/canine-club" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-dark font-sans font-bold text-[0.8rem] tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-[0_10px_30px_rgba(207,208,187,0.15)] rounded-xl">
+                        <Link href="/adventure-park" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-dark font-sans font-bold text-[0.8rem] tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-[0_10px_30px_rgba(207,208,187,0.15)] rounded-xl">
                             Discover Membership <FiArrowRight size={14} />
                         </Link>
                     </div>

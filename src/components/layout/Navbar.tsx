@@ -17,7 +17,7 @@ const navLinks = [
     },
     { href: "/trust-technique", label: "Trust Technique" },
     { href: "/donate", label: "Charitable Trust" },
-    { href: "/canine-club", label: "Adventure Park" },
+    { href: "/adventure-park", label: "Adventure Park" },
 ];
 
 export default function Navbar() {

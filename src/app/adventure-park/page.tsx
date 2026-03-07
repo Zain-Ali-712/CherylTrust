@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { FiClock, FiArrowRight } from "react-icons/fi";
 import HomeCTA from "@/components/home/HomeCTA";
-import BookingModal from "@/components/canine-club/BookingModal";
+import BookingModal from "@/components/adventure-park/BookingModal";
 import { useState } from "react";
 
 const hours = [
@@ -70,7 +70,7 @@ const plans = [
     }
 ];
 
-export default function CanineClubPage() {
+export default function AdventureParkPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlanName, setSelectedPlanName] = useState("");
 
