@@ -6,7 +6,7 @@ import HomeCTA from "@/components/home/HomeCTA";
 import { FaHorse } from "react-icons/fa";
 
 export const metadata: Metadata = {
-    title: "Horse Sessions & Equine Therapy | Cheryl McDonough Trust Technique NZ",
+    title: "Equine | Cheryl McDonough Trust Technique NZ",
     description: "Holistic equine therapy in Wellington NZ. Addressing spooking, floating issues, laminitis recovery, and musculoskeletal tension using the Trust Technique and bodywork.",
 };
 
@@ -83,7 +83,7 @@ export default function HorseServicesPage() {
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-5 h-px bg-accent/70" />
                         <span className="text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans text-accent/85">
-                            Equine Therapy & Sessions
+                            Equine
                         </span>
                     </div>
 

@@ -21,18 +21,18 @@ const benefits = [
 const steps = [
     {
         number: "01",
-        title: "Creative Reaction",
-        desc: "Animals are highly sensitive to our feelings. When we unknowingly project anxiety or frustration, the animal reacts to it. The first step is acknowledging this shared emotional environment.",
+        title: "Trust Technique: Introducing Creative Reaction",
+        desc: "This first acknowledgement of how animals are highly sensitive to our feelings starts a completely different conversation and changes everything.",
     },
     {
         number: "02",
-        title: "Present Moment",
-        desc: "We teach you how to lower your 'thinking levels' and enter a state of peaceful mindfulness. This creates a safe, quiet environment that your animal can feel and respond to.",
+        title: "Shared Emotional Environment",
+        desc: "From here we explore the shared emotional environment between you and your animal and learn how to support them through fear or reactivity.",
     },
     {
         number: "03",
-        title: "Mindful Regard",
-        desc: "In this shared space of peace, you learn to observe your animal without judgment. We introduce things they are normally reactive to at a pace they can handle, replacing fear with trust.",
+        title: "Building Trust",
+        desc: "In this shared calm space you learn to work with your animal without judgement. Situations your animal would normally react to are introduced at a pace they can handle, gradually replacing anxiety and fear with trust. This approach works with any animal and can be a powerful turning point for both you and your dog.",
     },
 ];
 
@@ -138,7 +138,7 @@ export default function TrustTechniquePage() {
                                     Developed by James French, the Trust Technique&reg; is based on the theory that animals and humans share feelings. When an animal is reacting with aggression, fear, or anxiety, they are operating at high &quot;thinking levels&quot;. Often, as their owners, we subconsciously match these levels with our own frustration or worry.
                                 </p>
                                 <p>
-                                    As a Certified Practitioner, Cheryl teaches you how to lower your own thinking levels and enter a state of extreme presence and peace. Because animals are so sensitive to our emotional states, they begin to mirror this peace. Over time, we use this shared bubble of safety to help the animal overcome deep-seated traumas and triggers.
+                                    I am the <strong>only certified domestic and large animal Trust Technique Practitioner in New Zealand.</strong> Because animals are so sensitive to our emotional states, they begin to mirror this peace. Over time, we use this shared bubble of safety to help the animal overcome deep-seated traumas and triggers.
                                 </p>
                             </div>
 

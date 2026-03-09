@@ -14,8 +14,7 @@ const stats = [
 
 const credentials = [
     "Certified Trust Technique® Practitioner",
-    "Equine & Canine Body Therapist",
-    "Emotion Code Releasing Practitioner",
+    "Equine & Canine Body Therapist – ConTact C.A.R.E",
 ];
 
 export default function AboutTeaser() {

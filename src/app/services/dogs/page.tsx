@@ -6,31 +6,31 @@ import HomeCTA from "@/components/home/HomeCTA";
 import { FaPaw } from "react-icons/fa";
 
 export const metadata: Metadata = {
-    title: "Dog Behaviour & Training | Cheryl McDonough Trust Technique NZ",
+    title: "Canine | Cheryl McDonough Trust Technique NZ",
     description: "Expert dog rehabilitation in Wellington, NZ. Specialising in aggression, rescue dogs, separation anxiety, and fear using the Trust Technique.",
 };
 
 
 const dogTherapies = [
     {
-        title: "Trust Technique - Foundation Programme",
-        desc: "A comprehensive program teaching you and your dog to share a deep nervous system connection, eliminating fear-based reactions and building unshakeable confidence.",
-    },
-    {
-        title: "Puppy / New adopted dog set up",
-        desc: "Start your new relationship off right. Learn how to introduce your new dog to your home, family, and other animals with peace and clarity.",
+        title: "Trust Technique - Foundation Program",
+        desc: "A comprehensive program teaching you and your dog to share a deep connection, eliminating fear-based reactions and building a confident and stable relationship.",
     },
     {
         title: "Trust Technique Consult for Clients",
-        desc: "Private coaching tailored to specific behavioral challenges, trauma, aggression, PTSD, and adoption transitions.",
+        desc: "Private coaching tailored to behavioural challenges such as trauma, aggression, PTSD, and adoption transitions.",
     },
     {
-        title: "ConTact C.A.R.E for Dogs *and other small animals",
-        desc: "A practical method for releasing trapped physical pressure and tension. We ensure the body is as comfortable as the mind.",
+        title: "New Puppy / Newly Adopted Dog Set-Up Session",
+        desc: "Start your new relationship off right. Help your new dog thrive with a personalised routine and environment plan, creating a calm and effective introduction to your home and daily life.",
+    },
+    {
+        title: "ConTact C.A.R.E for Dogs and Other Small Animals",
+        desc: "A practical, gentle and pain-free method for releasing trapped physical pressure and tension. It can help alleviate both acute and complex body issues.",
     },
     {
         title: "Emergency Assistance Consult",
-        desc: "Immediate support and guidance for sudden behavioral issues, injuries, or when you are navigating an acute crisis.",
+        desc: "Immediate support and guidance for sudden behavioural issues, injuries, or acute crisis situations.",
     }
 ];
 
@@ -82,7 +82,7 @@ export default function DogServicesPage() {
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-5 h-px bg-accent/70" />
                         <span className="text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans text-accent/85">
-                            Dog Behaviour & Rehabilitation
+                            Canine
                         </span>
                     </div>
 

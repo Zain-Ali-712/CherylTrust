@@ -178,10 +178,13 @@ export default function AboutPage() {
                                     Cheryl McDonough is a certified Trust Technique® practitioner and ConTact C.A.R.E bodyworker who has dedicated her practice to helping animals and their people find peace, trust, and deep connection. Working from Wellington, New Zealand, she serves clients both in person and globally online.
                                 </p>
                                 <p className="mb-5">
-                                    She specialises in working with animals experiencing fear, aggression, and anxiety — the cases that feel impossible. Her holistic toolkit includes the Trust Technique®, Emotion Code Releasing, Musculoskeletal Unwinding, and Red Light Therapy.
+                                    Helping animals find skeletal relief from pain and restrictions with <strong>ConTact C.A.R.E</strong>, musculoskeletal relief with <strong>Fascia Release</strong>, and <strong>Red Light Therapy</strong>.
+                                </p>
+                                <p className="mb-5">
+                                    Her emotional and physical journey has led her to specialise in <strong>reactiveness</strong>, has extensive training in it, and also works with <strong>ConTact C.A.R.E</strong>. The cases that feel impossible. Her holistic toolkit includes the Trust Technique®, Emotion Code Releasing, Musculoskeletal Unwinding, and Red Light Therapy.
                                 </p>
                                 <p>
-                                    Cheryl works with all types of animals — from dogs and horses to llamas, donkeys, and beyond. Her approach is always private, compassionate, and deeply personalised, focusing on working <em>with</em> the animal, not <em>on</em> them.
+                                    Cheryl works with many animals, specialising in <strong>cats, dogs, and horses</strong>. Her approach is always private, compassionate, and personalised, focusing on working <em>with</em> the animal, not <em>on</em> them.
                                 </p>
                             </div>
 

@@ -11,7 +11,7 @@ const navLinks = [
     { href: "/about", label: "About" },
     {
         href: "#", label: "Services", subLinks: [
-            { href: "/services/dogs", label: "Dog Behaviour" },
+            { href: "/services/dogs", label: "Canine" },
             { href: "/services/horses", label: "Horse Sessions" },
         ]
     },
