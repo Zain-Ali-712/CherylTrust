@@ -8,12 +8,12 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 const panels = [
     {
         title: "Dogs", tagline: "Behaviour · Rehabilitation · Body Therapy",
-        points: ["Aggression & fear behaviour", "Anxiety & PTSD recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
-        href: "/services/dogs", image: "/Foster-story1-3.jpg", stat: { val: "100+", label: "Dogs Helped" },
+        points: ["Aggression & fear behaviour", "Anxiety & Trauma recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
+        href: "/services/dogs", image: "/Foster-story1-3.jpg", stat: { val: "1500+", label: "Dogs Helped" },
     },
     {
-        title: "Horses", tagline: "Paddock Sessions · Musculoskeletal Care",
-        points: ["Trust Technique® at your paddock", "Laminitis recovery guidance", "Musculoskeletal unwinding", "Pre-season sessions"],
+        title: "Horses", tagline: "Behaviour · Rehabilitation · Body Therapy",
+        points: ["Trust Technique® at your paddock", "ConTact CARE", "Musculoskeletal unwinding", "Pre-season sessions"],
         href: "/services/horses", image: "/horse.jpg", stat: { val: "NZ", label: "Wellington & Online" },
     },
 ];

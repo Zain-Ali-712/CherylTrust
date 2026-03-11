@@ -17,14 +17,14 @@ const tools = [
     {
         Icon: MdSelfImprovement,
         name: "Trust Technique®",
-        desc: "A mindfulness-based method of creating deep, connected communication between humans and animals. Available globally via Skype or FaceTime.",
+        desc: "A mindfulness-based method of creating a deep, connected relationship between humans and animals, this empowers behavioural change. Available globally via Teams or FaceTime.",
         tag: "Global Online + In Person",
     },
     {
         Icon: GiLightBulb,
-        name: "Emotion Code Releasing",
-        desc: "Identify and release trapped emotions that are causing stress, anxiety, or behavioural issues in your animal. Available globally.",
-        tag: "Global Online + In Person",
+        name: "ConTact C.A.R.E",
+        desc: "Natural hands on body treatment to restore balance, release pressure and relieve pain. Gentle and effective care for your animal. Available in person only",
+        tag: "In Person only",
     },
     {
         Icon: TbMassage,
@@ -115,8 +115,7 @@ export default function AboutPage() {
                     <p
                         className="text-white/75 font-sans leading-[1.8] max-w-[500px] text-[0.95rem] sm:text-base mb-8"
                     >
-                        Certified Trust Technique® Practitioner & ConTact C.A.R.E Bodyworker
-                        — helping animals and their people find safety, trust, and deep emotional healing.
+                        Certified Trust Technique® Practitioner  — helping animals and their people develop a new relationship that supports changing behaviours, builds trust, and offers deep emotional healing. Physical issues can also be addressed with bodywork using ConTact C.A.R.E which is a gentle hands on approach to releasing pressure, and alleviating pain, and improving well being.
                     </p>
 
                     <div className="flex flex-wrap gap-4">
@@ -181,7 +180,10 @@ export default function AboutPage() {
                                     Helping animals find skeletal relief from pain and restrictions with <strong>ConTact C.A.R.E</strong>, musculoskeletal relief with <strong>Fascia Release</strong>, and <strong>Red Light Therapy</strong>.
                                 </p>
                                 <p className="mb-5">
-                                    Her emotional and physical journey has led her to specialise in <strong>reactiveness</strong>, has extensive training in it, and also works with <strong>ConTact C.A.R.E</strong>. The cases that feel impossible. Her holistic toolkit includes the Trust Technique®, Emotion Code Releasing, Musculoskeletal Unwinding, and Red Light Therapy.
+                                    Her emotional journey with her rescue dogs has led her to specialise in dog reactiveness and emotional trauma, she has extensive training in it. The cases that feel impossible are the ones she welcomes with excitement to help, these are the dogs she works with everyday.
+                                </p>
+                                <p className="mb-5">
+                                    Her holistic toolkit includes the Trust Technique®, ConTact C.A.R.E., Musculoskeletal Unwinding, Emotion Code release, and Red Light Therapy.
                                 </p>
                                 <p>
                                     Cheryl works with many animals, specialising in <strong>cats, dogs, and horses</strong>. Her approach is always private, compassionate, and personalised, focusing on working <em>with</em> the animal, not <em>on</em> them.

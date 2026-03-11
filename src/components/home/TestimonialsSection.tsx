@@ -36,10 +36,10 @@ export default function TestimonialsSection() {
                         <div className="w-5 h-px bg-primary-dark" />
                     </div>
                     <h2 className="font-serif font-normal text-dark leading-[1.12] mb-6 tracking-[-0.01em]" style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)" }}>
-                        Happy Hearts & Wags
+                        Happy hearts and wags
                     </h2>
                     <p className="text-[1.05rem] text-dark/70 font-sans leading-[1.8] max-w-[600px] mx-auto">
-                        Real stories from humans and their best friends about their journey with the Trust Technique and our facilities.
+                        Real stories from humans and their best friends about their journey with the Trust Technique and our Canine Adventure Park facilities.
                     </p>
                 </div>
 

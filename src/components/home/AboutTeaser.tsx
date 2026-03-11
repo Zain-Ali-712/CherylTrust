@@ -78,7 +78,7 @@ export default function AboutTeaser() {
                             Cheryl is a certified and insured Trust Technique® Practitioner and ConTact C.A.R.E bodyworker based in Wellington, New Zealand — helping animals and their people find genuine peace, connection, and lasting change.
                         </p>
                         <p className="text-[0.95rem] text-dark/60 font-sans leading-[1.8] mb-8 lg:mb-10">
-                            She addresses fear, aggression, and anxiety at their root using a holistic toolkit: Trust Technique®, Emotion Code Releasing, body therapy, and Red Light treatment.
+                            As a professional behaviourist she addresses fear, aggression, and anxiety at their root using the Trust Technique methodology. For a holistic approach she can also address structural skeletal issues or pains with ConTact CARE, or use one of many tools in her toolkit: Emotion Code Releasing, body therapy, Fascia unwinding, and Red Light treatment.
                         </p>
 
                         {/* Credentials with hover accent */}
