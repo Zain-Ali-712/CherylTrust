@@ -11,7 +11,7 @@ const faqs = [
     },
     {
         question: "How many sessions will my animal need?",
-        answer: "Every animal is unique. While some minor issues can see significant improvement in 1-2 sessions, entrenched behavioural problems or deep trauma take time and commitment. I will assess your animal and recommend a tailored plan during our initial consultation.",
+        answer: "Every animal is unique. While some minor issues can see significant improvement in 1-2 sessions, deep trauma and entrenched behaviours take time and commitment. The appropriate approach will be discussed during the initial conversation.",
     },
     {
         question: "Do I need to do homework between sessions?",
@@ -29,25 +29,53 @@ const faqs = [
 
 const bookingOffers = [
     {
-        title: "Initial Consultation",
-        price: "$150",
-        duration: "90 Mins",
-        desc: "A comprehensive assessment of your animal's behaviour, history, and environment. We will discuss your goals and begin implementing initial strategies.",
-        features: ["In-depth assessment", "Initial strategy plan", "Follow-up notes"],
+        title: "Trust Technique Foundation Program",
+        price: "$1800",
+        duration: "4 x 1 hour 20 min sessions",
+        desc: "A 4-session structured program based on the Trust Technique and practical lead skills to improve dog behaviour.",
+        features: ["Interview and assessment", "Identify behavioural goals", "Guided practice and demonstration", "Teaching the Trust Technique principles"],
     },
     {
         title: "Follow-up Session",
-        price: "$95",
-        duration: "45-60 Mins",
-        desc: "For existing clients continuing their journey. We will review progress, adjust the plan, and tackle new challenges as they arise.",
-        features: ["Progress review", "Plan adjustment", "Continued guidance"],
+        price: "$300",
+        duration: "1 hour 15 mins",
+        desc: "For existing clients only. We will review progress, problem solve, add new goals, and tackle new challenges.",
+        features: ["Progress review", "Continued guidance", "Advanced Trust Technique exercises"],
     },
     {
-        title: "Trust Technique® Intro",
-        price: "$120",
-        duration: "60 Mins",
-        desc: "An introduction to the Trust Technique. Learn how to use mindful regard to lower your animal's thinking levels and find shared peace.",
-        features: ["Mindfulness introduction", "Practical demonstration", "Guided practice"],
+        title: "Trust Technique® Immersion / Travel",
+        price: "POA",
+        duration: "1–2 days",
+        desc: "1-on-1 coaching anywhere in the country. A condensed foundation program where Cheryl directly trains the dog. Pricing depends on client needs.",
+        features: ["Practical demonstration", "Guided practice", "Hands-on training", "Real results in hours"],
+    },
+    {
+        title: "Puppy / New Dog Set Up",
+        price: "$250",
+        duration: "1 hour",
+        desc: "An in-depth plan to help new dogs thrive in their new home.",
+        features: ["In-depth session", "Structured tailored plan", "Covering successful outcomes"],
+    },
+    {
+        title: "Emergency Consult",
+        price: "$350",
+        duration: "1 hour",
+        desc: "An urgent response service for immediate behavioural concerns.",
+        features: ["Evaluation and plan", "Clear instruction", "Immediate remedies", "Follow-up support"],
+    },
+    {
+        title: "ConTact C.A.R.E Canine",
+        price: "$80",
+        duration: "30–40 minutes",
+        desc: "Releasing skeletal pressure and restoring biomechanical balance.",
+        features: ["Hands-on", "Gentle on animal", "Animal dictates pace", "Normal function returns"],
+    },
+    {
+        title: "ConTact C.A.R.E Animal Visit",
+        price: "POA",
+        duration: "30–40 minutes",
+        desc: "Travel sessions for dogs, cats, horses, and other animals, addressing acute pain and complex trauma.",
+        features: ["Restore balance and function", "Movement equals mobility", "Ease brings behavioural changes"],
     },
 ];
 
@@ -156,7 +184,7 @@ export default function ContactPage() {
                             Reach out to <span className="text-primary-dark">Cheryl</span> directly
                         </h2>
                         <p className="text-dark/70 font-sans leading-[1.8] text-[0.95rem]">
-                            Whether you need to discuss your animal&apos;s unique situation, book a specific session, or ask about travel arrangements, please don&apos;t hesitate to reach out. I aim to reply to all enquiries within 3 business days.
+                            Whether you need to discuss your animal&apos;s unique situation, book a session, or ask about travel arrangements, please don&apos;t hesitate to reach out. I aim to reply to all enquiries within 3 business days. If emailing, please monitor your spam folder for replies.
                         </p>
                     </div>
 
