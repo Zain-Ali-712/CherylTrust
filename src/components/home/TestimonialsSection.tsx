@@ -1,28 +1,30 @@
 import { FiStar } from "react-icons/fi";
 import { FaQuoteLeft } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+import connectToDatabase from "@/lib/mongodb";
+import Testimonial from "@/models/Testimonial";
+import mongoose from "mongoose";
 
-const testimonials = [
-    {
-        name: "Sarah & Buster",
-        service: "Trust Technique Session",
-        text: "Cheryl completely changed our lives. Buster was so anxious around other dogs, but after just a few sessions, he's much calmer. Adventure Park Cheryl is our safe haven!",
-        rating: 5
-    },
-    {
-        name: "James & Bella",
-        service: "Adventure Park Cheryl",
-        text: "We absolutely love Adventure Park Cheryl. Knowing it's fully secure allows Bella to run free without me worrying. The swimming hole is her favorite spot in the world.",
-        rating: 5
-    },
-    {
-        name: "Emma & Charlie",
-        service: "Dog Behaviour & Rehab",
-        text: "I was at my wit's end with Charlie's reactivity. Cheryl's patient approach and the Trust Technique helped us build a bond I never thought possible. Highly recommended.",
-        rating: 5
+export const revalidate = 3600;
+
+export default async function TestimonialsSection() {
+    await connectToDatabase();
+
+    // Fetch only the latest 3 testimonials for the home page
+    let testimonials: any[] = [];
+    if (mongoose.connection.readyState === 1) {
+        try {
+            const rawTestimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(3).lean() || [];
+            testimonials = rawTestimonials.map((t: any) => ({
+                ...t,
+                _id: t._id.toString()
+            }));
+        } catch (e) {
+            console.error("Testimonials fetch error:", e);
+        }
     }
-];
 
-export default function TestimonialsSection() {
     return (
         <section className="py-24 lg:py-32 bg-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-light/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -43,37 +45,53 @@ export default function TestimonialsSection() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial, idx) => (
-                        <div key={idx} className="bg-bg-light p-8 lg:p-10 rounded-[2rem] border border-dark/5 relative group hover:-translate-y-2 transition-transform duration-300">
+                {testimonials.length === 0 ? (
+                    <div className="text-center py-12 text-dark/50 font-sans">
+                        <p>No testimonials available yet.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {testimonials.map((t: any) => (
+                            <div key={t._id.toString()} className="bg-bg-light p-8 lg:p-10 rounded-[2rem] border border-dark/5 relative group hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full shadow-[0_10px_30px_rgba(28,43,54,0.03)] hover:shadow-[0_15px_40px_rgba(28,43,54,0.06)] overflow-hidden">
 
-                            {/* Decorative Quote Mark */}
-                            <FaQuoteLeft className="text-primary-dark/10 absolute top-8 right-8 text-5xl" />
+                                {/* Decorative Quote Mark */}
+                                <FaQuoteLeft className="text-primary-dark/5 absolute top-8 right-8 text-6xl" />
 
-                            {/* Rating */}
-                            <div className="flex gap-1 mb-8">
-                                {[...Array(testimonial.rating)].map((_, i) => (
-                                    <FiStar key={i} className="text-accent fill-accent" size={16} />
-                                ))}
-                            </div>
-
-                            {/* Review Text */}
-                            <p className="font-sans text-dark/80 text-[1.05rem] leading-[1.8] mb-10 min-h-[120px]">
-                                "{testimonial.text}"
-                            </p>
-
-                            {/* Author Info */}
-                            <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6">
-                                <div className="w-12 h-12 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl">
-                                    {testimonial.name.charAt(0)}
+                                {/* Rating */}
+                                <div className="flex gap-1 mb-8 relative z-10">
+                                    {[...Array(5)].map((_, i) => (
+                                        <FiStar key={i} className={i < t.rating ? "text-accent fill-accent" : "text-dark/10 fill-dark/10"} size={16} />
+                                    ))}
                                 </div>
-                                <div>
-                                    <h4 className="font-sans font-bold text-dark text-[0.95rem]">{testimonial.name}</h4>
-                                    <p className="font-sans text-[0.8rem] text-dark/50 uppercase tracking-wider mt-1">{testimonial.service}</p>
+
+                                {/* Review Text */}
+                                <p className="font-sans text-dark/80 text-[1.05rem] leading-[1.8] mb-10 min-h-[120px] flex-grow relative z-10">
+                                    "{t.text}"
+                                </p>
+
+                                {/* Author Info */}
+                                <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6 relative z-10">
+                                    <div className="w-14 h-14 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl overflow-hidden relative border border-primary-dark/20">
+                                        {t.imageUrl ? (
+                                            <Image src={t.imageUrl} alt={t.name} fill className="object-cover" sizes="56px" />
+                                        ) : (
+                                            t.name.charAt(0)
+                                        )}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-sans font-bold text-dark text-[0.95rem]">{t.name}</h4>
+                                        <p className="font-sans text-[0.75rem] text-dark/50 uppercase tracking-widest mt-1">{t.service}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                )}
+
+                <div className="mt-16 text-center">
+                    <Link href="/testimonials" className="inline-flex items-center gap-3 px-10 py-4 text-[0.75rem] font-bold tracking-[0.2em] uppercase font-sans no-underline transition-all duration-300 text-dark border-2 border-primary-dark/20 hover:border-primary-dark hover:bg-primary-dark hover:text-white rounded-xl shadow-sm hover:shadow-lg">
+                        View More Testimonials
+                    </Link>
                 </div>
             </div>
         </section>

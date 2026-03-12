@@ -180,7 +180,7 @@ export default function AboutPage() {
                                     Helping animals find skeletal relief from pain and restrictions with <strong>ConTact C.A.R.E</strong>, musculoskeletal relief with <strong>Fascia Release</strong>, and <strong>Red Light Therapy</strong>.
                                 </p>
                                 <p className="mb-5">
-                                    Her emotional journey with her rescue dogs has led her to specialise in dog reactiveness and emotional trauma, she has extensive training in it. The cases that feel impossible are the ones she welcomes with excitement to help, these are the dogs she works with everyday.
+                                    Her  journey with her rescue dogs has led her to specialise in dog <strong>reactiveness and emotional trauma</strong>, she has extensive training in it. The cases that feel impossible are the ones she welcomes with excitement to help, these are the dogs she works with everyday.
                                 </p>
                                 <p className="mb-5">
                                     Her holistic toolkit includes the Trust Technique®, ConTact C.A.R.E., Musculoskeletal Unwinding, Emotion Code release, and Red Light Therapy.

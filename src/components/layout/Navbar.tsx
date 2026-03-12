@@ -12,7 +12,7 @@ const navLinks = [
     {
         href: "#", label: "Services", subLinks: [
             { href: "/services/dogs", label: "Canine" },
-            { href: "/services/horses", label: "Horse Sessions" },
+            { href: "/services/horses", label: "Equine" },
         ]
     },
     { href: "/trust-technique", label: "Trust Technique" },
