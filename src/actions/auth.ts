@@ -41,7 +41,6 @@ export async function login(prevState: any, formData: FormData) {
             path: "/",
         });
 
-        return { success: true };
     } catch (error) {
         console.error("Login error:", error);
         return { error: "An unexpected error occurred" };
@@ -53,6 +52,7 @@ export async function login(prevState: any, formData: FormData) {
 export async function logout() {
     const cookieStore = await cookies();
     cookieStore.delete("admin_token");
+    redirect("/admin/login");
 }
 
 // Dev utility to setup first admin
