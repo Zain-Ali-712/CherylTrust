@@ -168,7 +168,7 @@ export default function AboutPage() {
 
                             <h2 className="font-serif font-normal text-dark leading-[1.12] mb-8 tracking-[-0.01em]"
                                 style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}>
-                                A Deep Passion for<br />
+                                A Deep Passion for <br />
                                 <span className="text-primary-dark">Animal Healing</span>
                             </h2>
 
