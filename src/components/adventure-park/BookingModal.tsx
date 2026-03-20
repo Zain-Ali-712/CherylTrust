@@ -320,7 +320,7 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
                                 <div className="space-y-3 pt-4 border-t border-dark/5">
                                     <label className="flex items-start gap-3 cursor-pointer group">
                                         <input required type="checkbox" checked={formData.agreedToTerms} onChange={e => setFormData({ ...formData, agreedToTerms: e.target.checked })} className="mt-1 accent-accent" />
-                                        <span className="text-sm font-sans text-dark/70 group-hover:text-dark">I agree to the Terms & Conditions of Adventure Park Cheryl. *</span>
+                                        <span className="text-sm font-sans text-dark/70 group-hover:text-dark">I agree to the Terms & Conditions of Canine Adventure Park. *</span>
                                     </label>
                                     <label className="flex items-start gap-3 cursor-pointer group">
                                         <input required type="checkbox" checked={formData.agreedToCancellation} onChange={e => setFormData({ ...formData, agreedToCancellation: e.target.checked })} className="mt-1 accent-accent" />

@@ -180,7 +180,7 @@ export default function DonatePage() {
                                 </div>
                                 <div className="flex-grow pt-1">
                                     <div className="flex items-baseline justify-between mb-1 gap-2">
-                                        <h4 className="font-sans font-bold text-[0.8rem] tracking-widest uppercase text-white/90">{tier.breed}</h4>
+                                        <h4 className="font-sans font-bold text-[0.8rem] tracking-widest uppercase text-white/90">{tier.breed} sized donation</h4>
                                         <span className="font-serif text-xl text-accent">{tier.amount}</span>
                                     </div>
                                     <p className="text-[0.9rem] font-sans text-white/50 leading-relaxed">
@@ -226,7 +226,7 @@ export default function DonatePage() {
                             </div>
                             <h3 className="font-serif font-bold text-2xl text-dark mb-4">Give-a-little Page</h3>
                             <p className="text-dark/60 font-sans leading-[1.75] text-[0.95rem] mb-8 max-w-sm mx-auto">
-                                You can also donate to our cause via our official Give-a-little page. Note that a small fee is deducted from your donation by the platform.
+                                You can donate to our cause via our official Give-a-little page. Note that a small fee is deducted from your donation by the platform.
                             </p>
                             <a href="https://givealittle.co.nz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 text-[0.75rem] font-bold tracking-[0.15em] uppercase font-sans no-underline transition-all duration-300 bg-accent text-dark border border-accent hover:bg-white hover:border-dark rounded-xl">
                                 Go to Give-a-little

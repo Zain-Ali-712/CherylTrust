@@ -53,11 +53,11 @@ export default function AdventureParkTeaser() {
                         </div>
 
                         <h2 className="font-serif font-normal text-white leading-[1.12] mb-6 tracking-[-0.01em]" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
-                            Adventure Park <span className="text-accent italic">Cheryl.</span>
+                            Canine <span className="text-accent italic">Adventure Park.</span>
                         </h2>
 
                         <p className="text-[1.05rem] text-white/70 font-sans leading-[1.8] mb-8">
-                            A private paradise for responsible dog owners. Gain exclusive access to booking Adventure Park Cheryl, the Swim Spot, and scenic farm walks in Wainuiomata, Wellington.
+                            A private paradise for responsible dog owners. Exclusive access to an acre of private, deer fenced country bliss for you and your dog, in Wainuiomata, Wellington.
                         </p>
 
                         <ul className="space-y-4 mb-10">

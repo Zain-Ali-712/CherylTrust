@@ -99,7 +99,8 @@ export default function HorseServicesPage() {
                     <p
                         className="text-white/75 font-sans leading-[1.8] max-w-[500px] text-[0.95rem] sm:text-base mb-8"
                     >
-                        Whether it&apos;s deep-seated trauma, spooking, or physical tension holding your horse back — our holistic bodywork and Trust Technique sessions create profound shifts.
+                        Whether it&apos;s deep-seated trauma, spooking, or physical tension holding your horse back — our holistic bodywork and Trust Technique sessions create profound shifts.From hard to saddle, to anxious rider or refusing to load, and everything in between, I can help you and your horse have a different outcome.
+
                     </p>
 
                     <div className="flex flex-wrap gap-4">

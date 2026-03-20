@@ -32,11 +32,11 @@ const bookingOffers = [
         title: "Trust Technique Foundation Program",
         price: "$1800",
         duration: "4 x 1 hour 20 min sessions",
-        desc: "A 4-session structured program based on the Trust Technique and practical lead skills to improve dog behaviour.",
+        desc: "A 4-session structured program based on the Trust Technique and practical lead skills to improve behaviour.",
         features: ["Interview and assessment", "Identify behavioural goals", "Guided practice and demonstration", "Teaching the Trust Technique principles"],
     },
     {
-        title: "Follow-up Session",
+        title: "Trust Technique Follow-up Session",
         price: "$300",
         duration: "1 hour 15 mins",
         desc: "For existing clients only. We will review progress, problem solve, add new goals, and tackle new challenges.",
@@ -46,7 +46,7 @@ const bookingOffers = [
         title: "Trust Technique® Immersion / Travel",
         price: "POA",
         duration: "1–2 days",
-        desc: "1-on-1 coaching anywhere in the country. A condensed foundation program where Cheryl directly trains the dog. Pricing depends on client needs.",
+        desc: "1-on-1 coaching anywhere in the country. A condensed foundation program where Cheryl will be hands on, and teaching you. Pricing depends on client needs.",
         features: ["Practical demonstration", "Guided practice", "Hands-on training", "Real results in hours"],
     },
     {
@@ -399,9 +399,11 @@ export default function ContactPage() {
                                             <div className="relative">
                                                 <select className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-[0.9rem] outline-none focus:border-primary-dark font-sans text-dark transition-colors appearance-none cursor-pointer">
                                                     <option value="" disabled selected>Select...</option>
-                                                    <option>Consultation</option>
-                                                    <option>Trust Technique</option>
                                                     <option>General</option>
+                                                    <option>Trust Technique</option>
+                                                    <option>New Canine </option>
+                                                    <option>ConTact C.A.R.E</option>
+
                                                 </select>
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-dark/40">
                                                     <FiArrowRight className="rotate-90" />
