@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-
+import Link from "next/link";
 import { FiClock, FiArrowRight } from "react-icons/fi";
 import HomeCTA from "@/components/home/HomeCTA";
-import BookingModal from "@/components/adventure-park/BookingModal";
-import { useState } from "react";
 
 const hours = [
     { day: "Sunday", time: "08:00 AM - 06:00 PM" },
@@ -71,14 +69,6 @@ const plans = [
 ];
 
 export default function AdventureParkPage() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedPlanName, setSelectedPlanName] = useState("");
-
-    const openBookingModal = (planName: string) => {
-        setSelectedPlanName(planName);
-        setIsModalOpen(true);
-    };
-
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -281,27 +271,48 @@ export default function AdventureParkPage() {
                                         </div>
                                     </div>
 
-                                    <button
-                                        onClick={() => openBookingModal(plan.title)}
-                                        className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
+                                    <Link
+                                        href="/auth/register?redirect=/client/dashboard"
+                                        className="w-full text-center py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
                                         Select Plan
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         ))}
                     </div>
+                </div>
+            </section>
 
-
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                BOOK NOW (SESSIONS)
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section className="py-24 bg-white">
+                <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)] text-center">
+                    <h2 className="font-serif font-normal text-dark leading-[1.12] mb-12 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+                        Book a Session
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                        <div className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
+                            <div>
+                                <h3 className="text-xl font-serif mb-2">Canine Adventure Park Session</h3>
+                                <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">Trust Client</p>
+                                <div className="text-4xl text-accent font-serif mb-6">$20.00</div>
+                            </div>
+                            <Link href="/book?service=Canine Adventure Park session Trust Client" className="w-full block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
+                        </div>
+                        <div className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
+                            <div>
+                                <h3 className="text-xl font-serif mb-2">Canine Adventure Park Session</h3>
+                                <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">Non-Trust Client</p>
+                                <div className="text-4xl text-accent font-serif mb-6">$25.00</div>
+                            </div>
+                            <Link href="/book?service=Canine Adventure Park session non Trust Client" className="w-full block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <HomeCTA />
-
-            <BookingModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                planName={selectedPlanName}
-            />
         </main>
     );
 }

@@ -4,8 +4,18 @@ import { verifyToken } from "./lib/auth";
 
 // Protect all /admin routes except /admin/login
 export async function middleware(request: NextRequest) {
-    const isAuthPage = request.nextUrl.pathname.startsWith("/admin/login");
-    const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+    const pathname = request.nextUrl.pathname;
+    
+    // Admin Routes
+    const isAuthPage = pathname.startsWith("/admin/login");
+    const isAdminRoute = pathname.startsWith("/admin");
+
+    // Client Routes
+    const isClientAuthPage = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
+    const isClientDashboard = pathname.startsWith("/client");
+    const isCheckout = pathname.startsWith("/checkout");
+
+    const fullPath = pathname + request.nextUrl.search;
 
     if (isAdminRoute && !isAuthPage) {
         const token = request.cookies.get("admin_token")?.value;
@@ -31,9 +41,31 @@ export async function middleware(request: NextRequest) {
         }
     }
 
+    // --- CLIENT AUTH INTERCEPTS ---
+    if (isClientDashboard || isCheckout) {
+        const token = request.cookies.get("client_token")?.value;
+        if (!token) {
+            return NextResponse.redirect(new URL(`/auth/login?redirect=${encodeURIComponent(fullPath)}`, request.url));
+        }
+        const verifiedToken = await verifyToken(token);
+        if (!verifiedToken || verifiedToken.role !== "client") {
+            return NextResponse.redirect(new URL(`/auth/login?redirect=${encodeURIComponent(fullPath)}`, request.url));
+        }
+    }
+
+    if (isClientAuthPage) {
+        const token = request.cookies.get("client_token")?.value;
+        if (token) {
+            const verifiedToken = await verifyToken(token);
+            if (verifiedToken && verifiedToken.role === "client") {
+                return NextResponse.redirect(new URL("/client/dashboard", request.url));
+            }
+        }
+    }
+
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/admin/:path*"],
+    matcher: ["/admin/:path*", "/client/:path*", "/checkout/:path*", "/auth/:path*"],
 };

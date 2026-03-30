@@ -41,6 +41,8 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
         phone: "",
         password: "",
         address: "",
+        membershipType: "Country Club Trust Membership",
+        serviceSelection: "Canine Adventure Park session Trust Client",
         trustTechniqueCompleted: "",
         dogs: [{ name: "", age: "", neutered: "", vaxUpToDate: "" }] as DogInfo[],
         reasonsForPark: [] as string[],
@@ -117,8 +119,66 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            // 1. Create client
+            const clientRes = await fetch("/api/clients", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName: formData.name.split(" ")[0] || "Unknown",
+                    lastName: formData.name.split(" ").slice(1).join(" ") || "User",
+                    email: formData.email,
+                    phone: formData.phone
+                })
+            });
+
+            const clientData = await clientRes.json();
+            const clientId = clientData._id || clientData.id;
+
+            if (clientId) {
+                // 2. Create membership
+                let startDate = new Date();
+                let endDate = new Date();
+                endDate.setFullYear(endDate.getFullYear() + 1);
+
+                await fetch("/api/memberships", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        clientId: clientId,
+                        type: formData.membershipType,
+                        price: 30,
+                        startDate: startDate.toISOString(),
+                        endDate: endDate.toISOString()
+                    })
+                });
+
+                // 3. Create booking
+                let hoursStr = selectedTime!.split(':')[0];
+                let minutesStr = selectedTime!.split(':')[1].split(' ')[0];
+                let modifier = selectedTime!.split(' ')[1];
+                
+                let h = parseInt(hoursStr, 10);
+                if (h === 12 && modifier === 'AM') h = 0;
+                if (h !== 12 && modifier === 'PM') h += 12;
+
+                const bookingDate = new Date(selectedDate!);
+                bookingDate.setHours(h, parseInt(minutesStr, 10), 0, 0);
+
+                await fetch("/api/bookings", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        clientId: clientId,
+                        date: bookingDate.toISOString(),
+                        service: formData.serviceSelection,
+                        price: formData.serviceSelection.includes("non") ? 25 : 20
+                    })
+                });
+            }
+        } catch (error) {
+            console.error("Booking error:", error);
+        }
 
         setIsSubmitting(false);
         setStep(3); // Success step
@@ -130,6 +190,7 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
         setSelectedTime(null);
         setFormData({
             name: "", email: "", phone: "", password: "", address: "", trustTechniqueCompleted: "",
+            membershipType: "Country Club Trust Membership", serviceSelection: "Canine Adventure Park session Trust Client",
             dogs: [{ name: "", age: "", neutered: "", vaxUpToDate: "" }],
             reasonsForPark: [], agreedToTerms: false, agreedToCancellation: false, wantsDiscounts: false,
         });
@@ -253,6 +314,30 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
                                         </label>
                                         <label className="flex items-center gap-2 text-sm cursor-pointer">
                                             <input type="radio" required name="trustTech" value="No" checked={formData.trustTechniqueCompleted === "No"} onChange={e => setFormData({ ...formData, trustTechniqueCompleted: e.target.value })} className="accent-accent" /> No
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="mt-6 border-t border-dark/5 pt-4">
+                                    <label className="block text-sm font-serif font-bold text-dark mb-3">Select Membership Type *</label>
+                                    <div className="flex flex-col gap-3">
+                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                            <input type="radio" required name="membershipType" value="Country Club Trust Membership" checked={formData.membershipType === "Country Club Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Trust Membership ($30.00)
+                                        </label>
+                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                            <input type="radio" required name="membershipType" value="Country Club Non Trust Membership" checked={formData.membershipType === "Country Club Non Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Non Trust Membership ($30.00)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4 border-t border-dark/5 pt-4">
+                                    <label className="block text-sm font-serif font-bold text-dark mb-3">Select Service Session *</label>
+                                    <div className="flex flex-col gap-3">
+                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                            <input type="radio" required name="serviceSelection" value="Canine Adventure Park session Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session Trust Client ($20.00)
+                                        </label>
+                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                            <input type="radio" required name="serviceSelection" value="Canine Adventure Park session non Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session non Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session non Trust Client ($25.00)
                                         </label>
                                     </div>
                                 </div>
