@@ -140,7 +140,7 @@ export default function AboutPage() {
 
                             {/* Real Image */}
                             <div className="relative z-10 w-[92%] aspect-[3/4] rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(28,43,54,0.12)] border-4 border-white">
-                                <Image src="/Aboutme.jpg" alt="Cheryl McDonough" fill className="object-cover object-[center_20%]" />
+                                <Image src="/about-cheryl.jpeg" alt="Cheryl McDonough" fill className="object-cover object-[center_20%]" />
                             </div>
 
                             {/* Credentials Floating Box */}

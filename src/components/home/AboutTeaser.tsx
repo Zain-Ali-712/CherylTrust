@@ -35,7 +35,7 @@ export default function AboutTeaser() {
                         {/* Photo */}
                         <div className="about-img-wrap relative z-10 overflow-hidden border-2 border-white shadow-xl cursor-pointer ml-auto w-[90%] lg:w-[85%]"
                             style={{ marginTop: "2rem", aspectRatio: "3/4" }}>
-                            <Image src="/Aboutme.jpg" alt="Cheryl McDonough" fill sizes="(max-width: 1024px) 90vw, 40vw"
+                            <Image src="/contact-care.jpg" alt="Cheryl McDonough" fill sizes="(max-width: 1024px) 90vw, 40vw"
                                 className="about-img object-cover object-top transition-transform duration-700 hover:scale-105" />
                         </div>
 

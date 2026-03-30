@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiAlertCircle, FiPlus, FiX } from "react-icons/fi";
@@ -15,7 +15,7 @@ const reasonsOptions = [
     "I want to let my dog run free",
 ];
 
-export default function RegisterPage() {
+function RegisterForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectUrl = searchParams.get("redirect") || "/client/dashboard";
@@ -210,5 +210,13 @@ export default function RegisterPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function RegisterPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-bg-light flex items-center justify-center text-dark/40">Loading...</div>}>
+            <RegisterForm />
+        </Suspense>
     );
 }
