@@ -88,3 +88,18 @@ export async function deleteTestimonial(id: string) {
         return { error: "Failed to delete testimonial" };
     }
 }
+
+export async function updateTestimonial(id: string, updates: any) {
+    try {
+        await connectToDatabase();
+        await Testimonial.findByIdAndUpdate(id, updates);
+        revalidatePath("/admin/testimonials");
+        revalidatePath("/");
+        revalidatePath("/testimonials");
+        return { success: true };
+    } catch (e: any) {
+        console.error("Failed to update testimonial:", e);
+        return { error: "Failed to update testimonial" };
+    }
+}
+

@@ -9,7 +9,8 @@ const navItems = [
     { href: "/admin/clients", label: "Clients", icon: FiUsers },
     { href: "/admin/calendar", label: "Calendar", icon: FiCalendar },
     { href: "/admin/bookings", label: "Bookings", icon: FiClock },
-    { href: "/admin/vouchers", label: "Vouchers", icon: FiTag },
+    { href: "/admin/promotions", label: "Promotions", icon: FiTag },
+    { href: "/admin/vouchers", label: "Vouchers", icon: FiActivity },
     { href: "/admin/settings", label: "Settings", icon: FiSettings },
 ];
 

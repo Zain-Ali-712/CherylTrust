@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import OpeningHours from "@/models/OpeningHours";
 import Booking from "@/models/Booking";
+import BlackoutDate from "@/models/BlackoutDate";
 
 export async function GET(req: Request) {
     try {
@@ -12,6 +13,18 @@ export async function GET(req: Request) {
         if (!dateStr) return NextResponse.json({ error: "Date required" }, { status: 400 });
 
         const requestDate = new Date(dateStr);
+        requestDate.setHours(0, 0, 0, 0);
+
+        // Check for Blackout Dates (e.g. flooding, maintenance)
+        const isBlackedOut = await BlackoutDate.findOne({ date: requestDate });
+        if (isBlackedOut) {
+            return NextResponse.json({ 
+                availableSlots: [], 
+                isBlocked: true, 
+                reason: isBlackedOut.reason || "The park is closed on this day." 
+            });
+        }
+
         const dayOfWeek = requestDate.getDay(); // 0 = Sunday
         
         const hours = await OpeningHours.findOne({ dayOfWeek, isActive: true });
@@ -29,11 +42,17 @@ export async function GET(req: Request) {
             status: { $ne: "cancelled" }
         });
 
-        // Generate Available Slots dynamically
-        let currentMinutes = parseTime(hours.openTime);
+        // Force hourly slots as per requirement
+        const slotD = 60;
+        const buffer = 0;
+        
+        // Ensure starting time is rounded to the next hour if needed
+        let startMins = parseTime(hours.openTime);
+        if (startMins % 60 !== 0) {
+            startMins = Math.ceil(startMins / 60) * 60;
+        }
+        let currentMinutes = startMins;
         const endMinutes = parseTime(hours.closeTime);
-        const slotD = hours.slotDuration || 50;
-        const buffer = hours.bufferTime || 10;
         
         const availableSlots = [];
 
@@ -59,7 +78,7 @@ export async function GET(req: Request) {
                 });
             }
             
-            currentMinutes += (slotD + buffer);
+            currentMinutes += slotD;
         }
 
         return NextResponse.json({ availableSlots });

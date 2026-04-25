@@ -31,8 +31,11 @@ export async function GET() {
         const totalRevenue = revenueData.length > 0 ? revenueData[0].totalR : 0;
 
         // Optionally, grab upcoming 5 bookings for a quick-view table on the dashboard
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+
         const upcomingBookings = await Booking.find({ 
-            date: { $gte: new Date() },
+            date: { $gte: startOfToday },
             status: { $in: ["confirmed", "moved"] } 
         }).populate("client", "firstName lastName").sort({ date: 1 }).limit(5);
 

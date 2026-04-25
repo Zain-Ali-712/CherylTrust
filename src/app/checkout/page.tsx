@@ -81,6 +81,18 @@ function CheckoutContent() {
         setError("");
         
         try {
+            // Re-verify membership just in case
+            const mbRes = await fetch(`/api/memberships?clientId=${clientData.id}`);
+            if (mbRes.ok) {
+                const memberships = await mbRes.json();
+                const active = memberships.find((m: any) => m.status === "active" && new Date(m.endDate) > new Date());
+                if (!active) {
+                    setError("No active membership found. You must be a member to book.");
+                    setIsLoading(false);
+                    return;
+                }
+            }
+
             const res = await fetch("/api/bookings", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -133,6 +145,30 @@ function CheckoutContent() {
                                 <span className="block opacity-60">Time</span>
                                 <strong>{start} to {end}</strong>
                             </div>
+                        </div>
+
+                        {/* Timing Breakdown */}
+                        <div className="mt-6 pt-4 border-t border-dark/5 space-y-2">
+                             <div className="flex justify-between text-[11px] font-bold uppercase tracking-tighter text-dark/40">
+                                 <span>Session Breakdown</span>
+                                 <span className="text-accent underline font-serif lowercase tracking-normal">60 min slot</span>
+                             </div>
+                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
+                                 <span>• Arrival & Entry</span>
+                                 <span>5m</span>
+                             </div>
+                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
+                                 <span className="font-bold text-accent">• Private Adventure</span>
+                                 <span className="font-bold text-accent">40m</span>
+                             </div>
+                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
+                                 <span>• Exit & Handover</span>
+                                 <span>5m</span>
+                             </div>
+                             <div className="flex justify-between text-[13px] font-sans text-dark/30 italic">
+                                 <span>• Buffer / Cleaning</span>
+                                 <span>10m</span>
+                             </div>
                         </div>
                     </div>
 

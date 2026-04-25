@@ -44,6 +44,59 @@ export default function BookingDetailsPage({ params }: { params: Promise<{ id: s
                 </span>
             </div>
 
+            {/* Admin Actions */}
+            <div className="bg-dark/5 p-6 rounded-2xl mb-8 border border-dark/10 flex flex-wrap gap-4 items-center">
+                <span className="text-xs font-bold uppercase tracking-widest text-dark/40 w-full mb-2">Admin Actions</span>
+                
+                {booking.status !== "cancelled" && (
+                    <button 
+                        onClick={async () => {
+                            if (!confirm("Are you sure you want to cancel this booking? An automated email will be sent to the client.")) return;
+                            const res = await fetch(`/api/bookings/${resolvedParams.id}`, {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ status: "cancelled" })
+                            });
+                            if (res.ok) window.location.reload();
+                        }}
+                        className="px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg hover:bg-red-700 transition"
+                    >
+                        Cancel Booking
+                    </button>
+                )}
+
+                <button 
+                    onClick={() => {
+                        const newDate = prompt("Enter new date (YYYY-MM-DD):", new Date(booking.date).toISOString().split('T')[0]);
+                        if (!newDate) return;
+                        
+                        // Simple reschedule implementation for now
+                        fetch(`/api/bookings/${resolvedParams.id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ status: "moved", newDate: newDate })
+                        }).then(res => {
+                            if (res.ok) window.location.reload();
+                            else alert("Failed to reschedule. Check date format or availability.");
+                        });
+                    }}
+                    className="px-6 py-2.5 bg-white border border-dark/10 text-dark rounded-xl text-sm font-bold shadow-sm hover:bg-dark hover:text-white transition"
+                >
+                    Reschedule
+                </button>
+
+                <button 
+                    onClick={async () => {
+                        if (!confirm("Permanently delete this booking? This cannot be undone.")) return;
+                        const res = await fetch(`/api/bookings/${resolvedParams.id}`, { method: "DELETE" });
+                        if (res.ok) window.location.href = "/admin/bookings";
+                    }}
+                    className="px-4 py-2 text-dark/40 hover:text-red-500 text-xs font-bold uppercase tracking-widest transition"
+                >
+                    Delete Entry
+                </button>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Booking Information */}
                 <div className="space-y-8">

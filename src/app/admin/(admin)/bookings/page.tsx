@@ -17,14 +17,15 @@ export default function BookingsPage() {
     const [errorMsg, setErrorMsg] = useState("");
 
     const fetchData = async () => {
-        const bRes = await fetch("/api/bookings");
+        const bRes = await fetch("/api/bookings", { cache: 'no-store' });
         if (bRes.ok) setBookings(await bRes.json());
 
-        const cRes = await fetch("/api/clients");
+        const cRes = await fetch("/api/clients", { cache: 'no-store' });
         if (cRes.ok) {
             setClients((await cRes.json()).filter((c: any) => c.status === "active"));
         }
     };
+
 
     useEffect(() => { fetchData(); }, []);
 

@@ -3,23 +3,50 @@ import { FiStar } from "react-icons/fi";
 import { FaQuoteLeft } from "react-icons/fa";
 import connectToDatabase from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
+import Review from "@/models/Review";
 import HomeCTA from "@/components/home/HomeCTA";
+import WriteReviewForm from "@/components/testimonials/WriteReviewForm";
 import mongoose from "mongoose";
 
 export const revalidate = 3600; // revalidate at most every hour
 
 export default async function TestimonialsPage() {
     await connectToDatabase();
-    let testimonials: any[] = [];
+    let displayItems: any[] = [];
+    
     if (mongoose.connection.readyState === 1) {
         try {
+            // Fetch testimonials
             const rawTestimonials = await Testimonial.find().sort({ createdAt: -1 }).lean() || [];
-            testimonials = rawTestimonials.map((t: any) => ({
+            const formattedTestimonials = rawTestimonials.map((t: any) => ({
                 ...t,
-                _id: t._id.toString()
+                _id: t._id.toString(),
+                source: 'testimonial'
             }));
-        } catch (e) { }
+
+            // Fetch approved reviews
+            const rawReviews = await Review.find({ isApproved: true }).sort({ date: -1 }).lean() || [];
+            const formattedReviews = rawReviews.map((r: any) => ({
+                _id: r._id.toString(),
+                name: r.clientName,
+                text: r.comment,
+                rating: r.rating,
+                service: "Client Review",
+                source: 'review',
+                createdAt: r.date
+            }));
+
+            // Merge and sort by date
+            displayItems = [...formattedTestimonials, ...formattedReviews].sort((a, b) => {
+                const dateA = new Date(a.createdAt || 0).getTime();
+                const dateB = new Date(b.createdAt || 0).getTime();
+                return dateB - dateA;
+            });
+        } catch (e) {
+            console.error("Error fetching display items:", e);
+        }
     }
+
 
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
@@ -46,13 +73,13 @@ export default async function TestimonialsPage() {
             {/* Grid */}
             <section className="pb-24 lg:pb-32 bg-white relative z-10">
                 <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
-                    {testimonials.length === 0 ? (
+                    {displayItems.length === 0 ? (
                         <div className="text-center py-20 text-dark/50 font-sans border-2 border-dashed border-dark/10 rounded-3xl">
                             <p>No testimonials available at this moment. Please check back later.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-                            {testimonials.map((t: any) => (
+                            {displayItems.map((t: any) => (
                                 <div key={t._id.toString()} className="bg-bg-light p-8 lg:p-10 rounded-[2rem] border border-dark/5 relative hover:-translate-y-1 transition-transform duration-300 h-full flex flex-col shadow-[0_10px_40px_rgba(28,43,54,0.03)] hover:shadow-[0_15px_50px_rgba(28,43,54,0.06)] overflow-hidden">
                                     <FaQuoteLeft className="text-primary-dark/5 absolute top-8 right-8 text-6xl" />
 
@@ -83,6 +110,14 @@ export default async function TestimonialsPage() {
                             ))}
                         </div>
                     )}
+
+                </div>
+            </section>
+
+            {/* Write Review Section */}
+            <section className="pb-32 relative z-10 px-[clamp(1.25rem,6vw,4rem)]">
+                <div className="max-w-[800px] mx-auto">
+                    <WriteReviewForm />
                 </div>
             </section>
 

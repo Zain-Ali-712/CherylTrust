@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FiUsers, FiClock, FiDollarSign, FiShoppingBag, FiArrowRight, FiActivity } from "react-icons/fi";
+import { FiUsers, FiClock, FiDollarSign, FiShoppingBag, FiArrowRight, FiActivity, FiDownload } from "react-icons/fi";
 
 function StatCard({ title, value, subtext, icon, trend }: { title: string, value: string | number, subtext?: string, icon: React.ReactNode, trend?: "up" | "down" | "neutral" }) {
     return (
@@ -53,9 +53,18 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="space-y-8">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold font-serif text-dark mb-2">Dashboard Overview</h1>
-                <p className="text-dark/50">High-level metrics and system status.</p>
+            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold font-serif text-dark mb-2">Dashboard Overview</h1>
+                    <p className="text-dark/50">High-level metrics and system status.</p>
+                </div>
+                <a 
+                    href="/api/reports/memberships" 
+                    download 
+                    className="flex items-center gap-2 px-5 py-2.5 bg-white border border-black/10 rounded-xl text-dark font-sans font-bold text-sm hover:bg-dark hover:text-white transition-all shadow-sm"
+                >
+                    <FiDownload className="text-brand" /> Download Memberships Report
+                </a>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

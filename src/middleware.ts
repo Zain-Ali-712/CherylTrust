@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
     const isClientAuthPage = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
     const isClientDashboard = pathname.startsWith("/client");
     const isCheckout = pathname.startsWith("/checkout");
+    const isBooking = pathname.startsWith("/book");
 
     const fullPath = pathname + request.nextUrl.search;
 
@@ -42,7 +43,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // --- CLIENT AUTH INTERCEPTS ---
-    if (isClientDashboard || isCheckout) {
+    if (isClientDashboard || isCheckout || isBooking) {
         const token = request.cookies.get("client_token")?.value;
         if (!token) {
             return NextResponse.redirect(new URL(`/auth/login?redirect=${encodeURIComponent(fullPath)}`, request.url));
@@ -67,5 +68,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/admin/:path*", "/client/:path*", "/checkout/:path*", "/auth/:path*"],
+    matcher: ["/admin/:path*", "/client/:path*", "/checkout/:path*", "/auth/:path*", "/book/:path*"],
 };

@@ -64,6 +64,43 @@ export default function SettingsPage() {
   return (
     <div>
       <h1 className="text-3xl font-bold font-serif text-dark mb-6">Settings</h1>
+
+      <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8 max-w-3xl mb-8">
+        <h2 className="text-xl font-bold font-serif mb-4 flex justify-between items-center text-accent">
+            <span>Dynamic Security Codes</span>
+        </h2>
+        <p className="text-dark/70 text-sm mb-6">
+            Update the 4-digit padlock code for the front gate. This code is automatically included in all new booking confirmation emails.
+        </p>
+        
+        <div className="flex items-end gap-4 max-w-md">
+            <div className="flex-1">
+                <label className="block text-xs font-bold uppercase tracking-widest text-dark/30 mb-2">Gate Padlock Code</label>
+                <input 
+                    type="text" 
+                    id="gate-code-input"
+                    placeholder="e.g. 9077"
+                    maxLength={4}
+                    className="w-full border border-black/10 rounded-lg p-2.5 text-lg font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-accent/50"
+                />
+            </div>
+            <button 
+                onClick={async () => {
+                    const input = document.getElementById('gate-code-input') as HTMLInputElement;
+                    if (!input.value) return;
+                    const res = await fetch("/api/config", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ key: "padlock_code", value: input.value, description: "Gate entry padlock code" })
+                    });
+                    if (res.ok) alert("Security code updated successfully.");
+                }}
+                className="bg-accent text-dark px-6 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-accent/80 transition"
+            >
+                Update Code
+            </button>
+        </div>
+      </div>
       
       <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8 max-w-3xl">
         <h2 className="text-xl font-bold font-serif mb-4 flex justify-between items-center">
@@ -149,6 +186,108 @@ export default function SettingsPage() {
             ))}
         </div>
       </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-black/5 p-8 max-w-3xl mt-8">
+        <h2 className="text-xl font-bold font-serif mb-4 flex justify-between items-center text-red-600">
+            <span>Park Closures & Blackout Dates</span>
+        </h2>
+        <p className="text-dark/70 text-sm mb-6">
+            Manually block out specific days (e.g. for maintenance, flooding, or holidays). These dates will be unavailable for booking on the client calendar.
+        </p>
+
+        <div className="flex gap-3 mb-8 bg-red-50 p-6 rounded-2xl border border-red-100">
+            <div className="flex-1">
+                <label className="block text-xs font-bold uppercase tracking-widest text-red-800/50 mb-2">Select Date</label>
+                <input 
+                    type="date" 
+                    id="blackout-date-input"
+                    className="w-full border border-red-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50"
+                />
+            </div>
+            <div className="flex-[2]">
+                <label className="block text-xs font-bold uppercase tracking-widest text-red-800/50 mb-2">Reason (Optional)</label>
+                <input 
+                    type="text" 
+                    id="blackout-reason-input"
+                    placeholder="e.g. Area Flooded, Maintenance"
+                    className="w-full border border-red-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50"
+                />
+            </div>
+            <div className="flex items-end">
+                <button 
+                  onClick={async () => {
+                    const dateInput = document.getElementById('blackout-date-input') as HTMLInputElement;
+                    const reasonInput = document.getElementById('blackout-reason-input') as HTMLInputElement;
+                    if (!dateInput.value) return;
+                    
+                    const res = await fetch("/api/blackout-dates", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ date: dateInput.value, reason: reasonInput.value })
+                    });
+                    if (res.ok) {
+                        window.location.reload();
+                    } else {
+                        const data = await res.json();
+                        alert(data.error || "Failed to block date");
+                    }
+                  }}
+                  className="bg-red-600 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-red-700 transition"
+                >
+                    Block Date
+                </button>
+            </div>
+        </div>
+
+        <div className="space-y-3">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-dark/30 mb-4">Currently Blocked Dates</h3>
+            <BlackoutList />
+        </div>
+      </div>
     </div>
   );
+}
+
+function BlackoutList() {
+    const [dates, setDates] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/api/blackout-dates")
+            .then(res => res.json())
+            .then(data => {
+                setDates(data);
+                setLoading(false);
+            });
+    }, []);
+
+    const unblock = async (id: string) => {
+        if (!confirm("Are you sure you want to unblock this date?")) return;
+        const res = await fetch(`/api/blackout-dates?id=${id}`, { method: "DELETE" });
+        if (res.ok) {
+            setDates(dates.filter(d => d._id !== id));
+        }
+    };
+
+    if (loading) return <div className="text-center py-4 text-xs text-dark/40">Loading...</div>;
+    if (dates.length === 0) return <div className="text-center py-8 border-2 border-dashed border-black/5 rounded-xl text-dark/30 text-sm">No dates are currently blocked.</div>;
+
+    return (
+        <div className="grid grid-cols-1 gap-2">
+            {dates.map(d => (
+                <div key={d._id} className="flex justify-between items-center p-4 bg-white border border-black/5 rounded-xl hover:border-red-200 transition group">
+                    <div>
+                        <div className="font-bold text-dark">{new Date(d.date).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        {d.reason && <div className="text-xs text-red-500 font-medium">{d.reason}</div>}
+                    </div>
+                    <button 
+                        onClick={() => unblock(d._id)}
+                        className="text-xs font-bold uppercase tracking-widest text-red-500/50 hover:text-red-500 px-3 py-1.5 border border-transparent hover:border-red-100 rounded-lg transition"
+                    >
+                        Unblock
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
 }

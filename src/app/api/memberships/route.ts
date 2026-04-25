@@ -57,17 +57,22 @@ export async function POST(req: Request) {
         });
 
         // Trigger email
-        await sendTemplatedEmail({
-            to: client.email,
-            subject: "Your new Membership at Cheryl Trust",
-            type: "membership_added",
-            variables: { 
-                firstName: client.firstName, 
-                type, 
-                startDate: new Date(startDate).toLocaleDateString(), 
-                endDate: new Date(endDate).toLocaleDateString() 
-            }
-        });
+        try {
+            await sendTemplatedEmail({
+                to: client.email,
+                subject: "Your new Membership at Cheryl Trust",
+                type: "membership_added",
+                variables: { 
+                    firstName: client.firstName, 
+                    type, 
+                    startDate: new Date(startDate).toLocaleDateString(), 
+                    endDate: new Date(endDate).toLocaleDateString() 
+                }
+            });
+        } catch (emailError) {
+            console.error("[MembershipAPI] Membership created but email failed:", emailError);
+        }
+
 
         return NextResponse.json(membership, { status: 201 });
     } catch (error) {

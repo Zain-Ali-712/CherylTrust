@@ -14,8 +14,8 @@ const OpeningHoursSchema = new Schema(
         dayOfWeek: { type: Number, required: true, min: 0, max: 6 },
         openTime: { type: String, required: true },
         closeTime: { type: String, required: true },
-        slotDuration: { type: Number, required: true, default: 50 },
-        bufferTime: { type: Number, required: true, default: 10 },
+        slotDuration: { type: Number, required: true, default: 60 },
+        bufferTime: { type: Number, required: true, default: 0 },
         isActive: { type: Boolean, default: true },
     },
     { timestamps: true }

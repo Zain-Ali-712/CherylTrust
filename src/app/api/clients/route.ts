@@ -35,12 +35,17 @@ export async function POST(req: Request) {
         });
 
         // Trigger email
-        await sendTemplatedEmail({
-            to: email,
-            subject: "Welcome to Cheryl Trust!",
-            type: "client_added",
-            variables: { firstName, lastName }
-        });
+        try {
+            await sendTemplatedEmail({
+                to: email,
+                subject: "Welcome to Cheryl Trust!",
+                type: "client_added",
+                variables: { firstName, lastName }
+            });
+        } catch (emailError) {
+            console.error("[ClientAPI] Client created but email failed:", emailError);
+        }
+
 
         return NextResponse.json(client, { status: 201 });
     } catch (error) {

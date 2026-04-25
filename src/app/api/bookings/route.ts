@@ -3,8 +3,10 @@ import dbConnect from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import Client from "@/models/Client";
 import Discount from "@/models/Discount";
+import SystemConfig from "@/models/SystemConfig";
 import { checkBookingAvailability } from "@/lib/bookingValidation";
 import { sendTemplatedEmail } from "@/lib/emailService";
+import { hasActiveMembership } from "@/lib/membership";
 
 export async function GET(req: Request) {
     try {
@@ -35,6 +37,12 @@ export async function POST(req: Request) {
         const client = await Client.findById(clientId);
         if (!client || client.status === "cancelled") {
             return NextResponse.json({ error: "Client not found or is cancelled" }, { status: 400 });
+        }
+
+        // Membership validation
+        const activeMember = await hasActiveMembership(clientId);
+        if (!activeMember) {
+            return NextResponse.json({ error: "Mandatory Membership: You must have an active membership to book adventures." }, { status: 403 });
         }
 
         // Trust Client validation
@@ -73,15 +81,36 @@ export async function POST(req: Request) {
             status: "confirmed"
         });
 
-        await sendTemplatedEmail({
-            to: client.email,
-            subject: "Booking Confirmed",
-            type: "booking_created",
-            variables: { 
-                firstName: client.firstName, 
-                date: `${new Date(date).toLocaleDateString()} at ${startTime}`
-            }
-        });
+        const config = await SystemConfig.findOne({ key: "padlock_code" });
+        const entryCode = config?.value || "9077";
+
+        try {
+            await sendTemplatedEmail({
+                to: client.email,
+                subject: "Booking Confirmed",
+                type: "booking_created",
+                variables: { 
+                    firstName: client.firstName, 
+                    date: `${new Date(date).toLocaleDateString()} at ${startTime}`,
+                    gateCode: entryCode
+                }
+            });
+
+            // Send Admin Alert
+            await sendTemplatedEmail({
+                to: process.env.EMAIL_USER!,
+                subject: "🚨 New Booking Received",
+                type: "admin_alert",
+                variables: {
+                    action: "New Booking",
+                    message: `A new booking has been placed by <strong>${client.firstName} ${client.lastName}</strong> for <strong>${new Date(date).toLocaleDateString()}</strong> at ${startTime}.`
+                }
+            });
+        } catch (emailError) {
+            console.error("[BookingAPI] Booking success but email failed:", emailError);
+        }
+
+
 
         // Increment voucher usage if one was applied
         if (voucherCode) {

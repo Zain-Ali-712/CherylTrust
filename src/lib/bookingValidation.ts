@@ -20,7 +20,8 @@ export const checkBookingAvailability = async (
 
     const dayOfWeek = desiredStart.getDay(); // 0-6
     const hours = desiredStart.getHours();
-    const timeString = `${hours.toString().padStart(2, '0')}:00`;
+    const minutes = desiredStart.getMinutes();
+    const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
     // Rule 2: Booking must be within opening hours
     const openingHoursInfo = await OpeningHours.findOne({ dayOfWeek });
@@ -33,11 +34,11 @@ export const checkBookingAvailability = async (
     const closeTime = parseInt(openingHoursInfo.closeTime.replace(":", ""));
     const requestedTime = parseInt(timeString.replace(":", ""));
 
-    // Ex: open 09:00 -> 900. close 17:00 -> 1700. If an appointment lasts 50 min, you can't book at 16:30.
-    // If it starts on the hour, last booking is at closeTime - 1 hour
+    // Ex: open 09:00 -> 900. close 17:00 -> 1700. 
     if (requestedTime < openTime || requestedTime >= closeTime) {
-        return { valid: false, reason: "Booking time is outside opening hours." };
+        return { valid: false, reason: `Booking time (${timeString}) is outside opening hours (${openingHoursInfo.openTime} - ${openingHoursInfo.closeTime}).` };
     }
+
 
     // Rule 3: Session is 50 mins + 10 mins buffer -> takes up exactly 60 mins.
     // We already enforce "must start on the hour". We just need to check if ANY booking exists with the same hour.

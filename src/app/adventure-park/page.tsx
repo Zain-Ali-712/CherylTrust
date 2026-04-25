@@ -217,6 +217,312 @@ export default function AdventureParkPage() {
                     </div>
                 </div>
             </section>
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                MEMBER INFO SECTION
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section className="py-24 lg:py-32 bg-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-noise opacity-[0.03] pointer-events-none" />
+                <div className="max-w-[900px] mx-auto px-[clamp(1.25rem,6vw,4rem)] relative z-10">
+                    <div className="text-center mb-16">
+                        <div className="flex items-center justify-center gap-3 mb-5">
+                            <div className="w-5 h-px bg-accent" />
+                            <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">Exclusive Membership</span>
+                            <div className="w-5 h-px bg-accent" />
+                        </div>
+                        <h2 className="font-serif text-4xl lg:text-5xl text-dark mb-6">Member Info</h2>
+                        <p className="text-lg font-serif italic text-accent/80">On becoming a Canine Country Club Member you have access to our facilities</p>
+                    </div>
+
+                    <div className="bg-primary-dark/5 border border-primary-dark/10 rounded-[2.5rem] p-8 lg:p-16 shadow-inner relative overflow-hidden">
+                         <div className="absolute -top-12 -right-12 w-48 h-48 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+                         
+                         <div className="space-y-8 text-dark/80 font-sans leading-relaxed text-[1.05rem]">
+                            <h3 className="font-serif text-2xl text-dark text-center mb-10">Canine Adventure Park</h3>
+                            
+                            <p>
+                                We have a special spot, just under an acre on our 40-acre farm in Wainuiomata, Wellington, for your fun canine adventures and enjoyment. This is a private dog area that has been created especially for people to have a safe place to relax and enjoy time with their dog/s without the worry of other people or dogs.
+                            </p>
+
+                            <p>
+                                We have fully enclosed (deer fenced) a large open space, full of enrichment opportunities and activities. We&apos;ve set up a few obstacles for the dogs to play on and build confidence, and there is a small muddy stream, long grass to run around in, a mountain to conquer, a dig space, and more…. it’s a great place for the dogs to gallop around and enjoy being a dog – it’s a pup&apos;s paradise with long grass and oh so many smells!
+                            </p>
+
+                            <p>
+                                This is where dogs get to be dogs so bring your towel as your dog may get muddy! Can also bring your own balls to throw, treats to scatter or hide, or blanket to lie in the long grass with your dog and chillax. And of course, bring your poop bags to keep our environment clean and tidy.
+                            </p>
+
+                            <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Link href="#membership-plans" className="group relative flex flex-col items-center justify-center p-6 bg-dark text-white rounded-2xl transition-all hover:bg-accent hover:text-dark hover:-translate-y-1 shadow-lg overflow-hidden">
+                                     <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
+                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 opacity-60">Step 1</span>
+                                     <span className="text-sm font-bold uppercase tracking-widest">Join Membership</span>
+                                     <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-dark transition-all duration-300" />
+                                </Link>
+                                
+                                <Link href="#book-now" className="group relative flex flex-col items-center justify-center p-6 bg-white border border-dark/10 text-dark rounded-2xl transition-all hover:border-accent hover:-translate-y-1 shadow-md overflow-hidden">
+                                     <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none" />
+                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-dark/40">Step 2</span>
+                                     <span className="text-sm font-bold uppercase tracking-widest">Book Adventure</span>
+                                     <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-accent transition-all duration-300" />
+                                </Link>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                DETAILED EXPERIENCE & GUIDELINES
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section className="py-24 lg:py-32 bg-bg-light relative overflow-hidden">
+                <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
+                <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)] relative z-10">
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+                        
+                        {/* Sidebar: Quick Info & Facilities */}
+                        <div className="lg:col-span-4 space-y-10 order-2 lg:order-1">
+                            
+                            {/* Timing Card */}
+                            <div className="bg-dark text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
+                                <h3 className="font-serif text-xl mb-6 flex items-center gap-2">
+                                    <FiClock className="text-accent" /> Arrival & Departure
+                                </h3>
+                                <div className="space-y-6">
+                                    <div className="pb-4 border-b border-white/5">
+                                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">Total Session Window</div>
+                                        <div className="font-sans text-lg font-bold">1 Hour</div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center text-sm font-sans">
+                                            <span className="text-white/60">Property Arrival & Entry</span>
+                                            <span className="font-bold">5 Mins</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-sm font-sans">
+                                            <span className="text-accent font-bold">Adventure Time</span>
+                                            <span className="font-bold text-accent">40 Mins</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-sm font-sans">
+                                            <span className="text-white/60">Catching & Exiting Park</span>
+                                            <span className="font-bold">5 Mins</span>
+                                        </div>
+                                        <div className="pt-2 flex justify-between items-center text-xs font-bold uppercase tracking-tighter text-red-400 border-t border-white/5">
+                                            <span>Buffer (Clear Parking)</span>
+                                            <span>10 Mins</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-[10px] italic text-white/50 leading-relaxed pt-2">
+                                        Sticking to the timetable is vital for the safety of reactive dogs. Tardiness will be taken seriously.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Facilities Card */}
+                            <div className="bg-white border border-dark/5 rounded-3xl p-8 shadow-sm">
+                                <h3 className="font-serif text-xl text-dark mb-6">Park Facilities</h3>
+                                <div className="space-y-5 text-sm text-dark/70 font-sans">
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+                                        <p><strong>Phone Coverage:</strong> Good for Vodafone; patchy for other providers.</p>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+                                        <p><strong>Toilets:</strong> No facilities on-site. Closest is Remutaka Park (5km south) or BP (9km north).</p>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+                                        <p><strong>Waste:</strong> No bins provided. Please take all rubbish and poo bags with you.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Post Adventure */}
+                            <div className="text-center p-8 bg-accent/5 border border-accent/10 rounded-3xl">
+                                <h3 className="font-serif text-lg text-dark mb-4">Post Adventure</h3>
+                                <p className="text-sm text-dark/60 mb-6 italic">Share your memories with us!</p>
+                                <div className="flex flex-col gap-3">
+                                    <a href="https://facebook.com/caninecountryclub" className="font-bold text-[10px] uppercase tracking-widest text-dark hover:text-accent transition-colors">@caninecountryclub FB</a>
+                                    <Link href="#" className="text-accent underline font-bold text-[11px] uppercase tracking-widest">Leave a Review</Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Main Content: Guidelines & Safety */}
+                        <div className="lg:col-span-8 order-1 lg:order-2">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-5 h-px bg-accent" />
+                                <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">The Experience</span>
+                            </div>
+                            <h2 className="font-serif text-4xl lg:text-5xl text-dark mb-10 leading-tight">Adventure Park <span className="italic text-accent">Protocol.</span></h2>
+                            
+                            <div className="space-y-12 prose prose-dark max-w-none">
+                                <section>
+                                    <h3 className="font-serif text-2xl text-dark mb-4">Location & Entry</h3>
+                                    <p className="text-dark/75 font-sans leading-relaxed">
+                                        The Adventure Park is located 200 metres south of our home on our 40-acre farm, in Wainuiomata, Wellington. 
+                                        The entry is <strong>double gated</strong>, and the park is deer fenced (2 metres high) enclosing just under an acre of paddock. 
+                                        A first gate provides initial entry, followed by a padlocked park entrance gate. 
+                                        Once you book a time you will be sent the code for gate entry – take note of this as it changes often.
+                                    </p>
+                                </section>
+
+                                <section className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-[2rem] border border-dark/5 shadow-sm">
+                                    <div>
+                                        <h4 className="text-xs font-bold uppercase tracking-widest text-accent mb-4">Park Guidelines</h4>
+                                        <ul className="space-y-3 text-sm text-dark/70 list-none p-0">
+                                            <li className="flex gap-2"><strong>•</strong> Dogs must be on lead entering and exiting.</li>
+                                            <li className="flex gap-2"><strong>•</strong> Take your code with you to the park.</li>
+                                            <li className="flex gap-2"><strong>•</strong> Secure the padlock on your exit.</li>
+                                            <li className="flex gap-2"><strong>•</strong> Use long leads for escape-prone dogs.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-xs font-bold uppercase tracking-widest text-accent mb-4">Safety & Ethics</h4>
+                                        <ul className="space-y-3 text-sm text-dark/70 list-none p-0">
+                                             <li className="flex gap-2"><strong>•</strong> No smoking, alcohol, or drugs.</li>
+                                             <li className="flex gap-2"><strong>•</strong> Max 3 dogs per property booking.</li>
+                                             <li className="flex gap-2"><strong>•</strong> Dogs must be fully vaccinated (Kennel Cough).</li>
+                                             <li className="flex gap-2"><strong>•</strong> Respect our neighbours&apos; livestock.</li>
+                                        </ul>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h3 className="font-serif text-2xl text-dark mb-4 flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-red-500/10 text-red-600 flex items-center justify-center text-base">!</div>
+                                        Critical Timing
+                                    </h3>
+                                    <div className="space-y-4 text-dark/75 font-sans leading-relaxed">
+                                        <p>
+                                            <strong>Do not arrive early:</strong> If early, continue down the road for a country drive until your allotted time. 
+                                            If a car is still in the spot on your start time, please wait patiently until they have vacated.
+                                        </p>
+                                        <p>
+                                            <strong>Do not leave late:</strong> Even if you arrive late, you must stick to the timetable and exit at the 45-minute mark. 
+                                            At 50 minutes past the hour, the parking area <strong>must</strong> be available for the next client.
+                                        </p>
+                                        <div className="p-5 bg-red-50 border border-red-100 rounded-xl text-red-800 text-sm italic">
+                                            Security cameras monitor all activity. Any complaints regarding tardiness will be investigated and taken seriously. This park is used for reactive dogs; respect for the timetable is vital.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-dark/10 pt-10">
+                                    <div>
+                                        <h4 className="font-serif text-xl text-dark mb-3">Management</h4>
+                                        <p className="text-sm text-dark/60 leading-relaxed">
+                                            Please respect all equipment. Children must be supervised at all times and are not permitted to play on the obstacles. 
+                                            Report any damage immediately. Monitor dogs at all times; they must never be left unattended.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-serif text-xl text-dark mb-3">Conduct</h4>
+                                        <p className="text-sm text-dark/60 leading-relaxed">
+                                            Do not let dogs bark excessively or dig. If they become over-excited, pop them on a lead to encourage calmer behaviours. 
+                                            Clients must follow all on-site signage.
+                                        </p>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                CONTACT & DECLARATION FORMS
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section className="py-24 lg:py-32 bg-white relative">
+                <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                        
+                        {/* Form 1: General Contact */}
+                        <div>
+                             <div className="flex items-center gap-3 mb-6">
+                                <div className="w-5 h-px bg-accent" />
+                                <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">Get In Touch</span>
+                            </div>
+                            <h2 className="font-serif text-3xl lg:text-4xl text-dark mb-4">Contact Us</h2>
+                            <p className="text-dark/60 font-sans text-[0.95rem] mb-10">To contact us, pop your message here and we will get back to you within 3 business days.</p>
+
+                            <form className="space-y-6 max-w-lg">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Name</label>
+                                    <input type="text" placeholder="Your full name" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Contact Phone (Mandatory)</label>
+                                    <input required type="tel" placeholder="Best number to reach you" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Email</label>
+                                    <input type="email" placeholder="email@example.com" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Message</label>
+                                    <textarea rows={4} placeholder="How can we help?" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors resize-none"></textarea>
+                                </div>
+                                <button type="button" className="w-full sm:w-auto px-10 py-4 bg-dark text-white rounded-2xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-accent hover:text-dark transition-all transform active:scale-95 shadow-lg">Send Message</button>
+                            </form>
+                        </div>
+
+                        {/* Form 2: Adventure Park Specific */}
+                        <div className="bg-primary-dark/5 border border-primary-dark/10 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden">
+                             <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
+                             <div className="relative z-10">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-5 h-px bg-primary-dark" />
+                                    <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-primary-dark/60">Adventure Park Form</span>
+                                </div>
+                                <h2 className="font-serif text-3xl text-dark mb-4 leading-tight">Safety & <span className="text-primary-dark italic">Health Declaration.</span></h2>
+                                <p className="text-dark/50 font-sans text-[0.85rem] mb-10 pb-4 border-b border-primary-dark/10 italic">
+                                    Note: You <span className="text-primary-dark font-bold underline">MUST</span> have joined a membership before submitting this form.
+                                </p>
+
+                                <form className="space-y-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Person Name</label>
+                                            <input type="text" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Contact Phone</label>
+                                            <input type="tel" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4 pt-4">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Registered Dogs</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                            <input type="text" placeholder="Dog Name 1" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
+                                            <input type="text" placeholder="Dog Name 2" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
+                                            <input type="text" placeholder="Dog Name 3" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4 pt-6 border-t border-primary-dark/10">
+                                        <label className="flex items-start gap-3 cursor-pointer group">
+                                            <input type="checkbox" className="mt-1 w-4 h-4 rounded border-dark/20 text-primary-dark focus:ring-primary-dark accent-primary-dark" />
+                                            <span className="text-[0.8rem] text-dark/70 font-sans leading-relaxed group-hover:text-dark transition-colors">
+                                                I agree with Canine Adventure Park <span className="underline">Terms and Conditions</span>
+                                            </span>
+                                        </label>
+                                        <label className="flex items-start gap-3 cursor-pointer group">
+                                            <input type="checkbox" className="mt-1 w-4 h-4 rounded border-dark/20 text-primary-dark focus:ring-primary-dark accent-primary-dark" />
+                                            <span className="text-[0.8rem] text-dark/70 font-sans leading-relaxed group-hover:text-dark transition-colors">
+                                                My dog/s are healthy and up to date with veterinary prescribed vaccinations (including Kennel Cough) at the time of visiting.
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    <button type="button" className="w-full py-4 bg-primary-dark text-white rounded-xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-dark transition-all shadow-lg mt-4">Submit Declaration</button>
+                                </form>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 MEMBERSHIP PLANS (Redesigned from Image)
@@ -286,7 +592,7 @@ export default function AdventureParkPage() {
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 BOOK NOW (SESSIONS)
                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section className="py-24 bg-white">
+            <section id="book-now" className="py-24 bg-white">
                 <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)] text-center">
                     <h2 className="font-serif font-normal text-dark leading-[1.12] mb-12 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
                         Book a Session

@@ -104,15 +104,22 @@ function DashboardContent() {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
         try {
             const res = await fetch(`/api/bookings/${id}`, {
-                method: "PUT",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: "cancelled" })
             });
-            if (res.ok) fetchDashboardData();
+            if (res.ok) {
+                alert("Booking cancelled successfully.");
+                fetchDashboardData();
+            } else {
+                const data = await res.json();
+                alert(data.error || "Failed to cancel booking.");
+            }
         } catch (e) {
             alert("Error cancelling booking.");
         }
     };
+
 
     const openTestimonialModal = (service: string) => {
         setTestimonialService(service);
