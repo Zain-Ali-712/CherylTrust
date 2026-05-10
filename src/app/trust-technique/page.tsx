@@ -121,7 +121,7 @@ export default function TrustTechniquePage() {
                     {/* Top Row: Interleaved Image & Text */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center mb-24">
                         <div className="relative w-full aspect-[4/3] lg:aspect-[5/4] rounded-2xl overflow-hidden shadow-2xl border border-dark/5 lg:order-2">
-                            <Image src="/Trust.jpg" alt="Cheryl working with a dog" fill className="object-cover object-top" />
+                            <Image src="/tt-page.jpg" alt="Cheryl working with a dog" fill className="object-cover object-top" />
                         </div>
 
                         <div className="lg:order-1">
