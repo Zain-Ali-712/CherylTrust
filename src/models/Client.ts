@@ -22,6 +22,7 @@ export interface IClient extends Document {
     reasonsForPark: string[];
     agreements: {
         terms: boolean;
+        rules: boolean;
         cancellation: boolean;
         marketing: boolean;
     };
@@ -52,6 +53,7 @@ const ClientSchema = new Schema(
         reasonsForPark: [{ type: String }],
         agreements: {
             terms: { type: Boolean, required: true },
+            rules: { type: Boolean, required: true },
             cancellation: { type: Boolean, required: true },
             marketing: { type: Boolean, default: false }
         },

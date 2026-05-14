@@ -7,13 +7,13 @@ const seedOpeningHours = async () => {
     const count = await OpeningHours.countDocuments();
     if (count === 0) {
         const defaultHours = [
-            { dayOfWeek: 0, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: false }, // Sunday
-            { dayOfWeek: 1, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Monday
-            { dayOfWeek: 2, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Tuesday
-            { dayOfWeek: 3, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Wednesday
-            { dayOfWeek: 4, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Thursday
-            { dayOfWeek: 5, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Friday
-            { dayOfWeek: 6, openTime: "09:00", closeTime: "17:00", slotDuration: 50, bufferTime: 10, isActive: false }, // Saturday
+            { dayOfWeek: 0, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true }, // Sunday
+            { dayOfWeek: 1, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Monday
+            { dayOfWeek: 2, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Tuesday
+            { dayOfWeek: 3, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Wednesday
+            { dayOfWeek: 4, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Thursday
+            { dayOfWeek: 5, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true },  // Friday
+            { dayOfWeek: 6, openTime: "08:00", closeTime: "18:00", slotDuration: 50, bufferTime: 10, isActive: true }, // Saturday
         ];
         await OpeningHours.insertMany(defaultHours);
     }

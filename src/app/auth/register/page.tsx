@@ -36,6 +36,7 @@ function RegisterForm() {
         reasonsForPark: [] as string[],
         agreements: {
             terms: false,
+            rules: false,
             cancellation: false,
             marketing: false
         }
@@ -154,10 +155,10 @@ function RegisterForm() {
                                             <input required type="text" placeholder="Dog Name *" value={dog.name} onChange={e => updateDog(idx, "name", e.target.value)} className="w-full p-2.5 bg-white border border-dark/10 rounded-lg outline-none text-sm" />
                                             <input required type="text" placeholder="Age *" value={dog.age} onChange={e => updateDog(idx, "age", e.target.value)} className="w-full p-2.5 bg-white border border-dark/10 rounded-lg outline-none text-sm" />
                                             <label className="flex items-center gap-2 p-2.5 bg-white border border-dark/10 rounded-lg text-sm cursor-pointer">
-                                                <input type="checkbox" checked={dog.neutered} onChange={e => updateDog(idx, "neutered", e.target.checked)} className="accent-accent" /> Neutered/Spayed?
+                                                <input required type="checkbox" checked={dog.neutered} onChange={e => updateDog(idx, "neutered", e.target.checked)} className="accent-accent" /> Dog is Neutered/Spayed? *
                                             </label>
                                             <label className="flex items-center gap-2 p-2.5 bg-white border border-dark/10 rounded-lg text-sm cursor-pointer">
-                                                <input type="checkbox" checked={dog.vaxUpToDate} onChange={e => updateDog(idx, "vaxUpToDate", e.target.checked)} className="accent-accent" /> Vaccinations Up to Date?
+                                                <input required type="checkbox" checked={dog.vaxUpToDate} onChange={e => updateDog(idx, "vaxUpToDate", e.target.checked)} className="accent-accent" /> Vaccinations are Up to Date? *
                                             </label>
                                         </div>
                                     </div>
@@ -185,6 +186,10 @@ function RegisterForm() {
                                 <label className="flex items-start gap-3 cursor-pointer group">
                                     <input required type="checkbox" checked={formData.agreements.terms} onChange={e => setFormData({ ...formData, agreements: { ...formData.agreements, terms: e.target.checked } })} className="mt-1 accent-accent" />
                                     <span className="text-sm font-sans text-dark/70 group-hover:text-dark">I agree to the Terms & Conditions of Canine Adventure Park. *</span>
+                                </label>
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <input required type="checkbox" checked={formData.agreements.rules} onChange={e => setFormData({ ...formData, agreements: { ...formData.agreements, rules: e.target.checked } })} className="mt-1 accent-accent" />
+                                    <span className="text-sm font-sans text-dark/70 group-hover:text-dark">I agree to abide by all Canine Adventure Park rules and protocols. *</span>
                                 </label>
                                 <label className="flex items-start gap-3 cursor-pointer group">
                                     <input required type="checkbox" checked={formData.agreements.cancellation} onChange={e => setFormData({ ...formData, agreements: { ...formData.agreements, cancellation: e.target.checked } })} className="mt-1 accent-accent" />

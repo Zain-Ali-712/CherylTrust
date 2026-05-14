@@ -1,19 +1,19 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiClock, FiArrowRight } from "react-icons/fi";
 import HomeCTA from "@/components/home/HomeCTA";
 
-const hours = [
-    { day: "Sunday", time: "08:00 AM - 06:00 PM" },
-    { day: "Monday", time: "08:00 AM - 06:00 PM" },
-    { day: "Tuesday", time: "08:00 AM - 06:00 PM" },
-    { day: "Wednesday", time: "08:00 AM - 06:00 PM" },
-    { day: "Thursday", time: "08:00 AM - 06:00 PM" },
-    { day: "Friday", time: "08:00 AM - 06:00 PM" },
-    { day: "Saturday", time: "08:00 AM - 06:00 PM" },
-];
+const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+const formatTime = (timeStr: string) => {
+    if (!timeStr) return "Closed";
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const h12 = hours % 12 || 12;
+    return `${h12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+};
 
 const features = [
     {
@@ -53,6 +53,18 @@ const plans = [
 ];
 
 export default function AdventureParkPage() {
+    const [hours, setHours] = useState<any[]>([]);
+
+    useEffect(() => {
+        fetch("/api/schedule")
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setHours(data);
+                }
+            })
+            .catch(err => console.error("Error fetching hours:", err));
+    }, []);
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -150,12 +162,23 @@ export default function AdventureParkPage() {
                                         <h3 className="font-serif text-2xl text-white m-0">Park Hours</h3>
                                     </div>
                                     <div className="space-y-4">
-                                        {hours.map((h, i) => (
-                                            <div key={i} className="flex justify-between items-center py-3 border-b border-white/10 last:border-0 font-sans text-[0.95rem]">
-                                                <span className="font-bold text-white/60 tracking-wide uppercase text-[0.8rem]">{h.day}</span>
-                                                <span className="text-white font-medium">{h.time}</span>
-                                            </div>
-                                        ))}
+                                        {hours.length > 0 ? (
+                                            hours.map((h, i) => (
+                                                <div key={i} className="flex justify-between items-center py-3 border-b border-white/10 last:border-0 font-sans text-[0.95rem]">
+                                                    <span className="font-bold text-white/60 tracking-wide uppercase text-[0.8rem]">{DAYS_OF_WEEK[h.dayOfWeek]}</span>
+                                                    <span className="text-white font-medium">
+                                                        {h.isActive ? `${formatTime(h.openTime)} - ${formatTime(h.closeTime)}` : "Closed"}
+                                                    </span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            DAYS_OF_WEEK.map((day, i) => (
+                                                <div key={i} className="flex justify-between items-center py-3 border-b border-white/10 last:border-0 font-sans text-[0.95rem]">
+                                                    <span className="font-bold text-white/60 tracking-wide uppercase text-[0.8rem]">{day}</span>
+                                                    <span className="text-white font-medium">08:00 AM - 06:00 PM</span>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             </div>

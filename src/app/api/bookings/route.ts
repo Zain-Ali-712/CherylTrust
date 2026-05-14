@@ -13,7 +13,7 @@ export async function GET(req: Request) {
         await dbConnect();
         const { searchParams } = new URL(req.url);
         const clientId = searchParams.get('clientId');
-        
+
         let query = {};
         if (clientId) query = { client: clientId };
 
@@ -45,6 +45,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Mandatory Membership: You must have an active membership to book adventures." }, { status: 403 });
         }
 
+        {/*
         // Trust Client validation
         if (service === "Canine Adventure Park session Trust Client") {
             const pastBookingsCount = await Booking.countDocuments({
@@ -54,13 +55,13 @@ export async function POST(req: Request) {
             if (pastBookingsCount < 3) {
                 return NextResponse.json({ error: "You must have completed at least 3 previous sessions to book a Trust session." }, { status: 403 });
             }
-        }
+        }*/}
 
         // Concurrent Overlap checks
         const targetDate = new Date(date);
-        targetDate.setHours(0,0,0,0);
+        targetDate.setHours(0, 0, 0, 0);
         const targetEnd = new Date(date);
-        targetEnd.setHours(23,59,59,999);
+        targetEnd.setHours(23, 59, 59, 999);
 
         const overlaps = await Booking.countDocuments({
             date: { $gte: targetDate, $lte: targetEnd },
@@ -89,8 +90,8 @@ export async function POST(req: Request) {
                 to: client.email,
                 subject: "Booking Confirmed",
                 type: "booking_created",
-                variables: { 
-                    firstName: client.firstName, 
+                variables: {
+                    firstName: client.firstName,
                     date: `${new Date(date).toLocaleDateString()} at ${startTime}`,
                     gateCode: entryCode
                 }
