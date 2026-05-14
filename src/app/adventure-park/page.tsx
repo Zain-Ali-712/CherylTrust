@@ -9,9 +9,9 @@ const hours = [
     { day: "Sunday", time: "08:00 AM - 06:00 PM" },
     { day: "Monday", time: "08:00 AM - 06:00 PM" },
     { day: "Tuesday", time: "08:00 AM - 06:00 PM" },
-    { day: "Wednesday", time: "08:00 AM - 08:00 PM" },
-    { day: "Thursday", time: "08:00 AM - 08:00 PM" },
-    { day: "Friday", time: "08:00 AM - 08:00 PM" },
+    { day: "Wednesday", time: "08:00 AM - 06:00 PM" },
+    { day: "Thursday", time: "08:00 AM - 06:00 PM" },
+    { day: "Friday", time: "08:00 AM - 06:00 PM" },
     { day: "Saturday", time: "08:00 AM - 06:00 PM" },
 ];
 
@@ -49,22 +49,6 @@ const plans = [
         duration: "1 year",
         sessions: "Unlimited",
         date: "02-03-2026"
-    },
-    {
-        title: "Feb Valentines Special",
-        subtitle: "2 Members",
-        price: "$35.00",
-        duration: "45 mins",
-        sessions: "1 Canine Adventure Park Session",
-        membershipRequired: true
-    },
-    {
-        title: "Feb Valentines Special",
-        subtitle: "Bring a Friend",
-        price: "$45.00",
-        duration: "45 mins",
-        sessions: "1 Canine Adventure Park Session",
-        membershipRequired: true
     }
 ];
 
@@ -263,6 +247,7 @@ export default function AdventureParkPage() {
                                      <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none" />
                                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-dark/40">Step 2</span>
                                      <span className="text-sm font-bold uppercase tracking-widest">Book Adventure</span>
+                                     <span className="text-[10px] font-bold text-dark mt-1">Members Only</span>
                                      <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-accent transition-all duration-300" />
                                 </Link>
                             </div>
@@ -430,96 +415,38 @@ export default function AdventureParkPage() {
                 </div>
             </section>
 
-            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                CONTACT & DECLARATION FORMS
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             <section className="py-24 lg:py-32 bg-white relative">
                 <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                        
-                        {/* Form 1: General Contact */}
-                        <div>
-                             <div className="flex items-center gap-3 mb-6">
+                    <div className="max-w-2xl mx-auto px-4">
+                        <div className="text-center mb-16">
+                             <div className="flex items-center justify-center gap-3 mb-6">
                                 <div className="w-5 h-px bg-accent" />
                                 <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">Get In Touch</span>
+                                <div className="w-5 h-px bg-accent" />
                             </div>
                             <h2 className="font-serif text-3xl lg:text-4xl text-dark mb-4">Contact Us</h2>
                             <p className="text-dark/60 font-sans text-[0.95rem] mb-10">To contact us, pop your message here and we will get back to you within 3 business days.</p>
-
-                            <form className="space-y-6 max-w-lg">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Name</label>
-                                    <input type="text" placeholder="Your full name" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Contact Phone (Mandatory)</label>
-                                    <input required type="tel" placeholder="Best number to reach you" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Email</label>
-                                    <input type="email" placeholder="email@example.com" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Message</label>
-                                    <textarea rows={4} placeholder="How can we help?" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors resize-none"></textarea>
-                                </div>
-                                <button type="button" className="w-full sm:w-auto px-10 py-4 bg-dark text-white rounded-2xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-accent hover:text-dark transition-all transform active:scale-95 shadow-lg">Send Message</button>
-                            </form>
                         </div>
 
-                        {/* Form 2: Adventure Park Specific */}
-                        <div className="bg-primary-dark/5 border border-primary-dark/10 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden">
-                             <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
-                             <div className="relative z-10">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-5 h-px bg-primary-dark" />
-                                    <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-primary-dark/60">Adventure Park Form</span>
-                                </div>
-                                <h2 className="font-serif text-3xl text-dark mb-4 leading-tight">Safety & <span className="text-primary-dark italic">Health Declaration.</span></h2>
-                                <p className="text-dark/50 font-sans text-[0.85rem] mb-10 pb-4 border-b border-primary-dark/10 italic">
-                                    Note: You <span className="text-primary-dark font-bold underline">MUST</span> have joined a membership before submitting this form.
-                                </p>
-
-                                <form className="space-y-6">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Person Name</label>
-                                            <input type="text" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Contact Phone</label>
-                                            <input type="tel" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4 pt-4">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Registered Dogs</h4>
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            <input type="text" placeholder="Dog Name 1" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
-                                            <input type="text" placeholder="Dog Name 2" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
-                                            <input type="text" placeholder="Dog Name 3" className="w-full px-4 py-3 bg-white border border-dark/5 rounded-xl text-sm focus:outline-none focus:border-primary-dark transition-colors" />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4 pt-6 border-t border-primary-dark/10">
-                                        <label className="flex items-start gap-3 cursor-pointer group">
-                                            <input type="checkbox" className="mt-1 w-4 h-4 rounded border-dark/20 text-primary-dark focus:ring-primary-dark accent-primary-dark" />
-                                            <span className="text-[0.8rem] text-dark/70 font-sans leading-relaxed group-hover:text-dark transition-colors">
-                                                I agree with Canine Adventure Park <span className="underline">Terms and Conditions</span>
-                                            </span>
-                                        </label>
-                                        <label className="flex items-start gap-3 cursor-pointer group">
-                                            <input type="checkbox" className="mt-1 w-4 h-4 rounded border-dark/20 text-primary-dark focus:ring-primary-dark accent-primary-dark" />
-                                            <span className="text-[0.8rem] text-dark/70 font-sans leading-relaxed group-hover:text-dark transition-colors">
-                                                My dog/s are healthy and up to date with veterinary prescribed vaccinations (including Kennel Cough) at the time of visiting.
-                                            </span>
-                                        </label>
-                                    </div>
-
-                                    <button type="button" className="w-full py-4 bg-primary-dark text-white rounded-xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-dark transition-all shadow-lg mt-4">Submit Declaration</button>
-                                </form>
-                             </div>
-                        </div>
+                        <form className="space-y-6 max-w-lg mx-auto">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Name</label>
+                                <input type="text" placeholder="Your full name" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Contact Phone (Mandatory)</label>
+                                <input required type="tel" placeholder="Best number to reach you" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Email</label>
+                                <input type="email" placeholder="email@example.com" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-dark/40 ml-1">Message</label>
+                                <textarea rows={4} placeholder="How can we help?" className="w-full px-5 py-4 bg-bg-light border border-dark/5 rounded-2xl focus:outline-none focus:border-accent font-sans transition-colors resize-none"></textarea>
+                            </div>
+                            <button type="button" className="w-full px-10 py-4 bg-dark text-white rounded-2xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-accent hover:text-dark transition-all transform active:scale-95 shadow-lg">Send Message</button>
+                        </form>
                     </div>
                 </div>
             </section>
@@ -538,7 +465,7 @@ export default function AdventureParkPage() {
                         <h2 className="font-serif font-normal text-dark leading-[1.12] mb-4 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
                             Join Canine Adventure Park
                         </h2>
-                        <p className="text-dark/60 font-sans max-w-2xl mx-auto">Select the membership plan that matches your current relationship with the Trust Technique to gain access to our facilities.</p>
+                        <p className="text-dark/60 font-sans max-w-2xl mx-auto">Select the membership plan that matches your current relationship with the Trust Technique to gain access to our facilities. See our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -551,9 +478,14 @@ export default function AdventureParkPage() {
 
                                 <div className="relative z-10 flex flex-col flex-grow">
                                     <h3 className="font-serif text-[1.6rem] lg:text-[1.8rem] text-white mb-3 leading-[1.2]">{plan.title}</h3>
-                                    <div className="mb-6 flex items-baseline gap-2">
+                                    <div className="mb-2 flex items-baseline gap-2">
                                         <span className="font-serif font-bold text-4xl text-accent">{plan.price}</span>
                                         <span className="font-sans text-[0.8rem] text-white/90 uppercase tracking-widest relative top-[-6px]">/ {plan.duration}</span>
+                                    </div>
+                                    <div className="mb-6">
+                                        <span className="font-sans text-lg font-bold text-white uppercase tracking-wider">
+                                            Available for {plan.subtitle}s
+                                        </span>
                                     </div>
 
                                     <div className="h-px w-full bg-white/[0.08] mb-8" />
@@ -563,10 +495,6 @@ export default function AdventureParkPage() {
                                     </p>
 
                                     <div className="flex-grow space-y-5 mb-10">
-                                        <div className="flex items-start gap-4">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
-                                            <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Available for <strong className="text-white font-medium">{plan.subtitle}s</strong></span>
-                                        </div>
                                         <div className="flex items-start gap-4">
                                             <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
                                             <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Sessions: <strong className="text-white font-medium">{plan.sessions}</strong></span>
@@ -615,6 +543,9 @@ export default function AdventureParkPage() {
                             <Link href="/book?service=Canine Adventure Park session non Trust Client" className="w-full block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
                         </div>
                     </div>
+                    <p className="mt-12 text-dark/40 font-sans text-sm">
+                        By booking a session or membership, you agree to our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.
+                    </p>
                 </div>
             </section>
 

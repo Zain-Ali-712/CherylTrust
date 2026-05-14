@@ -36,7 +36,7 @@ export default function AdventureParkTeaser() {
                                     <Image src="/club3.jpg" alt="Dog park" fill className="object-cover transition-transform duration-700 hover:scale-105" />
                                 </div>
                                 <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl feature-image-wrapper bg-accent/20 border border-accent/20 flex flex-col justify-end p-6">
-                                    <div className="w-12 h-12 bg-accent text-dark rounded-full flex items-center justify-center mb-4 text-xs font-bold shadow-lg">
+                                    <div className="w-16 h-16 bg-accent text-dark rounded-full flex items-center justify-center mb-4 text-[0.65rem] font-bold shadow-lg leading-tight text-center px-1">
                                         Members
                                     </div>
                                     <p className="font-serif text-2xl text-white leading-tight">Join the exclusive adventure club</p>

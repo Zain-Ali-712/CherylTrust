@@ -194,24 +194,33 @@ function DashboardContent() {
                         <h3 className="font-serif text-xl text-dark mb-4">Available Plans</h3>
                         <p className="text-dark/50 text-xs mb-6 leading-relaxed">Purchasing a membership is required for premium slots. <em>(Payments are mock logic for now)</em></p>
                         <div className="space-y-4">
-                            {membershipPlans.map((plan, i) => (
-                                <div key={i} className="p-4 border border-dark/10 rounded-xl hover:border-accent transition">
-                                    <h4 className="font-serif text-[1rem] text-dark">{plan.type}</h4>
-                                    <div className="flex justify-between items-center mt-3">
-                                        <span className="font-bold text-accent text-xl">${plan.price}</span>
-                                        <button
-                                            onClick={() => handlePurchaseMembership(plan)}
-                                            disabled={isPurchasing === plan.type || activeMembership}
-                                            className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors
-                                                ${isPurchasing === plan.type ? "bg-dark/10 text-dark/40" :
-                                                    activeMembership ? "bg-dark/5 text-dark/30 hidden" : "bg-dark text-white hover:bg-accent hover:text-dark"}`}>
-                                            {isPurchasing === plan.type ? "Processing..." : "Purchase"}
-                                        </button>
+                            {membershipPlans
+                                .filter(plan => {
+                                    const isSpecial = plan.type.startsWith("Feb");
+                                    if (clientData?.trustTechniqueCompleted) {
+                                        return isSpecial || (plan.type.includes("Trust Membership") && !plan.type.includes("Non Trust"));
+                                    } else {
+                                        return isSpecial || plan.type.includes("Non Trust Membership");
+                                    }
+                                })
+                                .map((plan, i) => (
+                                    <div key={i} className="p-4 border border-dark/10 rounded-xl hover:border-accent transition">
+                                        <h4 className="font-serif text-[1rem] text-dark">{plan.type}</h4>
+                                        <div className="flex justify-between items-center mt-3">
+                                            <span className="font-bold text-accent text-xl">${plan.price}</span>
+                                            <button
+                                                onClick={() => handlePurchaseMembership(plan)}
+                                                disabled={isPurchasing === plan.type || activeMembership}
+                                                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors
+                                                    ${isPurchasing === plan.type ? "bg-dark/10 text-dark/40" :
+                                                        activeMembership ? "bg-dark/5 text-dark/30 hidden" : "bg-dark text-white hover:bg-accent hover:text-dark"}`}>
+                                                {isPurchasing === plan.type ? "Processing..." : "Purchase"}
+                                            </button>
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     </div>
                 </div>
@@ -231,7 +240,7 @@ function DashboardContent() {
                                 <FiCalendar className="text-accent shrink-0" /> Upcoming Sessions
                             </h3>
                             <div className="flex items-center gap-4">
-                                <Link href="/adventure-park" className="text-sm font-bold uppercase tracking-widest text-dark bg-accent px-5 py-2.5 rounded-xl hover:brightness-110 transition text-center">
+                                <Link href={`/book?service=${clientData?.trustTechniqueCompleted ? "Canine Adventure Park session Trust Client" : "Canine Adventure Park session non Trust Client"}`} className="text-sm font-bold uppercase tracking-widest text-dark bg-accent px-5 py-2.5 rounded-xl hover:brightness-110 transition text-center">
                                     New Booking
                                 </Link>
                                 <button onClick={handleLogout} className="text-sm font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition flex items-center gap-2">

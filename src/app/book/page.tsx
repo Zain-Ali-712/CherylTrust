@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiCalendar, FiClock, FiArrowLeft, FiLoader, FiActivity, FiShoppingBag } from "react-icons/fi";
+import SafetyDeclarationModal from "@/components/booking/SafetyDeclarationModal";
 
 const getAvailableDates = () => {
     const dates = [];
@@ -28,6 +29,8 @@ function BookingContent() {
     const [hasMembership, setHasMembership] = useState<boolean | null>(null);
     const [isCheckingMembership, setIsCheckingMembership] = useState(true);
     const [blockReason, setBlockReason] = useState<string | null>(null);
+    const [isDeclarationOpen, setIsDeclarationOpen] = useState(false);
+    const [selectedSlot, setSelectedSlot] = useState<{ startTime: string, endTime: string } | null>(null);
 
     const dates = getAvailableDates();
 
@@ -91,11 +94,18 @@ function BookingContent() {
 
     const handleSlotSelection = (slot: {startTime: string, endTime: string}) => {
         if (!hasMembership) return;
+        setSelectedSlot(slot);
+        setIsDeclarationOpen(true);
+    };
+
+    const handleDeclarationConfirm = () => {
+        if (!selectedSlot || !selectedDate) return;
+
         const queryParams = new URLSearchParams({
             service,
-            date: selectedDate!.toISOString(),
-            start: slot.startTime,
-            end: slot.endTime
+            date: selectedDate.toISOString(),
+            start: selectedSlot.startTime,
+            end: selectedSlot.endTime
         });
         
         // redirect to checkout route (middleware handles auth intercept)
@@ -129,8 +139,8 @@ function BookingContent() {
                             <Link href="/client/dashboard" className="px-8 py-4 bg-dark text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-dark transition shadow-lg">
                                 Buy Membership
                             </Link>
-                            <Link href="/adventure-park" className="px-8 py-4 border border-dark/20 text-dark rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-dark/5 transition">
-                                Learn More
+                            <Link href="/auth/login" className="px-8 py-4 border border-dark/20 text-dark rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-dark/5 transition">
+                                Login
                             </Link>
                         </div>
                     </div>
@@ -238,6 +248,12 @@ function BookingContent() {
                     )}
                 </div>
             </div>
+
+            <SafetyDeclarationModal 
+                isOpen={isDeclarationOpen} 
+                onClose={() => setIsDeclarationOpen(false)} 
+                onConfirm={handleDeclarationConfirm} 
+            />
         </div>
     );
 }

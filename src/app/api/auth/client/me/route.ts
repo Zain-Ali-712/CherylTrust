@@ -34,7 +34,8 @@ export async function GET() {
             id: client._id,
             email: client.email,
             firstName: client.firstName,
-            lastName: client.lastName
+            lastName: client.lastName,
+            trustTechniqueCompleted: client.trustTechniqueCompleted
         });
     } catch (e) {
         console.error("Auth Me Error:", e);

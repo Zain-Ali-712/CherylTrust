@@ -30,6 +30,10 @@ export const metadata: Metadata = {
     "Animal Therapy",
     "Cheryl McDonough",
   ],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

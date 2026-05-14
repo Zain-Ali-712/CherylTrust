@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiX, FiCheck, FiChevronLeft, FiChevronRight, FiCalendar, FiClock } from "react-icons/fi";
 
 type BookingModalProps = {
@@ -52,6 +52,22 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (formData.trustTechniqueCompleted === "Yes") {
+            setFormData(prev => ({
+                ...prev,
+                membershipType: "Country Club Trust Membership",
+                serviceSelection: "Canine Adventure Park session Trust Client"
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                membershipType: "Country Club Non Trust Membership",
+                serviceSelection: "Canine Adventure Park session non Trust Client"
+            }));
+        }
+    }, [formData.trustTechniqueCompleted]);
 
     if (!isOpen) return null;
 
@@ -321,24 +337,30 @@ export default function BookingModal({ isOpen, onClose, planName }: BookingModal
                                 <div className="mt-6 border-t border-dark/5 pt-4">
                                     <label className="block text-sm font-serif font-bold text-dark mb-3">Select Membership Type *</label>
                                     <div className="flex flex-col gap-3">
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
-                                            <input type="radio" required name="membershipType" value="Country Club Trust Membership" checked={formData.membershipType === "Country Club Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Trust Membership ($30.00)
-                                        </label>
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
-                                            <input type="radio" required name="membershipType" value="Country Club Non Trust Membership" checked={formData.membershipType === "Country Club Non Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Non Trust Membership ($30.00)
-                                        </label>
+                                        {formData.trustTechniqueCompleted === "Yes" ? (
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                                <input type="radio" required name="membershipType" value="Country Club Trust Membership" checked={formData.membershipType === "Country Club Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Trust Membership ($30.00)
+                                            </label>
+                                        ) : (
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                                <input type="radio" required name="membershipType" value="Country Club Non Trust Membership" checked={formData.membershipType === "Country Club Non Trust Membership"} onChange={e => setFormData({ ...formData, membershipType: e.target.value })} className="accent-accent" /> Country Club Non Trust Membership ($30.00)
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
 
                                 <div className="mt-4 border-t border-dark/5 pt-4">
                                     <label className="block text-sm font-serif font-bold text-dark mb-3">Select Service Session *</label>
                                     <div className="flex flex-col gap-3">
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
-                                            <input type="radio" required name="serviceSelection" value="Canine Adventure Park session Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session Trust Client ($20.00)
-                                        </label>
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
-                                            <input type="radio" required name="serviceSelection" value="Canine Adventure Park session non Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session non Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session non Trust Client ($25.00)
-                                        </label>
+                                        {formData.trustTechniqueCompleted === "Yes" ? (
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                                <input type="radio" required name="serviceSelection" value="Canine Adventure Park session Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session Trust Client ($20.00)
+                                            </label>
+                                        ) : (
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 p-2 rounded transition">
+                                                <input type="radio" required name="serviceSelection" value="Canine Adventure Park session non Trust Client" checked={formData.serviceSelection === "Canine Adventure Park session non Trust Client"} onChange={e => setFormData({ ...formData, serviceSelection: e.target.value })} className="accent-accent" /> Canine Adventure Park session non Trust Client ($25.00)
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
                             </div>

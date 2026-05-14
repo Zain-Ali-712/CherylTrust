@@ -25,6 +25,9 @@ export default function Navbar() {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const pathname = usePathname();
 
+    const isWhiteNavPage = pathname === "/client/dashboard" || pathname === "/terms-and-conditions";
+    const showScrolled = isScrolled || isWhiteNavPage;
+
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 60);
         handleScroll();
@@ -34,21 +37,21 @@ export default function Navbar() {
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 
-            ${isScrolled ? "bg-warm-white/95 backdrop-blur-xl shadow-[0_1px_0_rgba(28,43,54,0.08)]" : "bg-transparent"}`}>
-            <div className="max-w-[1280px] mx-auto flex items-center justify-between h-[4.75rem]"
-                style={{ paddingLeft: "clamp(1.25rem,5vw,3.5rem)", paddingRight: "clamp(1.25rem,5vw,3.5rem)" }}>
+            ${showScrolled ? "bg-warm-white/95 backdrop-blur-xl shadow-[0_1px_0_rgba(28,43,54,0.08)]" : "bg-transparent"}`}>
+            <div className="flex items-center justify-between h-[4.75rem]"
+                style={{ paddingLeft: "clamp(1.25rem, 3vw, 2.5rem)", paddingRight: "clamp(1.25rem, 3vw, 2.5rem)" }}>
 
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2.5 no-underline">
                     <div className={`w-[34px] h-[34px] flex items-center justify-center border transition-all duration-300 overflow-hidden
-                        ${isScrolled ? "border-primary-dark bg-primary-dark" : "border-white/30 bg-white/10"}`}>
+                        ${showScrolled ? "border-primary-dark bg-primary-dark" : "border-white/30 bg-white/10"}`}>
                         <Image src="/logo.png" alt="Cheryl Trust" width={22} height={22} className="object-contain" />
                     </div>
                     <div className="whitespace-nowrap">
-                        <div className={`font-serif font-bold text-base leading-[1.1] transition-colors duration-300 ${isScrolled ? "text-dark" : "text-white"}`}>
+                        <div className={`font-serif font-bold text-base leading-[1.1] transition-colors duration-300 ${showScrolled ? "text-dark" : "text-white"}`}>
                             Cheryl
                         </div>
-                        <div className={`text-[0.62rem] font-semibold tracking-[0.1em] uppercase font-sans transition-colors duration-300 ${isScrolled ? "text-muted" : "text-white/50"}`}>
+                        <div className={`text-[0.62rem] font-semibold tracking-[0.1em] uppercase font-sans transition-colors duration-300 ${showScrolled ? "text-muted" : "text-white/50"}`}>
                             Trust Technique NZ
                         </div>
                     </div>
@@ -65,8 +68,8 @@ export default function Navbar() {
                                     <Link href={link.href}
                                         className={`px-3.5 py-2 text-[0.75rem] font-semibold tracking-[0.15em] uppercase font-sans no-underline transition-all duration-200 whitespace-nowrap border-b-[1.5px] inline-flex items-center gap-1.5
                                         ${active
-                                                ? isScrolled ? "text-primary-dark border-primary-dark" : "text-white border-white"
-                                                : isScrolled ? "text-dark/50 border-transparent hover:text-dark" : "text-white/60 border-transparent hover:text-white"
+                                                ? showScrolled ? "text-primary-dark border-primary-dark" : "text-white border-white"
+                                                : showScrolled ? "text-dark/50 border-transparent hover:text-dark" : "text-white/60 border-transparent hover:text-white"
                                             }`}>
                                         {link.label}
                                         <svg className="w-3 h-3 opacity-60 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -75,13 +78,13 @@ export default function Navbar() {
                                     {/* Dropdown Menu */}
                                     <div className="absolute top-full left-0 pt-4 w-56 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
                                         <div className={`rounded-xl shadow-xl border overflow-hidden backdrop-blur-md p-2
-                                            ${isScrolled ? "bg-white/95 border-dark/5" : "bg-dark/95 border-white/10"}`}>
+                                            ${showScrolled ? "bg-white/95 border-dark/5" : "bg-dark/95 border-white/10"}`}>
                                             {link.subLinks.map(sub => (
                                                 <Link key={sub.href} href={sub.href}
                                                     className={`block px-4 py-3 text-[0.75rem] font-semibold tracking-[0.1em] uppercase font-sans no-underline rounded-lg transition-colors
                                                     ${pathname === sub.href
-                                                            ? (isScrolled ? "bg-primary-dark/10 text-primary-dark" : "bg-white/10 text-white")
-                                                            : (isScrolled ? "text-dark/70 hover:bg-dark/5 hover:text-dark" : "text-white/70 hover:bg-white/5 hover:text-white")
+                                                            ? (showScrolled ? "bg-primary-dark/10 text-primary-dark" : "bg-white/10 text-white")
+                                                            : (showScrolled ? "text-dark/70 hover:bg-dark/5 hover:text-dark" : "text-white/70 hover:bg-white/5 hover:text-white")
                                                         }`}>
                                                     {sub.label}
                                                 </Link>
@@ -96,26 +99,26 @@ export default function Navbar() {
                             <Link key={link.href} href={link.href}
                                 className={`px-3.5 py-2 text-[0.75rem] font-semibold tracking-[0.15em] uppercase font-sans no-underline transition-all duration-200 whitespace-nowrap border-b-[1.5px]
                                 ${active
-                                        ? isScrolled ? "text-primary-dark border-primary-dark" : "text-white border-white"
-                                        : isScrolled ? "text-dark/50 border-transparent hover:text-dark" : "text-white/60 border-transparent hover:text-white"
+                                        ? showScrolled ? "text-primary-dark border-primary-dark" : "text-white border-white"
+                                        : showScrolled ? "text-dark/50 border-transparent hover:text-dark" : "text-white/60 border-transparent hover:text-white"
                                     }`}>
                                 {link.label}
                             </Link>
                         );
                     })}
-                    <Link href="/contact"
+                    <Link href="/auth/login"
                         className={`ml-4 px-5 py-2.5 text-[0.75rem] font-bold tracking-[0.15em] uppercase font-sans no-underline transition-all duration-300 whitespace-nowrap border
-                        ${isScrolled
+                        ${showScrolled
                                 ? "text-primary-dark border-primary-dark hover:bg-primary-dark hover:text-white"
                                 : "text-white border-white/45 hover:bg-primary-dark hover:border-primary-dark"
                             }`}>
-                        Enquire &amp; Book
+                        Park Member Login
                     </Link>
                 </div>
 
                 {/* Hamburger */}
                 <button
-                    className={`mobile-menu-btn p-2 bg-transparent border-0 cursor-pointer transition-colors ${isScrolled ? "text-dark" : "text-white"}`}
+                    className={`mobile-menu-btn p-2 bg-transparent border-0 cursor-pointer transition-colors ${showScrolled ? "text-dark" : "text-white"}`}
                     onClick={() => setIsMobileOpen(!isMobileOpen)} aria-label="Toggle menu">
                     {isMobileOpen ? <FiX size={20} /> : <FiMenu size={20} />}
                 </button>
@@ -146,9 +149,9 @@ export default function Navbar() {
                             )}
                         </div>
                     ))}
-                    <Link href="/contact" onClick={() => setIsMobileOpen(false)}
+                    <Link href="/auth/login" onClick={() => setIsMobileOpen(false)}
                         className="block mt-5 py-3.5 text-center text-[0.75rem] font-bold tracking-[0.2em] uppercase font-sans no-underline text-white bg-primary-dark">
-                        Enquire &amp; Book
+                        Park Member Login
                     </Link>
                 </div>
             )}
