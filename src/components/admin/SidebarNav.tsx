@@ -10,6 +10,8 @@ const navItems = [
     { href: "/admin/calendar", label: "Calendar", icon: FiCalendar },
     { href: "/admin/bookings", label: "Bookings", icon: FiClock },
     { href: "/admin/promotions", label: "Promotions", icon: FiTag },
+    { href: "/admin/membership-packages", label: "Membership Packages", icon: FiTag },
+    { href: "/admin/booking-packages", label: "Booking Packages", icon: FiTag },
     { href: "/admin/vouchers", label: "Vouchers", icon: FiActivity },
     { href: "/admin/settings", label: "Settings", icon: FiSettings },
 ];
@@ -23,7 +25,7 @@ export default function SidebarNav() {
     };
 
     return (
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-1">
             {navItems.map((item) => {
                 const active = isActive(item);
                 const Icon = item.icon;

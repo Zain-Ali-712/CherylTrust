@@ -33,27 +33,12 @@ const features = [
     }
 ];
 
-const plans = [
-    {
-        title: "Canine Adventure Park Membership",
-        subtitle: "Trust Client",
-        price: "$30.00",
-        duration: "1 year",
-        sessions: "Unlimited",
-        date: "02-03-2026"
-    },
-    {
-        title: "Canine Adventure Park Membership",
-        subtitle: "Non-Trust Client",
-        price: "$30.00",
-        duration: "1 year",
-        sessions: "Unlimited",
-        date: "02-03-2026"
-    }
-];
+
 
 export default function AdventureParkPage() {
     const [hours, setHours] = useState<any[]>([]);
+    const [membershipPackages, setMembershipPackages] = useState<any[]>([]);
+    const [bookingPackages, setBookingPackages] = useState<any[]>([]);
 
     useEffect(() => {
         fetch("/api/schedule")
@@ -64,6 +49,24 @@ export default function AdventureParkPage() {
                 }
             })
             .catch(err => console.error("Error fetching hours:", err));
+
+        fetch("/api/membership-packages")
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setMembershipPackages(data.filter((p: any) => p.isActive));
+                }
+            })
+            .catch(err => console.error("Error fetching memberships:", err));
+
+        fetch("/api/booking-packages")
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setBookingPackages(data.filter((p: any) => p.isActive));
+                }
+            })
+            .catch(err => console.error("Error fetching booking packages:", err));
     }, []);
     return (
         <main className="bg-warm-white bg-noise min-h-screen">
@@ -241,11 +244,11 @@ export default function AdventureParkPage() {
                     </div>
 
                     <div className="bg-primary-dark/5 border border-primary-dark/10 rounded-[2.5rem] p-8 lg:p-16 shadow-inner relative overflow-hidden">
-                         <div className="absolute -top-12 -right-12 w-48 h-48 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-                         
-                         <div className="space-y-8 text-dark/80 font-sans leading-relaxed text-[1.05rem]">
+                        <div className="absolute -top-12 -right-12 w-48 h-48 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+
+                        <div className="space-y-8 text-dark/80 font-sans leading-relaxed text-[1.05rem]">
                             <h3 className="font-serif text-2xl text-dark text-center mb-10">Canine Adventure Park</h3>
-                            
+
                             <p>
                                 We have a special spot, just under an acre on our 40-acre farm in Wainuiomata, Wellington, for your fun canine adventures and enjoyment. This is a private dog area that has been created especially for people to have a safe place to relax and enjoy time with their dog/s without the worry of other people or dogs.
                             </p>
@@ -260,21 +263,21 @@ export default function AdventureParkPage() {
 
                             <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <Link href="#membership-plans" className="group relative flex flex-col items-center justify-center p-6 bg-dark text-white rounded-2xl transition-all hover:bg-accent hover:text-dark hover:-translate-y-1 shadow-lg overflow-hidden">
-                                     <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
-                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 opacity-60">Step 1</span>
-                                     <span className="text-sm font-bold uppercase tracking-widest">Join Membership</span>
-                                     <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-dark transition-all duration-300" />
+                                    <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 opacity-60">Step 1</span>
+                                    <span className="text-sm font-bold uppercase tracking-widest">Join Membership</span>
+                                    <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-dark transition-all duration-300" />
                                 </Link>
-                                
+
                                 <Link href="#book-now" className="group relative flex flex-col items-center justify-center p-6 bg-white border border-dark/10 text-dark rounded-2xl transition-all hover:border-accent hover:-translate-y-1 shadow-md overflow-hidden">
-                                     <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none" />
-                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-dark/40">Step 2</span>
-                                     <span className="text-sm font-bold uppercase tracking-widest">Book Adventure</span>
-                                     <span className="text-[10px] font-bold text-dark mt-1">Members Only</span>
-                                     <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-accent transition-all duration-300" />
+                                    <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none" />
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-dark/40">Step 2</span>
+                                    <span className="text-sm font-bold uppercase tracking-widest">Book Adventure</span>
+                                    <span className="text-[10px] font-bold text-dark mt-1">Members Only</span>
+                                    <div className="mt-2 h-0.5 w-0 group-hover:w-12 bg-accent transition-all duration-300" />
                                 </Link>
                             </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -285,12 +288,12 @@ export default function AdventureParkPage() {
             <section className="py-24 lg:py-32 bg-bg-light relative overflow-hidden">
                 <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
                 <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)] relative z-10">
-                    
+
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-                        
+
                         {/* Sidebar: Quick Info & Facilities */}
                         <div className="lg:col-span-4 space-y-10 order-2 lg:order-1">
-                            
+
                             {/* Timing Card */}
                             <div className="bg-dark text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
                                 <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
@@ -363,14 +366,14 @@ export default function AdventureParkPage() {
                                 <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">The Experience</span>
                             </div>
                             <h2 className="font-serif text-4xl lg:text-5xl text-dark mb-10 leading-tight">Adventure Park <span className="italic text-accent">Protocol.</span></h2>
-                            
+
                             <div className="space-y-12 prose prose-dark max-w-none">
                                 <section>
                                     <h3 className="font-serif text-2xl text-dark mb-4">Location & Entry</h3>
                                     <p className="text-dark/75 font-sans leading-relaxed">
-                                        The Adventure Park is located 200 metres south of our home on our 40-acre farm, in Wainuiomata, Wellington. 
-                                        The entry is <strong>double gated</strong>, and the park is deer fenced (2 metres high) enclosing just under an acre of paddock. 
-                                        A first gate provides initial entry, followed by a padlocked park entrance gate. 
+                                        The Adventure Park is located 200 metres south of our home on our 40-acre farm, in Wainuiomata, Wellington.
+                                        The entry is <strong>double gated</strong>, and the park is deer fenced (2 metres high) enclosing just under an acre of paddock.
+                                        A first gate provides initial entry, followed by a padlocked park entrance gate.
                                         Once you book a time you will be sent the code for gate entry – take note of this as it changes often.
                                     </p>
                                 </section>
@@ -388,10 +391,10 @@ export default function AdventureParkPage() {
                                     <div>
                                         <h4 className="text-xs font-bold uppercase tracking-widest text-accent mb-4">Safety & Ethics</h4>
                                         <ul className="space-y-3 text-sm text-dark/70 list-none p-0">
-                                             <li className="flex gap-2"><strong>•</strong> No smoking, alcohol, or drugs.</li>
-                                             <li className="flex gap-2"><strong>•</strong> Max 3 dogs per property booking.</li>
-                                             <li className="flex gap-2"><strong>•</strong> Dogs must be fully vaccinated (Kennel Cough).</li>
-                                             <li className="flex gap-2"><strong>•</strong> Respect our neighbours&apos; livestock.</li>
+                                            <li className="flex gap-2"><strong>•</strong> No smoking, alcohol, or drugs.</li>
+                                            <li className="flex gap-2"><strong>•</strong> Max 3 dogs per property booking.</li>
+                                            <li className="flex gap-2"><strong>•</strong> Dogs must be fully vaccinated (Kennel Cough).</li>
+                                            <li className="flex gap-2"><strong>•</strong> Respect our neighbours&apos; livestock.</li>
                                         </ul>
                                     </div>
                                 </section>
@@ -403,11 +406,11 @@ export default function AdventureParkPage() {
                                     </h3>
                                     <div className="space-y-4 text-dark/75 font-sans leading-relaxed">
                                         <p>
-                                            <strong>Do not arrive early:</strong> If early, continue down the road for a country drive until your allotted time. 
+                                            <strong>Do not arrive early:</strong> If early, continue down the road for a country drive until your allotted time.
                                             If a car is still in the spot on your start time, please wait patiently until they have vacated.
                                         </p>
                                         <p>
-                                            <strong>Do not leave late:</strong> Even if you arrive late, you must stick to the timetable and exit at the 45-minute mark. 
+                                            <strong>Do not leave late:</strong> Even if you arrive late, you must stick to the timetable and exit at the 45-minute mark.
                                             At 50 minutes past the hour, the parking area <strong>must</strong> be available for the next client.
                                         </p>
                                         <div className="p-5 bg-red-50 border border-red-100 rounded-xl text-red-800 text-sm italic">
@@ -420,14 +423,14 @@ export default function AdventureParkPage() {
                                     <div>
                                         <h4 className="font-serif text-xl text-dark mb-3">Management</h4>
                                         <p className="text-sm text-dark/60 leading-relaxed">
-                                            Please respect all equipment. Children must be supervised at all times and are not permitted to play on the obstacles. 
+                                            Please respect all equipment. Children must be supervised at all times and are not permitted to play on the obstacles.
                                             Report any damage immediately. Monitor dogs at all times; they must never be left unattended.
                                         </p>
                                     </div>
                                     <div>
                                         <h4 className="font-serif text-xl text-dark mb-3">Conduct</h4>
                                         <p className="text-sm text-dark/60 leading-relaxed">
-                                            Do not let dogs bark excessively or dig. If they become over-excited, pop them on a lead to encourage calmer behaviours. 
+                                            Do not let dogs bark excessively or dig. If they become over-excited, pop them on a lead to encourage calmer behaviours.
                                             Clients must follow all on-site signage.
                                         </p>
                                     </div>
@@ -438,11 +441,103 @@ export default function AdventureParkPage() {
                 </div>
             </section>
 
+
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                MEMBERSHIP PLANS (Redesigned from Image)
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section id="membership-plans" className="py-24 lg:py-32 bg-bg-section border-t border-dark/[0.03]">
+                <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
+                    <div className="text-center mb-16">
+                        <div className="flex items-center justify-center gap-3 mb-5">
+                            <div className="w-5 h-px bg-primary-dark" />
+                            <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-primary-dark">Memberships</span>
+                            <div className="w-5 h-px bg-primary-dark" />
+                        </div>
+                        <h2 className="font-serif font-normal text-dark leading-[1.12] mb-4 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+                            Join Canine Adventure Park
+                        </h2>
+                        <p className="text-dark/60 font-sans max-w-2xl mx-auto">Select the membership plan that matches your current relationship with the Trust Technique to gain access to our facilities. See our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        {membershipPackages.map((plan, idx) => (
+                            <div key={idx} className="bg-dark text-white rounded-3xl p-8 lg:p-10 shadow-2xl border border-dark/5 flex flex-col relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+
+                                {/* Accent top border */}
+                                <div className="absolute top-0 left-0 right-0 h-[6px] bg-accent/80 group-hover:bg-accent transition-colors z-10" />
+
+                                <div className="relative z-10 flex flex-col flex-grow">
+                                    <h3 className="font-serif text-[1.6rem] lg:text-[1.8rem] text-white mb-3 leading-[1.2]">{plan.name}</h3>
+                                    <div className="mb-2 flex items-baseline gap-2">
+                                        <span className="font-serif font-bold text-4xl text-accent">${plan.price.toFixed(2)}</span>
+                                        <span className="font-sans text-[0.8rem] text-white/90 uppercase tracking-widest relative top-[-6px]">/ {plan.billingPeriod || `${plan.durationInDays} days`}</span>
+                                    </div>
+                                    <div className="mb-6">
+                                        <span className="font-sans text-lg font-bold text-white uppercase tracking-wider">
+                                            Available for {plan.availableFor === 'all' ? 'Everyone' : plan.availableFor}
+                                        </span>
+                                    </div>
+
+                                    <div className="h-px w-full bg-white/[0.08] mb-8" />
+
+                                    <p className="font-sans text-[1.05rem] text-white/90 leading-[1.8] mb-8">
+                                        {plan.description || `Exclusive access to Canine Adventure Park, swimming spots, and farm walks.`}
+                                    </p>
+
+                                    <div className="flex-grow space-y-5 mb-10">
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
+                                            <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Sessions: <strong className="text-white font-medium">{plan.sessionsAllowed === 'unlimited' ? 'Unlimited' : plan.sessionsAllowed}</strong></span>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
+                                            <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Starts from <strong className="text-white font-medium">{plan.startDate ? new Date(plan.startDate).toLocaleDateString() : 'Immediately'}</strong></span>
+                                        </div>
+                                    </div>
+
+                                    <Link
+                                        href={`/checkout/membership?pkgId=${plan._id}`}
+                                        className="w-full text-center py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
+                                        Select Plan
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                BOOK NOW (SESSIONS)
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+            <section id="book-now" className="py-24 bg-white">
+                <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)] text-center">
+                    <h2 className="font-serif font-normal text-dark leading-[1.12] mb-12 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+                        Book a Session
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                        {bookingPackages.map((pkg, idx) => (
+                            <div key={idx} className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
+                                <div>
+                                    <h3 className="text-xl font-serif mb-2">{pkg.name}</h3>
+                                    <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">{pkg.clientType === 'all' ? 'Everyone' : pkg.clientType}</p>
+                                    <div className="text-4xl text-accent font-serif mb-6">${pkg.price.toFixed(2)}</div>
+                                </div>
+                                <Link href={`/book?pkgId=${pkg._id}`} className="w-full text-center block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="mt-12 text-dark/40 font-sans text-sm">
+                        By booking a session or membership, you agree to our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.
+                    </p>
+                </div>
+            </section>
             <section className="py-24 lg:py-32 bg-white relative">
                 <div className="max-w-[1280px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
                     <div className="max-w-2xl mx-auto px-4">
                         <div className="text-center mb-16">
-                             <div className="flex items-center justify-center gap-3 mb-6">
+                            <div className="flex items-center justify-center gap-3 mb-6">
                                 <div className="w-5 h-px bg-accent" />
                                 <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-dark/40">Get In Touch</span>
                                 <div className="w-5 h-px bg-accent" />
@@ -474,103 +569,6 @@ export default function AdventureParkPage() {
                 </div>
             </section>
 
-            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                MEMBERSHIP PLANS (Redesigned from Image)
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section id="membership-plans" className="py-24 lg:py-32 bg-bg-section border-t border-dark/[0.03]">
-                <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)]">
-                    <div className="text-center mb-16">
-                        <div className="flex items-center justify-center gap-3 mb-5">
-                            <div className="w-5 h-px bg-primary-dark" />
-                            <span className="text-[0.7rem] font-bold tracking-[0.22em] uppercase font-sans text-primary-dark">Memberships</span>
-                            <div className="w-5 h-px bg-primary-dark" />
-                        </div>
-                        <h2 className="font-serif font-normal text-dark leading-[1.12] mb-4 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                            Join Canine Adventure Park
-                        </h2>
-                        <p className="text-dark/60 font-sans max-w-2xl mx-auto">Select the membership plan that matches your current relationship with the Trust Technique to gain access to our facilities. See our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        {plans.map((plan, idx) => (
-                            <div key={idx} className="bg-dark text-white rounded-3xl p-8 lg:p-10 shadow-2xl border border-dark/5 flex flex-col relative overflow-hidden group">
-                                <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-
-                                {/* Accent top border */}
-                                <div className="absolute top-0 left-0 right-0 h-[6px] bg-accent/80 group-hover:bg-accent transition-colors z-10" />
-
-                                <div className="relative z-10 flex flex-col flex-grow">
-                                    <h3 className="font-serif text-[1.6rem] lg:text-[1.8rem] text-white mb-3 leading-[1.2]">{plan.title}</h3>
-                                    <div className="mb-2 flex items-baseline gap-2">
-                                        <span className="font-serif font-bold text-4xl text-accent">{plan.price}</span>
-                                        <span className="font-sans text-[0.8rem] text-white/90 uppercase tracking-widest relative top-[-6px]">/ {plan.duration}</span>
-                                    </div>
-                                    <div className="mb-6">
-                                        <span className="font-sans text-lg font-bold text-white uppercase tracking-wider">
-                                            Available for {plan.subtitle}s
-                                        </span>
-                                    </div>
-
-                                    <div className="h-px w-full bg-white/[0.08] mb-8" />
-
-                                    <p className="font-sans text-[1.05rem] text-white/90 leading-[1.8] mb-8">
-                                        Exclusive {plan.subtitle.toLowerCase()} access to Canine Adventure Park, swimming spots, and farm walks.
-                                    </p>
-
-                                    <div className="flex-grow space-y-5 mb-10">
-                                        <div className="flex items-start gap-4">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
-                                            <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Sessions: <strong className="text-white font-medium">{plan.sessions}</strong></span>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-[10px] shrink-0" />
-                                            <span className="font-sans text-white/80 text-[1.05rem] leading-[1.6]">Starts from <strong className="text-white font-medium">{plan.date}</strong></span>
-                                        </div>
-                                    </div>
-
-                                    <Link
-                                        href="/auth/register?redirect=/client/dashboard"
-                                        className="w-full text-center py-4 bg-white/5 border border-white/10 text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:border-accent hover:text-dark transition-all duration-300">
-                                        Select Plan
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                BOOK NOW (SESSIONS)
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section id="book-now" className="py-24 bg-white">
-                <div className="max-w-[1000px] mx-auto px-[clamp(1.25rem,6vw,4rem)] text-center">
-                    <h2 className="font-serif font-normal text-dark leading-[1.12] mb-12 tracking-[-0.01em]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                        Book a Session
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-                        <div className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
-                            <div>
-                                <h3 className="text-xl font-serif mb-2">Canine Adventure Park Session</h3>
-                                <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">Trust Client</p>
-                                <div className="text-4xl text-accent font-serif mb-6">$20.00</div>
-                            </div>
-                            <Link href="/book?service=Canine Adventure Park session Trust Client" className="w-full block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
-                        </div>
-                        <div className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
-                            <div>
-                                <h3 className="text-xl font-serif mb-2">Canine Adventure Park Session</h3>
-                                <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">Non-Trust Client</p>
-                                <div className="text-4xl text-accent font-serif mb-6">$25.00</div>
-                            </div>
-                            <Link href="/book?service=Canine Adventure Park session non Trust Client" className="w-full block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
-                        </div>
-                    </div>
-                    <p className="mt-12 text-dark/40 font-sans text-sm">
-                        By booking a session or membership, you agree to our <Link href="/terms-and-conditions" className="text-accent underline font-bold">Terms & Conditions</Link>.
-                    </p>
-                </div>
-            </section>
 
             <HomeCTA />
         </main>

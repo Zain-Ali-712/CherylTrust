@@ -3,7 +3,7 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    THEME — Blue-Gray Pet Care Palette
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-@theme inline {
+@theme {
   --color-primary: #6C8FA3;
   --color-primary-light: #A2BAC9;
   --color-primary-dark: #507E98;

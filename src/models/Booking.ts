@@ -8,6 +8,8 @@ export interface IBooking extends Document {
     startTime: string;
     endTime: string;
     status: "confirmed" | "cancelled" | "moved";
+    paymentStatus: "unpaid" | "paid" | "refunded";
+    paymentIntentId?: string;
 }
 
 const BookingSchema = new Schema(
@@ -19,6 +21,9 @@ const BookingSchema = new Schema(
         startTime: { type: String, required: true },
         endTime: { type: String, required: true },
         status: { type: String, enum: ["confirmed", "cancelled", "moved"], default: "confirmed" },
+        paymentStatus: { type: String, enum: ["unpaid", "paid", "refunded"], default: "unpaid" },
+        paymentIntentId: { type: String },
+        packageId: { type: Schema.Types.ObjectId, ref: "BookingPackage" },
     },
     { timestamps: true }
 );

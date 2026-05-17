@@ -2,20 +2,73 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FiCheckCircle, FiAlertCircle, FiLock, FiLoader, FiTag } from "react-icons/fi";
+import { FiCheckCircle, FiAlertCircle, FiLock, FiLoader, FiTag, FiCreditCard } from "react-icons/fi";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+function StripeForm({ finalPrice, onComplete }: { finalPrice: number; onComplete: (paymentIntentId: string) => Promise<void> }) {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleStripeSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!stripe || !elements) return;
+
+        setIsProcessing(true);
+        setErrorMessage("");
+
+        const { error, paymentIntent } = await stripe.confirmPayment({
+            elements,
+            redirect: "if_required",
+        });
+
+        if (error) {
+            setErrorMessage(error.message || "Payment failed");
+            setIsProcessing(false);
+        } else if (paymentIntent && paymentIntent.status === "succeeded") {
+            await onComplete(paymentIntent.id);
+        }
+    };
+
+    return (
+        <form onSubmit={handleStripeSubmit} className="space-y-6">
+            <PaymentElement />
+            {errorMessage && (
+                <div className="p-3 bg-red-50 text-red-600 text-xs rounded-lg border border-red-100 flex items-center gap-2">
+                    <FiAlertCircle /> {errorMessage}
+                </div>
+            )}
+            <button
+                disabled={isProcessing || !stripe || !elements}
+                className={`w-full py-4 rounded-xl shadow-lg text-sm font-bold font-sans tracking-wider uppercase flex items-center justify-center gap-2 transition-all 
+                    ${isProcessing ? "bg-dark/10 text-dark/30" : "bg-dark text-white hover:bg-primary-dark"}`}
+            >
+                {isProcessing ? <><FiLoader className="animate-spin" /> Processing...</> : <><FiCheckCircle /> Pay ${finalPrice.toFixed(2)}</>}
+            </button>
+        </form>
+    );
+}
 
 function CheckoutContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    
-    const service = searchParams.get("service") || "";
+
+    const pkgId = searchParams.get("pkgId") || "";
     const date = searchParams.get("date") || "";
     const start = searchParams.get("start") || "";
     const end = searchParams.get("end") || "";
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
     const [clientData, setClientData] = useState<any>(null);
+    const [bookingPackage, setBookingPackage] = useState<any>(null);
+
+    // Stripe State
+    const [clientSecret, setClientSecret] = useState("");
 
     // Voucher state
     const [voucherCode, setVoucherCode] = useState("");
@@ -24,22 +77,30 @@ function CheckoutContent() {
     const [isValidating, setIsValidating] = useState(false);
 
     useEffect(() => {
-        const fetchUserIdentity = async () => {
+        const init = async () => {
             try {
                 const res = await fetch("/api/auth/client/me");
                 if (res.ok) {
                     const data = await res.json();
                     setClientData(data);
                 }
+                if (pkgId) {
+                    const pkgRes = await fetch("/api/booking-packages");
+                    if (pkgRes.ok) {
+                        const pkgs = await pkgRes.json();
+                        setBookingPackage(pkgs.find((p: any) => p._id === pkgId));
+                    }
+                }
             } catch (e) {
-               console.error(e);
+                console.error(e);
+            } finally {
+                setIsLoading(false);
             }
         };
-        fetchUserIdentity();
-    }, []);
+        init();
+    }, [pkgId]);
 
-    const basePrice = service.includes("non") ? 25 : 20;
-
+    const basePrice = bookingPackage ? bookingPackage.price : 0;
     const finalPrice = voucherApplied
         ? voucherApplied.type === "percentage"
             ? Math.max(0, basePrice - (basePrice * voucherApplied.value / 100))
@@ -51,6 +112,7 @@ function CheckoutContent() {
         setIsValidating(true);
         setVoucherError("");
         setVoucherApplied(null);
+        setClientSecret("");
 
         try {
             const res = await fetch("/api/vouchers/validate", {
@@ -71,39 +133,61 @@ function CheckoutContent() {
         }
     };
 
-    const processMockCheckout = async () => {
-        if (!clientData) {
-            setError("Authentication verification failed.");
+    const startStripeFlow = async () => {
+        if (!clientData || !bookingPackage) {
+            setError("Session invalid or package not found.");
+            return;
+        }
+
+        if (finalPrice === 0) {
+            setIsLoading(true);
+            await finalizeBookingAfterPayment("");
+            setIsLoading(false);
             return;
         }
 
         setIsLoading(true);
         setError("");
-        
-        try {
-            // Re-verify membership just in case
-            const mbRes = await fetch(`/api/memberships?clientId=${clientData.id}`);
-            if (mbRes.ok) {
-                const memberships = await mbRes.json();
-                const active = memberships.find((m: any) => m.status === "active" && new Date(m.endDate) > new Date());
-                if (!active) {
-                    setError("No active membership found. You must be a member to book.");
-                    setIsLoading(false);
-                    return;
-                }
-            }
 
+        try {
+            const res = await fetch("/api/create-payment-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    bookingPackageId: pkgId,
+                    voucherCode: voucherApplied?.code || null
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setClientSecret(data.clientSecret);
+            } else {
+                setError(data.error || "Failed to initialize payment.");
+            }
+        } catch (e) {
+            setError("Could not connect to payment gateway.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const finalizeBookingAfterPayment = async (paymentIntentId: string) => {
+        try {
             const res = await fetch("/api/bookings", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     clientId: clientData.id,
+                    packageId: pkgId,
                     date: date,
                     startTime: start,
                     endTime: end,
-                    service: service,
+                    service: bookingPackage.name,
                     price: finalPrice,
-                    voucherCode: voucherApplied?.code || null
+                    voucherCode: voucherApplied?.code || null,
+                    paymentStatus: "paid",
+                    paymentIntentId: paymentIntentId
                 })
             });
 
@@ -111,14 +195,20 @@ function CheckoutContent() {
                 router.push("/client/dashboard?success=booking_complete");
             } else {
                 const data = await res.json();
-                setError(data.error || "Failed to finalize booking.");
+                setError(data.error || "Payment successful, but booking failed to save. Please contact support.");
             }
         } catch (e) {
-            setError("Gateway Network Error");
-        } finally {
-            setIsLoading(false);
+            setError("Network error after payment. Please check your dashboard.");
         }
     };
+
+    if (isLoading) {
+        return <div className="text-center py-20 min-h-screen text-dark/40"><FiLoader className="animate-spin inline mr-2"/>Loading Checkout...</div>;
+    }
+
+    if (!bookingPackage) {
+        return <div className="text-center py-20 min-h-screen text-dark/40">Booking package not found.</div>;
+    }
 
     const targetDate = new Date(date);
 
@@ -127,15 +217,17 @@ function CheckoutContent() {
             <div className="max-w-md w-full">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-serif text-dark mb-3">Secure Checkout</h2>
-                    <p className="text-dark/60 font-sans text-sm flex items-center justify-center gap-2 uppercase tracking-widest"><FiLock /> Mock Gateway</p>
+                    <p className="text-dark/60 font-sans text-sm flex items-center justify-center gap-2 uppercase tracking-widest">
+                        <FiLock /> {clientSecret ? "Stripe Secure Encryption" : "Verified Security"}
+                    </p>
                 </div>
 
                 <div className="bg-white p-8 rounded-3xl shadow-xl border border-dark/5">
                     {/* Summary */}
                     <div className="bg-primary-dark/5 border border-primary-dark/10 p-5 rounded-2xl mb-6">
                         <p className="text-dark/60 text-xs font-bold uppercase tracking-widest mb-1">Service Details</p>
-                        <h3 className="font-serif text-xl text-dark mb-4">{service}</h3>
-                        
+                        <h3 className="font-serif text-xl text-dark mb-4">{bookingPackage.name}</h3>
+
                         <div className="flex justify-between items-center text-sm font-sans text-dark/80 pt-4 border-t border-dark/10">
                             <div>
                                 <span className="block opacity-60">Date</span>
@@ -146,65 +238,43 @@ function CheckoutContent() {
                                 <strong>{start} to {end}</strong>
                             </div>
                         </div>
-
-                        {/* Timing Breakdown */}
-                        <div className="mt-6 pt-4 border-t border-dark/5 space-y-2">
-                             <div className="flex justify-between text-[11px] font-bold uppercase tracking-tighter text-dark/40">
-                                 <span>Session Breakdown</span>
-                                 <span className="text-accent underline font-serif lowercase tracking-normal">60 min slot</span>
-                             </div>
-                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
-                                 <span>• Arrival & Entry</span>
-                                 <span>5m</span>
-                             </div>
-                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
-                                 <span className="font-bold text-accent">• Private Adventure</span>
-                                 <span className="font-bold text-accent">40m</span>
-                             </div>
-                             <div className="flex justify-between text-[13px] font-sans text-dark/70">
-                                 <span>• Exit & Handover</span>
-                                 <span>5m</span>
-                             </div>
-                             <div className="flex justify-between text-[13px] font-sans text-dark/30 italic">
-                                 <span>• Buffer / Cleaning</span>
-                                 <span>10m</span>
-                             </div>
-                        </div>
                     </div>
 
                     {/* Voucher Section */}
-                    <div className="mb-6 p-4 bg-black/5 rounded-xl border border-black/5">
-                        <label className="text-xs font-bold uppercase tracking-widest text-dark/60 mb-2 block flex items-center gap-1"><FiTag size={12} /> Voucher Code</label>
-                        {voucherApplied ? (
-                            <div className="flex items-center justify-between bg-green-50 p-3 rounded-lg border border-green-200">
-                                <span className="text-green-700 font-bold font-mono">{voucherApplied.code}</span>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-green-600 text-sm font-medium">
-                                        -{voucherApplied.type === "percentage" ? `${voucherApplied.value}%` : `$${voucherApplied.value.toFixed(2)}`}
-                                    </span>
-                                    <button onClick={() => { setVoucherApplied(null); setVoucherCode(""); }} className="text-xs text-red-500 hover:text-red-700 font-bold">Remove</button>
+                    {!clientSecret && (
+                        <div className="mb-6 p-4 bg-black/5 rounded-xl border border-black/5">
+                            <label className="text-xs font-bold uppercase tracking-widest text-dark/60 mb-2 block flex items-center gap-1"><FiTag size={12} /> Voucher Code</label>
+                            {voucherApplied ? (
+                                <div className="flex items-center justify-between bg-green-50 p-3 rounded-lg border border-green-200">
+                                    <span className="text-green-700 font-bold font-mono">{voucherApplied.code}</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-green-600 text-sm font-medium">
+                                            -{voucherApplied.type === "percentage" ? `${voucherApplied.value}%` : `$${voucherApplied.value.toFixed(2)}`}
+                                        </span>
+                                        <button onClick={() => { setVoucherApplied(null); setVoucherCode(""); }} className="text-xs text-red-500 hover:text-red-700 font-bold">Remove</button>
+                                    </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={voucherCode}
-                                    onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
-                                    placeholder="Enter code"
-                                    className="flex-1 border border-black/10 rounded-lg p-2.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-brand/50"
-                                />
-                                <button
-                                    onClick={handleApplyVoucher}
-                                    disabled={isValidating || !voucherCode.trim()}
-                                    className="px-4 py-2.5 bg-dark text-white rounded-lg text-sm font-bold hover:bg-dark/80 transition disabled:opacity-50"
-                                >
-                                    {isValidating ? "..." : "Apply"}
-                                </button>
-                            </div>
-                        )}
-                        {voucherError && <p className="text-red-500 text-xs mt-2 font-medium">{voucherError}</p>}
-                    </div>
+                            ) : (
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={voucherCode}
+                                        onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
+                                        placeholder="Enter code"
+                                        className="flex-1 border border-black/10 rounded-lg p-2.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-accent/50"
+                                    />
+                                    <button
+                                        onClick={handleApplyVoucher}
+                                        disabled={isValidating || !voucherCode.trim()}
+                                        className="px-4 py-2.5 bg-dark text-white rounded-lg text-sm font-bold hover:bg-dark/80 transition disabled:opacity-50"
+                                    >
+                                        {isValidating ? "..." : "Apply"}
+                                    </button>
+                                </div>
+                            )}
+                            {voucherError && <p className="text-red-500 text-xs mt-2 font-medium">{voucherError}</p>}
+                        </div>
+                    )}
 
                     {error && (
                         <div className="mb-6 bg-red-50 p-4 rounded-xl flex items-start gap-3 text-sm text-red-600 font-medium border border-red-100">
@@ -226,13 +296,21 @@ function CheckoutContent() {
                         </div>
                     </div>
 
-                    <button 
-                        onClick={processMockCheckout} 
-                        disabled={isLoading || !clientData}
-                        className={`w-full py-4 rounded-xl shadow-lg text-sm font-bold font-sans tracking-wider uppercase flex items-center justify-center gap-2 transition-all 
-                            ${isLoading || !clientData ? "bg-dark/10 text-dark/30 cursor-not-allowed" : "bg-dark text-white hover:bg-primary-dark"}`}>
-                        {isLoading ? <><FiLoader className="animate-spin" /> Processing...</> : <><FiCheckCircle /> Confirm Mock Payment</>}
-                    </button>
+                    {!clientSecret ? (
+                        <button
+                            onClick={startStripeFlow}
+                            disabled={isLoading || !clientData}
+                            className={`w-full py-4 rounded-xl shadow-lg text-sm font-bold font-sans tracking-wider uppercase flex items-center justify-center gap-2 transition-all 
+                                ${isLoading || !clientData ? "bg-dark/10 text-dark/30 cursor-not-allowed" : "bg-dark text-white hover:bg-primary-dark"}`}
+                        >
+                            {isLoading ? <><FiLoader className="animate-spin" /> Preparing...</> : <><FiCreditCard /> Proceed to Payment</>}
+                        </button>
+                    ) : (
+                        <Elements stripe={stripePromise} options={{ clientSecret }}>
+                            <StripeForm finalPrice={finalPrice} onComplete={finalizeBookingAfterPayment} />
+                        </Elements>
+                    )}
+
                     {!clientData && !isLoading && !error && (
                        <p className="text-center text-xs text-dark/40 mt-3 animate-pulse">Verifying user identity session...</p>
                     )}

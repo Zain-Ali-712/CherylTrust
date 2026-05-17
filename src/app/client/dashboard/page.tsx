@@ -5,12 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiLogOut, FiCalendar, FiShoppingBag, FiInfo, FiCheck, FiLoader, FiStar, FiMessageSquare } from "react-icons/fi";
 
-const membershipPlans = [
-    { type: "Country Club Trust Membership", price: 30, duration: "1 year" },
-    { type: "Country Club Non Trust Membership", price: 30, duration: "1 year" },
-    { type: "Feb Valentines Special (2 Members)", price: 35, duration: "45 mins" },
-    { type: "Feb Valentines Special", price: 45, duration: "45 mins" },
-];
+
 
 function DashboardContent() {
     const router = useRouter();
@@ -21,7 +16,6 @@ function DashboardContent() {
     const [bookings, setBookings] = useState<any[]>([]);
     const [memberships, setMemberships] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isPurchasing, setIsPurchasing] = useState<string | null>(null);
 
     // Testimonial state
     const [isTestimonialOpen, setIsTestimonialOpen] = useState(false);
@@ -30,6 +24,11 @@ function DashboardContent() {
     const [testimonialRating, setTestimonialRating] = useState(5);
     const [testimonialSubmitting, setTestimonialSubmitting] = useState(false);
     const [testimonialSuccess, setTestimonialSuccess] = useState(false);
+
+    // Booking Modal state
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [bookingPackages, setBookingPackages] = useState<any[]>([]);
+    const [isLoadingPackages, setIsLoadingPackages] = useState(false);
 
     useEffect(() => {
         fetchDashboardData();
@@ -61,44 +60,25 @@ function DashboardContent() {
         router.push("/auth/login");
     };
 
-    const handlePurchaseMembership = async (plan: any) => {
-        if (!clientData) return;
-        setIsPurchasing(plan.type);
-
-        const startDate = new Date();
-        const endDate = new Date();
-        if (plan.duration === "1 year") {
-            endDate.setFullYear(endDate.getFullYear() + 1);
-        } else {
-            // Assume 45 mins just adds a day buffer for the system
-            endDate.setDate(endDate.getDate() + 1);
-        }
-
-        try {
-            const res = await fetch("/api/memberships", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    clientId: clientData.id,
-                    type: plan.type,
-                    price: plan.price,
-                    startDate: startDate.toISOString(),
-                    endDate: endDate.toISOString()
-                })
-            });
-
-            if (res.ok) {
-                fetchDashboardData();
-            } else {
-                const data = await res.json();
-                alert(data.error || "Failed to finalize membership. Please check server logs.");
+    const handleOpenBookingModal = async () => {
+        setIsBookingModalOpen(true);
+        if (bookingPackages.length === 0) {
+            setIsLoadingPackages(true);
+            try {
+                const res = await fetch("/api/booking-packages");
+                if (res.ok) {
+                    const data = await res.json();
+                    setBookingPackages(data.filter((pkg: any) => pkg.isActive));
+                }
+            } catch (e) {
+                console.error("Failed to fetch booking packages", e);
+            } finally {
+                setIsLoadingPackages(false);
             }
-        } catch (e) {
-            console.error(e);
-        } finally {
-            setIsPurchasing(null);
         }
     };
+
+
 
     const handleCancelBooking = async (id: string) => {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
@@ -179,7 +159,7 @@ function DashboardContent() {
                         {activeMembership ? (
                             <div className="relative z-10">
                                 <span className="inline-block px-3 py-1 bg-accent/20 text-accent text-[10px] font-bold tracking-widest uppercase rounded-full mb-3 border border-accent/20">Active</span>
-                                <h4 className="text-white font-serif text-[1.2rem] mb-2">{activeMembership.type}</h4>
+                                <h4 className="text-white font-serif text-[1.2rem] mb-2">{activeMembership.name}</h4>
                                 <p className="text-white/60 text-sm font-sans mb-1">Expires: {new Date(activeMembership.endDate).toLocaleDateString()}</p>
                             </div>
                         ) : (
@@ -189,40 +169,7 @@ function DashboardContent() {
                         )}
                     </div>
 
-                    {/* Purchase Plans */}
-                    <div className="bg-white p-6 rounded-3xl shadow-lg border border-dark/5">
-                        <h3 className="font-serif text-xl text-dark mb-4">Available Plans</h3>
-                        <p className="text-dark/50 text-xs mb-6 leading-relaxed">Purchasing a membership is required for premium slots. <em>(Payments are mock logic for now)</em></p>
-                        <div className="space-y-4">
-                            {membershipPlans
-                                .filter(plan => {
-                                    const isSpecial = plan.type.startsWith("Feb");
-                                    if (clientData?.trustTechniqueCompleted) {
-                                        return isSpecial || (plan.type.includes("Trust Membership") && !plan.type.includes("Non Trust"));
-                                    } else {
-                                        return isSpecial || plan.type.includes("Non Trust Membership");
-                                    }
-                                })
-                                .map((plan, i) => (
-                                    <div key={i} className="p-4 border border-dark/10 rounded-xl hover:border-accent transition">
-                                        <h4 className="font-serif text-[1rem] text-dark">{plan.type}</h4>
-                                        <div className="flex justify-between items-center mt-3">
-                                            <span className="font-bold text-accent text-xl">${plan.price}</span>
-                                            <button
-                                                onClick={() => handlePurchaseMembership(plan)}
-                                                disabled={isPurchasing === plan.type || activeMembership}
-                                                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors
-                                                    ${isPurchasing === plan.type ? "bg-dark/10 text-dark/40" :
-                                                        activeMembership ? "bg-dark/5 text-dark/30 hidden" : "bg-dark text-white hover:bg-accent hover:text-dark"}`}>
-                                                {isPurchasing === plan.type ? "Processing..." : "Purchase"}
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
+                    {/* Purchase Plans removed in favor of dedicated checkout flow */}
                 </div>
 
                 {/* Right Column - Bookings */}
@@ -240,9 +187,9 @@ function DashboardContent() {
                                 <FiCalendar className="text-accent shrink-0" /> Upcoming Sessions
                             </h3>
                             <div className="flex items-center gap-4">
-                                <Link href={`/book?service=${clientData?.trustTechniqueCompleted ? "Canine Adventure Park session Trust Client" : "Canine Adventure Park session non Trust Client"}`} className="text-sm font-bold uppercase tracking-widest text-dark bg-accent px-5 py-2.5 rounded-xl hover:brightness-110 transition text-center">
+                                <button onClick={handleOpenBookingModal} className="text-sm font-bold uppercase tracking-widest text-dark bg-accent px-5 py-2.5 rounded-xl hover:brightness-110 transition text-center">
                                     New Booking
-                                </Link>
+                                </button>
                                 <button onClick={handleLogout} className="text-sm font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition flex items-center gap-2">
                                     <FiLogOut size={16} /> Logout
                                 </button>
@@ -339,6 +286,55 @@ function DashboardContent() {
                                     </button>
                                 </div>
                             </>
+                        )}
+                    </div>
+                </div>
+            )}
+
+
+            {/* Booking Packages Modal */}
+            {isBookingModalOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-3xl shadow-xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-serif font-bold text-dark flex items-center gap-2">
+                                <FiCalendar className="text-accent" /> Select Booking Package
+                            </h2>
+                            <button onClick={() => setIsBookingModalOpen(false)} className="text-dark/40 hover:text-dark">
+                                <FiLogOut size={24} className="rotate-180" />
+                            </button>
+                        </div>
+
+                        {isLoadingPackages ? (
+                            <div className="flex flex-col items-center justify-center py-12 text-dark/40">
+                                <FiLoader className="animate-spin text-accent mb-4" size={32} />
+                                <p>Loading packages...</p>
+                            </div>
+                        ) : bookingPackages.length === 0 ? (
+                            <div className="text-center py-12 text-dark/60 font-sans">
+                                No booking packages available at the moment.
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {bookingPackages.map((pkg) => (
+                                    <div key={pkg._id} className="border border-dark/10 rounded-2xl p-6 hover:border-accent hover:shadow-lg transition flex flex-col justify-between">
+                                        <div>
+                                            <div className="flex justify-between items-start mb-2">
+                                                <h3 className="font-serif text-lg font-bold text-dark">{pkg.name}</h3>
+                                                <span className="font-bold text-accent">${pkg.price}</span>
+                                            </div>
+                                            <p className="text-sm text-dark/60 font-sans mb-4 line-clamp-2">{pkg.description}</p>
+                                            <h4 className="font-serif text-lg font-bold text-dark">{pkg.clientType}</h4>
+                                        </div>
+                                        <Link
+                                            href={`/book?pkgId=${pkg._id}`}
+                                            className="w-full text-center py-3 bg-dark text-white rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-dark transition"
+                                        >
+                                            Book Now
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>

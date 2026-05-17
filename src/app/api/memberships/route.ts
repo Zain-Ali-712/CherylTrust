@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 import dbConnect from "@/lib/mongodb";
 import Membership from "@/models/Membership";
 import Client from "@/models/Client";
@@ -9,14 +10,17 @@ export async function GET(req: Request) {
         await dbConnect();
         const { searchParams } = new URL(req.url);
         const clientId = searchParams.get('clientId');
-        
+
         let query = {};
         if (clientId) query = { client: clientId };
 
-        const memberships = await Membership.find(query).populate("client", "firstName lastName email").sort({ createdAt: -1 });
+        const memberships = await Membership.find(query)
+            .populate("client", "firstName lastName email")
+            .sort({ createdAt: -1 });
         return NextResponse.json(memberships);
-    } catch (error) {
-        return NextResponse.json({ error: "Failed to fetch memberships" }, { status: 500 });
+    } catch (error: any) {
+        console.error("GET MEMBERSHIPS ERROR:", error);
+        return NextResponse.json({ error: "Failed to fetch memberships", details: error.message, stack: error.stack }, { status: 500 });
     }
 }
 
@@ -24,10 +28,28 @@ export async function POST(req: Request) {
     try {
         await dbConnect();
         const body = await req.json();
-        const { clientId, type, price, startDate, endDate } = body;
+        const { clientId, name, type, price, startDate, endDate, paymentIntentId, packageId } = body;
 
-        if (!clientId || !type || !startDate || !endDate) {
+        if (!clientId) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        }
+
+        let finalType = type;
+        let finalName = name || "Membership";
+        let finalStartDate = startDate ? new Date(startDate) : new Date();
+        let finalEndDate = endDate ? new Date(endDate) : new Date();
+
+        if (packageId) {
+            const MembershipPackage = (await import("@/models/MembershipPackage")).default;
+            const pkg = await MembershipPackage.findById(packageId);
+            if (pkg) {
+                finalType = pkg.availableFor;
+                finalName = pkg.name;
+                finalStartDate = new Date();
+                finalEndDate = new Date();
+                const daysToAdd = pkg.durationInDays ? Number(pkg.durationInDays) : 365;
+                finalEndDate.setDate(finalStartDate.getDate() + daysToAdd);
+            }
         }
 
         const client = await Client.findById(clientId);
@@ -39,21 +61,57 @@ export async function POST(req: Request) {
         const overlapping = await Membership.findOne({
             client: clientId,
             status: "active",
-            startDate: { $lte: new Date(endDate) },
-            endDate: { $gte: new Date(startDate) }
+            startDate: { $lte: finalEndDate },
+            endDate: { $gte: finalStartDate }
         });
 
         if (overlapping) {
             return NextResponse.json({ error: "Client already has an active membership during this period" }, { status: 400 });
         }
 
+        let finalPrice = price || 0;
+
+        // --- SECURE PAYMENT VERIFICATION ---
+        if (paymentIntentId) {
+            const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+                apiVersion: "2025-01-27.acacia" as any,
+            });
+
+            try {
+                const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+                if (paymentIntent.status !== "succeeded") {
+                    return NextResponse.json({ error: "Payment was not successful." }, { status: 400 });
+                }
+
+                if (paymentIntent.metadata.userId !== clientId) {
+                    return NextResponse.json({ error: "Payment does not match the user." }, { status: 403 });
+                }
+
+                const existingMembership = await Membership.findOne({ paymentIntentId });
+                if (existingMembership) {
+                    return NextResponse.json({ error: "This payment has already been used." }, { status: 409 });
+                }
+
+                finalPrice = paymentIntent.amount / 100;
+            } catch (error) {
+                console.error("Stripe verification failed:", error);
+                return NextResponse.json({ error: "Invalid payment intent." }, { status: 400 });
+            }
+        } else {
+            return NextResponse.json({ error: "Payment verification required." }, { status: 400 });
+        }
+
         const membership = await Membership.create({
             client: clientId,
-            type,
-            price: price || 0,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-            status: "active"
+            name: finalName,
+            type: finalType,
+            price: finalPrice,
+            startDate: finalStartDate,
+            endDate: finalEndDate,
+            status: "active",
+            paymentIntentId,
+            packageId
         });
 
         // Trigger email
@@ -62,11 +120,11 @@ export async function POST(req: Request) {
                 to: client.email,
                 subject: "Your new Membership at Cheryl Trust",
                 type: "membership_added",
-                variables: { 
-                    firstName: client.firstName, 
-                    type, 
-                    startDate: new Date(startDate).toLocaleDateString(), 
-                    endDate: new Date(endDate).toLocaleDateString() 
+                variables: {
+                    firstName: client.firstName,
+                    type: finalName,
+                    startDate: finalStartDate.toLocaleDateString(),
+                    endDate: finalEndDate.toLocaleDateString()
                 }
             });
         } catch (emailError) {

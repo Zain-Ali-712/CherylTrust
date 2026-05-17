@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 import dbConnect from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import Client from "@/models/Client";
@@ -72,14 +73,75 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "This time slot is no longer available" }, { status: 409 });
         }
 
+        const { paymentStatus, paymentIntentId } = body;
+
+        let finalPaymentStatus = "unpaid";
+        
+        // --- SECURE BACKEND PRICE CALCULATION ---
+        let calculatedPrice = service.toLowerCase().includes("non") ? 25 : 20;
+        if (voucherCode) {
+            const voucher = await Discount.findOne({ code: voucherCode, isActive: true });
+            if (voucher) {
+                if (voucher.type === "percentage") {
+                    calculatedPrice = calculatedPrice - (calculatedPrice * voucher.value / 100);
+                } else {
+                    calculatedPrice = Math.max(0, calculatedPrice - voucher.value);
+                }
+            }
+        }
+        let finalPrice = calculatedPrice;
+
+        // --- SECURE PAYMENT VERIFICATION ---
+        if (paymentIntentId) {
+            const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+                apiVersion: "2025-01-27.acacia" as any,
+            });
+
+            try {
+                // 1. Retrieve the intent securely from Stripe
+                const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+                
+                // 2. Verify payment succeeded
+                if (paymentIntent.status !== "succeeded") {
+                    return NextResponse.json({ error: "Payment was not successful." }, { status: 400 });
+                }
+
+                // 3. Prevent impersonation (verify intent belongs to this user)
+                if (paymentIntent.metadata.userId !== clientId) {
+                    return NextResponse.json({ error: "Payment does not match the user." }, { status: 403 });
+                }
+
+                // 4. Prevent replay attacks (check if intent was already used)
+                const existingBooking = await Booking.findOne({ paymentIntentId });
+                if (existingBooking) {
+                    return NextResponse.json({ error: "This payment has already been used for a booking." }, { status: 409 });
+                }
+
+                // 5. Trust the Stripe amount, not the frontend
+                finalPaymentStatus = "paid";
+                finalPrice = paymentIntent.amount / 100;
+            } catch (error) {
+                console.error("Stripe verification failed:", error);
+                return NextResponse.json({ error: "Invalid payment intent." }, { status: 400 });
+            }
+        } else if (calculatedPrice === 0) {
+            // Allow 100% discounted bookings without Stripe
+            finalPaymentStatus = "paid";
+        } else if (paymentStatus === "paid") {
+            // Block attackers trying to pass `paymentStatus: "paid"` without a valid intent
+            return NextResponse.json({ error: "Payment verification required." }, { status: 400 });
+        }
+
         const booking = await Booking.create({
             client: clientId,
             date: new Date(date),
             startTime,
             endTime,
             service,
-            price: price || 0,
-            status: "confirmed"
+            price: finalPrice,
+            status: "confirmed",
+            paymentStatus: finalPaymentStatus,
+            paymentIntentId: paymentIntentId || ""
         });
 
         const config = await SystemConfig.findOne({ key: "padlock_code" });
