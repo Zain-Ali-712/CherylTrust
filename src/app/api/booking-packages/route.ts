@@ -5,7 +5,7 @@ import BookingPackage from "@/models/BookingPackage";
 export async function GET() {
     try {
         await dbConnect();
-        const packages = await BookingPackage.find().sort({ createdAt: -1 });
+        const packages = await BookingPackage.find().sort({ createdAt: 1 });
         return NextResponse.json(packages);
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch booking packages" }, { status: 500 });

@@ -521,7 +521,12 @@ export default function AdventureParkPage() {
                             <div key={idx} className="p-8 border border-dark/10 rounded-3xl hover:border-accent transition-colors flex flex-col justify-between">
                                 <div>
                                     <h3 className="text-xl font-serif mb-2">{pkg.name}</h3>
-                                    <p className="text-dark/60 mb-6 uppercase tracking-widest text-sm font-bold">{pkg.clientType === 'all' ? 'Everyone' : pkg.clientType}</p>
+                                    <p className="text-dark/60 mb-4 uppercase tracking-widest text-sm font-bold">{pkg.clientType === 'all' ? 'Everyone' : pkg.clientType}</p>
+                                    {pkg.description && (
+                                        <p className="text-dark/80 font-sans text-[0.95rem] leading-relaxed mb-6">
+                                            {pkg.description}
+                                        </p>
+                                    )}
                                     <div className="text-4xl text-accent font-serif mb-6">${pkg.price.toFixed(2)}</div>
                                 </div>
                                 <Link href={`/book?pkgId=${pkg._id}`} className="w-full text-center block py-4 bg-dark text-white rounded-xl font-sans font-bold text-[0.95rem] tracking-[0.1em] uppercase hover:bg-accent hover:text-dark transition">Book Now</Link>
