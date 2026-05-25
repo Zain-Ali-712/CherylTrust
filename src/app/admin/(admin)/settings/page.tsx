@@ -110,10 +110,10 @@ export default function SettingsPage() {
                 className={`px-5 py-2.5 text-sm rounded-lg flex items-center gap-2 transition font-bold
                     ${hasChanges 
                         ? 'bg-brand text-white hover:bg-brand/90 shadow-md animate-pulse' 
-                        : 'bg-black/10 text-dark/40 cursor-not-allowed'}`}
+                        : 'bg-black/5 text-dark/30 border border-black/5 cursor-not-allowed'}`}
                 disabled={isSaving || !hasChanges}
             >
-                <FiSave /> {isSaving ? "Saving..." : hasChanges ? "Save Changes" : "All Saved"}
+                <FiSave /> {isSaving ? "Saving..." : "Save Changes"}
             </button>
         </h2>
         
@@ -166,8 +166,11 @@ export default function SettingsPage() {
                             <input 
                                 type="number"
                                 min={1}
-                                value={day.slotDuration !== undefined ? day.slotDuration : 50} 
-                                onChange={(e) => handleChange(index, 'slotDuration', parseInt(e.target.value))}
+                                value={day.slotDuration !== undefined && !isNaN(day.slotDuration) ? day.slotDuration : ""} 
+                                onChange={(e) => {
+                                    const val = parseInt(e.target.value);
+                                    handleChange(index, 'slotDuration', isNaN(val) ? 0 : val);
+                                }}
                                 className="border border-black/10 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-brand/50 text-sm w-full"
                             />
                         </div>
@@ -176,8 +179,11 @@ export default function SettingsPage() {
                             <input 
                                 type="number"
                                 min={0}
-                                value={day.bufferTime !== undefined ? day.bufferTime : 10} 
-                                onChange={(e) => handleChange(index, 'bufferTime', parseInt(e.target.value))}
+                                value={day.bufferTime !== undefined && !isNaN(day.bufferTime) ? day.bufferTime : ""} 
+                                onChange={(e) => {
+                                    const val = parseInt(e.target.value);
+                                    handleChange(index, 'bufferTime', isNaN(val) ? 0 : val);
+                                }}
                                 className="border border-black/10 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-brand/50 text-sm w-full"
                             />
                         </div>

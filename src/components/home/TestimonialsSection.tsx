@@ -50,7 +50,7 @@ export default async function TestimonialsSection() {
                         <p>No testimonials available yet.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {testimonials.map((t: any) => (
                             <div key={t._id.toString()} className="bg-bg-light p-8 lg:p-10 rounded-[2rem] border border-dark/5 relative group hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full shadow-[0_10px_30px_rgba(28,43,54,0.03)] hover:shadow-[0_15px_40px_rgba(28,43,54,0.06)] overflow-hidden">
 
@@ -66,21 +66,21 @@ export default async function TestimonialsSection() {
 
                                 {/* Review Text */}
                                 <p className="font-sans text-dark/80 text-[1.05rem] leading-[1.8] mb-10 min-h-[120px] flex-grow relative z-10">
-                                    "{t.text}"
+                                    &ldquo;{t.text}&rdquo;
                                 </p>
 
                                 {/* Author Info */}
-                                <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6 relative z-10">
-                                    <div className="w-14 h-14 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl overflow-hidden relative border border-primary-dark/20">
+                                <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6 relative z-10 min-w-0">
+                                    <div className="w-14 h-14 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl overflow-hidden relative border border-primary-dark/20 shrink-0">
                                         {t.imageUrl ? (
                                             <Image src={t.imageUrl} alt={t.name} fill className="object-cover" sizes="56px" />
                                         ) : (
                                             t.name.charAt(0)
                                         )}
                                     </div>
-                                    <div>
-                                        <h4 className="font-sans font-bold text-dark text-[0.95rem]">{t.name}</h4>
-                                        <p className="font-sans text-[0.75rem] text-dark/50 uppercase tracking-widest mt-1">{t.service}</p>
+                                    <div className="min-w-0">
+                                        <h4 className="font-sans font-bold text-dark text-[0.95rem] truncate">{t.name}</h4>
+                                        <p className="font-sans text-[0.75rem] text-dark/50 uppercase tracking-widest mt-1 truncate">{t.service}</p>
                                     </div>
                                 </div>
                             </div>

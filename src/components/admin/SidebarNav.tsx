@@ -16,7 +16,7 @@ const navItems = [
     { href: "/admin/settings", label: "Settings", icon: FiSettings },
 ];
 
-export default function SidebarNav() {
+export default function SidebarNav({ onLinkClick }: { onLinkClick?: () => void }) {
     const pathname = usePathname();
 
     const isActive = (item: typeof navItems[0]) => {
@@ -33,6 +33,7 @@ export default function SidebarNav() {
                     <Link
                         key={item.href}
                         href={item.href}
+                        onClick={onLinkClick}
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors font-sans font-medium
                             ${active
                                 ? "bg-brand text-white"
@@ -44,7 +45,11 @@ export default function SidebarNav() {
                     </Link>
                 );
             })}
-            <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white mt-4">
+            <Link 
+                href="/" 
+                onClick={onLinkClick}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white mt-4"
+            >
                 <FiHome size={18} />
                 <span className="font-sans text-sm">Return to Website</span>
             </Link>

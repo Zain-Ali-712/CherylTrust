@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
         }
 
         // 2. Parse request
-        const { packageId, service, voucherCode, membershipType, membershipPackageId, bookingPackageId } = await req.json();
+        const { packageId, service, voucherCode, membershipType, membershipPackageId, bookingPackageId, slotsCount } = await req.json();
+        const finalSlotsCount = slotsCount && typeof slotsCount === "number" && slotsCount > 0 ? slotsCount : 1;
 
         let amount = 0;
         let description = "";
@@ -41,8 +42,8 @@ export async function POST(req: NextRequest) {
             const BookingPackage = (await import("@/models/BookingPackage")).default;
             const pkg = await BookingPackage.findById(bookingPackageId);
             if (!pkg || !pkg.isActive) return NextResponse.json({ error: "Invalid booking package" }, { status: 400 });
-            amount = pkg.price;
-            description = pkg.name;
+            amount = pkg.price * finalSlotsCount;
+            description = `${pkg.name} (${finalSlotsCount} session${finalSlotsCount > 1 ? 's' : ''})`;
         } else if (membershipType) {
             if (membershipType === "Country Club Trust Membership" || membershipType === "Country Club Non Trust Membership") {
                 amount = 30;
@@ -66,8 +67,8 @@ export async function POST(req: NextRequest) {
         // 4. Apply Voucher (Securely re-validated on backend)
         if (voucherCode) {
             const Discount = (await import("@/models/Discount")).default;
-            const voucher = await Discount.findOne({ code: voucherCode, isActive: true });
-            if (voucher) {
+            const voucher = await Discount.findOne({ code: voucherCode.toUpperCase() });
+            if (voucher && new Date(voucher.expiryDate) >= new Date() && voucher.timesUsed < voucher.usageLimit) {
                 if (voucher.type === "percentage") {
                     amount = amount - (amount * voucher.value / 100);
                 } else {

@@ -36,9 +36,10 @@ export async function PATCH(req: Request, { params }: any) {
 
 
         if (normalizedStatus === "moved" && newDate) {
-            // Combine date and time to validate correctly
-            const validationDate = startTime ? `${newDate.split('T')[0]}T${startTime}:00` : newDate;
-            const availability = await checkBookingAvailability(validationDate);
+            // Combine date and time to validate correctly (defaulting to existing booking times if not provided)
+            const targetStartTime = startTime || booking.startTime;
+            const targetEndTime = endTime || booking.endTime;
+            const availability = await checkBookingAvailability(newDate, targetStartTime, id);
             
             if (!availability.valid) {
                 return NextResponse.json({ error: availability.reason }, { status: 400 });

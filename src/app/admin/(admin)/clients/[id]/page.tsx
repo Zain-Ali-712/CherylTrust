@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FiArrowLeft, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiArrowLeft, FiPlus, FiTrash2, FiCalendar, FiClock } from "react-icons/fi";
 import Link from "next/link";
 
 type Client = {
@@ -16,6 +16,8 @@ type Client = {
 type Membership = {
   _id: string;
   type: string;
+  name?: string;
+  price?: number;
   startDate: string;
   endDate: string;
   status: string;
@@ -42,11 +44,10 @@ export default function ClientProfilePage() {
         router.push("/admin/clients");
       }
 
-      // Fetch Memberships (filter manually since API currently returns all)
-      const memRes = await fetch("/api/memberships");
+      // Fetch Memberships directly by clientId
+      const memRes = await fetch(`/api/memberships?clientId=${id}`);
       if (memRes.ok) {
-        const allMem = await memRes.json();
-        setMemberships(allMem.filter((m: any) => m.client._id === id || m.client === id));
+        setMemberships(await memRes.json());
       }
 
       // Fetch Bookings
@@ -94,6 +95,8 @@ export default function ClientProfilePage() {
 
   if (!client) return <div className="p-8 text-center">Loading client profile...</div>;
 
+  const activeMembership = memberships.find(m => m.status === "active" && new Date(m.endDate) > new Date());
+
   return (
     <div>
       <div className="mb-6">
@@ -109,13 +112,46 @@ export default function ClientProfilePage() {
             {client.status.toUpperCase()}
           </span>
         </div>
+
+        {/* Active Membership Banner */}
+        {activeMembership ? (
+          <div className="mt-4 p-4 bg-dark text-white rounded-2xl flex items-center justify-between shadow-md border border-dark/10 relative overflow-hidden">
+            <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+            <div className="relative z-10">
+              <span className="inline-block px-2.5 py-0.5 bg-accent/20 text-accent text-[9px] font-bold tracking-widest uppercase rounded-full mb-1 border border-accent/20">Active Membership</span>
+              <h3 className="font-serif text-lg text-white font-bold">{activeMembership.name}</h3>
+              <p className="text-xs text-white/75 font-sans mt-0.5">
+                Valid until {new Date(activeMembership.endDate).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+              </p>
+            </div>
+            <div className="relative z-10 text-right">
+              <span className="text-lg font-bold font-serif text-accent">${activeMembership.price}</span>
+              <button 
+                onClick={() => cancelMembership(activeMembership._id)}
+                className="block text-xs text-red-400 hover:text-red-500 underline mt-1 font-bold tracking-wide uppercase transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-sm font-sans font-medium flex items-center justify-between">
+            <span>No active membership found for this client.</span>
+            <button 
+              onClick={() => setIsMembershipModalOpen(true)}
+              className="text-xs bg-red-100 hover:bg-red-200 text-red-800 px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider transition"
+            >
+              Add Membership
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 mt-8">
         {/* Memberships Section */}
         <div className="bg-white rounded-xl shadow-sm border border-black/5 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-serif font-bold">Memberships</h2>
+            <h2 className="text-xl font-serif font-bold">Memberships History</h2>
             <button 
               onClick={() => setIsMembershipModalOpen(true)}
               className="text-sm bg-black/5 hover:bg-black/10 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1"
@@ -131,7 +167,7 @@ export default function ClientProfilePage() {
               memberships.map((mem) => (
                 <div key={mem._id} className="border border-black/5 p-4 rounded-lg flex justify-between items-center">
                   <div>
-                    <h3 className="font-semibold text-lg">{mem.type}</h3>
+                    <h3 className="font-semibold text-lg">{mem.name || mem.type}</h3>
                     <p className="text-sm text-dark/70">
                       {new Date(mem.startDate).toLocaleDateString()} - {new Date(mem.endDate).toLocaleDateString()}
                     </p>
@@ -153,23 +189,48 @@ export default function ClientProfilePage() {
         </div>
 
         {/* Bookings Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-black/5 p-6">
-          <h2 className="text-xl font-serif font-bold mb-4">Recent Bookings</h2>
-          <div className="space-y-3">
-             {bookings.length === 0 ? (
-              <p className="text-dark/50 text-sm">No bookings found.</p>
+        <div className="bg-white rounded-xl shadow-sm border border-black/5 p-6 flex flex-col h-full">
+          <div className="flex justify-between items-center mb-4 pb-2 border-b border-black/5">
+            <h2 className="text-xl font-serif font-bold text-dark">Bookings History ({bookings.length})</h2>
+          </div>
+          
+          <div className="space-y-4 overflow-y-auto flex-grow max-h-[500px] pr-1">
+            {bookings.length === 0 ? (
+              <p className="text-dark/50 text-sm italic py-4">No bookings found for this client.</p>
             ) : (
               bookings.map((b) => (
-                <div key={b._id} className="flex justify-between items-center py-2 border-b border-black/5 last:border-0">
-                  <div className="font-medium">{new Date(b.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</div>
-                  <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${b.status === 'confirmed' ? 'bg-blue-100 text-blue-700' : (b.status === 'moved' ? 'bg-orange-100 text-orange-700' : 'bg-red-100 text-red-700')}`}>
-                    {b.status.toUpperCase()}
-                  </span>
+                <div key={b._id} className="bg-bg-section/30 border border-dark/5 p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition-all duration-300">
+                  <div className="min-w-0 space-y-2 flex-grow">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md ${b.status === 'confirmed' ? 'bg-blue-100 text-blue-700' : (b.status === 'moved' ? 'bg-orange-100 text-orange-700' : 'bg-red-100 text-red-700')}`}>
+                        {b.status}
+                      </span>
+                      <span className="text-[10px] text-dark/40 font-mono">Ref: {b._id.substring(0, 8)}...</span>
+                    </div>
+                    <h3 className="font-sans font-bold text-dark text-base truncate" title={b.service}>{b.service}</h3>
+                    <div className="flex items-center gap-4 text-xs text-dark/60 font-sans flex-wrap mt-1">
+                      <span className="flex items-center gap-1.5">
+                        <FiCalendar className="text-brand/80" /> {new Date(b.date).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <FiClock className="text-brand/80" /> {b.startTime || "N/A"} - {b.endTime || "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-dark/5">
+                    <div className="flex flex-col items-start md:items-end">
+                      <span className="text-[10px] text-dark/40 font-sans uppercase tracking-wider font-bold">Price</span>
+                      <span className="text-lg font-bold text-dark font-sans">${b.price?.toFixed(2)}</span>
+                    </div>
+                    <Link 
+                      href={`/admin/bookings/${b._id}`} 
+                      className="px-4 py-2 bg-dark text-white rounded-xl text-xs font-bold font-sans uppercase tracking-widest hover:bg-brand hover:text-white transition-all shadow-sm"
+                    >
+                      View Details
+                    </Link>
+                  </div>
                 </div>
               ))
-            )}
-            {bookings.length > 0 && (
-                <Link href="/admin/bookings" className="text-sm text-brand hover:underline mt-2 inline-block">Manage Bookings &rarr;</Link>
             )}
           </div>
         </div>

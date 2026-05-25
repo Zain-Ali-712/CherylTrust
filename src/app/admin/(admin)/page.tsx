@@ -93,8 +93,8 @@ export default function AdminDashboardPage() {
                 />
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden">
-                <div className="p-6 border-b border-black/5 flex justify-between items-center bg-black/5">
+            <div className="bg-white rounded-2xl shadow-sm border border-black/5 overflow-x-auto">
+                <div className="p-6 border-b border-black/5 flex justify-between items-center bg-black/5 min-w-[600px] sm:min-w-full">
                     <h2 className="text-lg font-bold font-serif text-dark">Upcoming Sessions</h2>
                     <Link href="/admin/bookings" className="text-xs font-bold uppercase tracking-widest text-brand hover:text-brand/70 flex items-center gap-1 transition">
                         View All <FiArrowRight />
@@ -103,7 +103,7 @@ export default function AdminDashboardPage() {
                 {recent.length === 0 ? (
                     <div className="p-8 text-center text-dark/50">No upcoming confirmed sessions.</div>
                 ) : (
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse min-w-[600px] sm:min-w-full">
                         <tbody>
                             {recent.map((b: any) => (
                                 <tr key={b._id} className="border-b border-black/5 last:border-0 hover:bg-black/5 transition-colors">

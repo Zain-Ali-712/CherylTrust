@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { FiCalendar, FiClock, FiArrowLeft, FiLoader, FiActivity, FiShoppingBag } from "react-icons/fi";
+import { FiCalendar, FiClock, FiArrowLeft, FiLoader, FiActivity, FiShoppingBag, FiCheckCircle } from "react-icons/fi";
 import SafetyDeclarationModal from "@/components/booking/SafetyDeclarationModal";
 
 const getAvailableDates = () => {
@@ -31,7 +31,7 @@ function BookingContent() {
     const [isCheckingMembership, setIsCheckingMembership] = useState(true);
     const [blockReason, setBlockReason] = useState<string | null>(null);
     const [isDeclarationOpen, setIsDeclarationOpen] = useState(false);
-    const [selectedSlot, setSelectedSlot] = useState<{ startTime: string, endTime: string } | null>(null);
+    const [selectedSlots, setSelectedSlots] = useState<{ startTime: string, endTime: string }[]>([]);
 
     const dates = getAvailableDates();
 
@@ -85,6 +85,7 @@ function BookingContent() {
     };
 
     useEffect(() => {
+        setSelectedSlots([]);
         if (selectedDate && hasMembership) {
             fetchAvailability(selectedDate);
         }
@@ -113,20 +114,54 @@ function BookingContent() {
         }
     };
 
+    const areConsecutive = (s1: { startTime: string, endTime: string }, s2: { startTime: string, endTime: string }) => {
+        const parseToMins = (t: string) => {
+            const [h, m] = t.split(":").map(Number);
+            return h * 60 + m;
+        };
+        const end1 = parseToMins(s1.endTime);
+        const start1 = parseToMins(s1.startTime);
+        const end2 = parseToMins(s2.endTime);
+        const start2 = parseToMins(s2.startTime);
+
+        const gap1 = start2 - end1;
+        const gap2 = start1 - end2;
+        return (gap1 >= 0 && gap1 <= 30) || (gap2 >= 0 && gap2 <= 30);
+    };
+
     const handleSlotSelection = (slot: { startTime: string, endTime: string }) => {
         if (!hasMembership) return;
-        setSelectedSlot(slot);
-        setIsDeclarationOpen(true);
+        
+        const index = selectedSlots.findIndex(s => s.startTime === slot.startTime);
+        if (index !== -1) {
+            // Deselect
+            setSelectedSlots(selectedSlots.filter((_, idx) => idx !== index));
+        } else {
+            if (selectedSlots.length === 0) {
+                setSelectedSlots([slot]);
+            } else if (selectedSlots.length === 1) {
+                if (areConsecutive(selectedSlots[0], slot)) {
+                    setSelectedSlots([...selectedSlots, slot]);
+                } else {
+                    setSelectedSlots([slot]);
+                }
+            } else {
+                // Already 2 selected, reset to only this one
+                setSelectedSlots([slot]);
+            }
+        }
     };
 
     const handleDeclarationConfirm = () => {
-        if (!selectedSlot || !selectedDate || !bookingPackage) return;
+        if (selectedSlots.length === 0 || !selectedDate || !bookingPackage) return;
+
+        // Sort selectedSlots by start time to make sure they are in order
+        const sorted = [...selectedSlots].sort((a, b) => a.startTime.localeCompare(b.startTime));
 
         const queryParams = new URLSearchParams({
             pkgId: pkgId,
             date: selectedDate.toISOString(),
-            start: selectedSlot.startTime,
-            end: selectedSlot.endTime
+            slots: JSON.stringify(sorted)
         });
 
         // redirect to checkout route (middleware handles auth intercept)
@@ -161,7 +196,7 @@ function BookingContent() {
         );
     }
 
-    if (hasMembership === false) {
+    if (!hasMembership) {
         return (
             <div className="max-w-2xl mx-auto mt-10">
                 <div className="bg-white p-10 rounded-[2.5rem] border border-dark/10 shadow-2xl text-center relative overflow-hidden">
@@ -176,7 +211,7 @@ function BookingContent() {
                             Please purchase a <strong>Trust Client</strong> or <strong>Non-Trust</strong> membership to proceed.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link href="/client/dashboard" className="px-8 py-4 bg-dark text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-dark transition shadow-lg">
+                            <Link href="/adventure-park#membership-plans" className="px-8 py-4 bg-dark text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-dark transition shadow-lg">
                                 Buy Membership
                             </Link>
                             <Link href="/auth/login" className="px-8 py-4 border border-dark/20 text-dark rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-dark/5 transition">
@@ -295,20 +330,36 @@ function BookingContent() {
                             No available slots for this day.<br />Please choose another date.
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-3 pb-2 h-fit max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
-                            {availableSlots.map((slot, i) => (
+                        <div className="flex flex-col gap-4">
+                            <div className="grid grid-cols-1 gap-3 pb-2 h-fit max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+                                {availableSlots.map((slot, i) => {
+                                    const isSelected = selectedSlots.some(s => s.startTime === slot.startTime);
+                                    return (
+                                        <button
+                                            key={i}
+                                            onClick={() => handleSlotSelection(slot)}
+                                            className={`py-4 border rounded-xl flex items-center justify-between px-6 font-bold transition-all shadow-sm group
+                                                ${isSelected 
+                                                    ? 'bg-accent border-accent text-dark shadow-md' 
+                                                    : 'border-dark/10 text-dark/80 hover:bg-accent hover:border-accent hover:text-dark'}`}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <FiClock className={`transition-colors ${isSelected ? 'text-dark/60' : 'text-dark/40 group-hover:text-dark/60'}`} />
+                                                <span>{slot.startTime}</span>
+                                            </div>
+                                            <span className={`text-[10px] uppercase tracking-widest text-right transition-opacity ${isSelected ? 'opacity-60' : 'opacity-40 group-hover:opacity-60'}`}>1 Hour Block</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            {selectedSlots.length > 0 && (
                                 <button
-                                    key={i}
-                                    onClick={() => handleSlotSelection(slot)}
-                                    className="py-4 border border-dark/10 rounded-xl flex items-center justify-between px-6 text-dark/80 font-bold hover:bg-accent hover:border-accent hover:text-dark transition-all shadow-sm group"
+                                    onClick={() => setIsDeclarationOpen(true)}
+                                    className="w-full py-4 bg-dark text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-dark transition shadow-lg flex items-center justify-center gap-2"
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <FiClock className="text-dark/40 group-hover:text-dark/60 transition-colors" />
-                                        <span>{slot.startTime}</span>
-                                    </div>
-                                    <span className="text-[10px] uppercase tracking-widest opacity-40 group-hover:opacity-60 text-right">1 Hour Block</span>
+                                    <FiCheckCircle /> Book {selectedSlots.length} Session{selectedSlots.length > 1 ? 's' : ''}
                                 </button>
-                            ))}
+                            )}
                         </div>
                     )}
                 </div>

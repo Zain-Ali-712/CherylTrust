@@ -8,7 +8,7 @@ import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-function StripeForm({ finalPrice, onComplete }: { finalPrice: number; onComplete: (paymentIntentId: string) => Promise<void> }) {
+function StripeForm({ finalPrice, onComplete }: { finalPrice: number; onComplete: (paymentIntentId: string) => Promise<any> }) {
     const stripe = useStripe();
     const elements = useElements();
     const [isProcessing, setIsProcessing] = useState(false);
@@ -61,6 +61,11 @@ function CheckoutContent() {
     const date = searchParams.get("date") || "";
     const start = searchParams.get("start") || "";
     const end = searchParams.get("end") || "";
+    const slotsParam = searchParams.get("slots") || "";
+
+    const slots: { startTime: string; endTime: string }[] = slotsParam
+        ? JSON.parse(slotsParam)
+        : (start && end ? [{ startTime: start, endTime: end }] : []);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
@@ -100,7 +105,7 @@ function CheckoutContent() {
         init();
     }, [pkgId]);
 
-    const basePrice = bookingPackage ? bookingPackage.price : 0;
+    const basePrice = bookingPackage ? bookingPackage.price * slots.length : 0;
     const finalPrice = voucherApplied
         ? voucherApplied.type === "percentage"
             ? Math.max(0, basePrice - (basePrice * voucherApplied.value / 100))
@@ -141,8 +146,11 @@ function CheckoutContent() {
 
         if (finalPrice === 0) {
             setIsLoading(true);
-            await finalizeBookingAfterPayment("");
-            setIsLoading(false);
+            setError("");
+            const success = await finalizeBookingAfterPayment("");
+            if (!success) {
+                setIsLoading(false);
+            }
             return;
         }
 
@@ -155,6 +163,7 @@ function CheckoutContent() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     bookingPackageId: pkgId,
+                    slotsCount: slots.length,
                     voucherCode: voucherApplied?.code || null
                 })
             });
@@ -181,8 +190,7 @@ function CheckoutContent() {
                     clientId: clientData.id,
                     packageId: pkgId,
                     date: date,
-                    startTime: start,
-                    endTime: end,
+                    slots: slots,
                     service: bookingPackage.name,
                     price: finalPrice,
                     voucherCode: voucherApplied?.code || null,
@@ -193,12 +201,15 @@ function CheckoutContent() {
 
             if (res.ok) {
                 router.push("/client/dashboard?success=booking_complete");
+                return true;
             } else {
                 const data = await res.json();
                 setError(data.error || "Payment successful, but booking failed to save. Please contact support.");
+                return false;
             }
         } catch (e) {
             setError("Network error after payment. Please check your dashboard.");
+            return false;
         }
     };
 
@@ -234,8 +245,12 @@ function CheckoutContent() {
                                 <strong>{targetDate.toLocaleDateString("en-US", { weekday: 'long', month: 'long', day: 'numeric' })}</strong>
                             </div>
                             <div className="text-right">
-                                <span className="block opacity-60">Time</span>
-                                <strong>{start} to {end}</strong>
+                                <span className="block opacity-60">Session{slots.length > 1 ? "s" : ""}</span>
+                                {slots.map((s, idx) => (
+                                    <strong key={idx} className="block text-xs font-semibold text-dark">
+                                        {s.startTime} - {s.endTime}
+                                    </strong>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -303,7 +318,13 @@ function CheckoutContent() {
                             className={`w-full py-4 rounded-xl shadow-lg text-sm font-bold font-sans tracking-wider uppercase flex items-center justify-center gap-2 transition-all 
                                 ${isLoading || !clientData ? "bg-dark/10 text-dark/30 cursor-not-allowed" : "bg-dark text-white hover:bg-primary-dark"}`}
                         >
-                            {isLoading ? <><FiLoader className="animate-spin" /> Preparing...</> : <><FiCreditCard /> Proceed to Payment</>}
+                            {isLoading ? (
+                                <><FiLoader className="animate-spin" /> Preparing...</>
+                            ) : finalPrice === 0 ? (
+                                <><FiCheckCircle /> Confirm Booking</>
+                            ) : (
+                                <><FiCreditCard /> Proceed to Payment</>
+                            )}
                         </button>
                     ) : (
                         <Elements stripe={stripePromise} options={{ clientSecret }}>

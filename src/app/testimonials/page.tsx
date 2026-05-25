@@ -90,20 +90,20 @@ export default async function TestimonialsPage() {
                                     </div>
 
                                     <p className="font-sans text-dark/80 text-[1.05rem] leading-[1.8] mb-10 flex-grow relative z-10">
-                                        "{t.text}"
+                                        &ldquo;{t.text}&rdquo;
                                     </p>
 
-                                    <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6 relative z-10">
-                                        <div className="w-14 h-14 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl overflow-hidden relative border border-primary-dark/20">
+                                    <div className="flex items-center gap-4 mt-auto border-t border-dark/10 pt-6 relative z-10 min-w-0">
+                                        <div className="w-14 h-14 rounded-full bg-primary-dark/10 flex items-center justify-center text-primary-dark font-serif font-bold text-xl overflow-hidden relative border border-primary-dark/20 shrink-0">
                                             {t.imageUrl ? (
                                                 <Image src={t.imageUrl} alt={t.name} fill className="object-cover" sizes="56px" />
                                             ) : (
                                                 t.name.charAt(0)
                                             )}
                                         </div>
-                                        <div>
-                                            <h4 className="font-sans font-bold text-dark text-[0.95rem]">{t.name}</h4>
-                                            <p className="font-sans text-[0.75rem] text-dark/50 uppercase tracking-widest mt-1">{t.service}</p>
+                                        <div className="min-w-0">
+                                            <h4 className="font-sans font-bold text-dark text-[0.95rem] truncate">{t.name}</h4>
+                                            <p className="font-sans text-[0.75rem] text-dark/50 uppercase tracking-widest mt-1 truncate">{t.service}</p>
                                         </div>
                                     </div>
                                 </div>

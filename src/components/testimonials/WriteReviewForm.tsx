@@ -95,7 +95,13 @@ export default function WriteReviewForm() {
                     disabled={isSubmitting}
                     className="w-full py-4 bg-dark text-white rounded-2xl font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-accent hover:text-dark transition-all shadow-lg flex items-center justify-center gap-2"
                 >
-                    {isSubmitting ? <FiLoader className="animate-spin" /> : "Submit Review"}
+                    {isSubmitting ? (
+                        <>
+                            <FiLoader className="animate-spin" /> Submitting...
+                        </>
+                    ) : (
+                        "Submit Review"
+                    )}
                 </button>
             </form>
         </div>

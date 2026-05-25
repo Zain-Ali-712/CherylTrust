@@ -89,8 +89,10 @@ export default function CalendarPage() {
         
         <div className="grid grid-cols-7 min-h-[500px]">
             {weekDays.map((d, i) => {
-                // Find events for this day
-                const dayEvents = events.filter(e => new Date(e.start).toDateString() === d.toDateString());
+                // Find events for this day (excluding cancelled ones) and sort by time (earliest -> latest)
+                const dayEvents = events
+                  .filter(e => e.status !== "cancelled" && new Date(e.start).toDateString() === d.toDateString())
+                  .sort((a, b) => (a.startTime || "").localeCompare(b.startTime || ""));
                 
                 return (
                     <div key={i} className="border-r border-black/5 p-2 space-y-2 last:border-r-0 relative">

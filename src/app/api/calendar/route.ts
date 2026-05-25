@@ -17,10 +17,11 @@ export async function GET(req: Request) {
             date: {
                 $gte: new Date(start),
                 $lte: new Date(end)
-            }
+            },
+            status: { $ne: "cancelled" }
         };
 
-        const bookings = await Booking.find(query).populate("client", "firstName lastName").sort({ date: 1 });
+        const bookings = await Booking.find(query).populate("client", "firstName lastName").sort({ date: 1, startTime: 1 });
 
         // Map to a cleaner format specifically requested for calendar "Day / Week / Month view"
         const formatted = bookings.map(b => ({

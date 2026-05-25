@@ -42,16 +42,10 @@ export async function GET(req: Request) {
             status: { $ne: "cancelled" }
         });
 
-        // Force hourly slots as per requirement
-        const slotD = 60;
-        const buffer = 0;
+        const slotD = hours.slotDuration !== undefined ? hours.slotDuration : 60;
+        const buffer = hours.bufferTime !== undefined ? hours.bufferTime : 0;
         
-        // Ensure starting time is rounded to the next hour if needed
-        let startMins = parseTime(hours.openTime);
-        if (startMins % 60 !== 0) {
-            startMins = Math.ceil(startMins / 60) * 60;
-        }
-        let currentMinutes = startMins;
+        let currentMinutes = parseTime(hours.openTime);
         const endMinutes = parseTime(hours.closeTime);
         
         const availableSlots = [];
@@ -78,7 +72,7 @@ export async function GET(req: Request) {
                 });
             }
             
-            currentMinutes += slotD;
+            currentMinutes += slotD + buffer;
         }
 
         return NextResponse.json({ availableSlots });

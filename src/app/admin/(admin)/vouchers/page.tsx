@@ -48,8 +48,9 @@ export default function VouchersPage() {
                 </button>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-black/5 overflow-hidden">
-                <table className="w-full text-left border-collapse">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-black/5 overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[700px] lg:min-w-full">
                     <thead>
                         <tr className="bg-black/5 border-b border-black/5">
                             <th className="p-4 font-semibold text-dark/70">Code</th>
@@ -92,6 +93,38 @@ export default function VouchersPage() {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Card List View */}
+            <div className="block lg:hidden space-y-4">
+                {vouchers.map(v => {
+                    const expired = new Date(v.expiryDate) < new Date();
+                    const exhausted = v.timesUsed >= v.usageLimit;
+                    return (
+                        <div key={v._id} className="bg-white rounded-xl shadow-sm border border-black/5 p-4 space-y-3">
+                            <div className="flex justify-between items-start">
+                                <span className="font-mono font-bold text-dark bg-black/5 px-2 py-1 rounded">{v.code}</span>
+                                <span className={`px-2 py-1 text-xs rounded-full font-medium ${expired ? 'bg-red-100 text-red-700' : exhausted ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'}`}>
+                                    {expired ? "EXPIRED" : exhausted ? "EXHAUSTED" : "ACTIVE"}
+                                </span>
+                            </div>
+
+                            <div className="border-t border-black/5 pt-3 grid grid-cols-2 gap-2 text-sm text-dark/70">
+                                <div><strong>Type:</strong> <span className="capitalize">{v.type}</span></div>
+                                <div><strong>Discount:</strong> <span className="font-semibold text-accent">{v.type === "percentage" ? `${v.value}%` : `$${v.value.toFixed(2)}`}</span></div>
+                                <div><strong>Usage:</strong> {v.timesUsed} / {v.usageLimit}</div>
+                                <div><strong>Expiry:</strong> {new Date(v.expiryDate).toLocaleDateString()}</div>
+                            </div>
+
+                            <div className="flex justify-end pt-2 border-t border-black/5">
+                                <button onClick={() => deleteVoucher(v._id)} className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition" title="Delete"><FiTrash2 size={18} /></button>
+                            </div>
+                        </div>
+                    );
+                })}
+                {vouchers.length === 0 && (
+                    <div className="bg-white p-8 text-center text-dark/50 rounded-xl border border-black/5">No vouchers created yet.</div>
+                )}
             </div>
 
             {/* Create Modal */}

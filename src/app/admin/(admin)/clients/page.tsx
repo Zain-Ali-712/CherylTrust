@@ -143,8 +143,9 @@ export default function ClientsPage() {
                 </button>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-black/5 overflow-hidden">
-                <table className="w-full text-left border-collapse">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-black/5 overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[700px] lg:min-w-full">
                     <thead>
                         <tr className="bg-black/5 border-b border-black/5">
                             <th className="p-4 font-semibold text-dark/70">Name</th>
@@ -183,6 +184,49 @@ export default function ClientsPage() {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Card List View */}
+            <div className="block lg:hidden space-y-4">
+                {clients.map(client => (
+                    <div key={client._id} className="bg-white rounded-xl shadow-sm border border-black/5 p-4 space-y-3">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <Link href={`/admin/clients/${client._id}`} className="font-bold text-brand hover:underline text-base">
+                                    {client.firstName} {client.lastName}
+                                </Link>
+                                {client.secondaryName && (
+                                    <div className="text-xs text-dark/50 italic mt-0.5">Secondary: {client.secondaryName}</div>
+                                )}
+                            </div>
+                            <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${client.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                {client.status.toUpperCase()}
+                            </span>
+                        </div>
+
+                        <div className="border-t border-black/5 pt-3 space-y-1 text-sm text-dark/70">
+                            <div><strong>Email:</strong> {client.email}</div>
+                            <div><strong>Phone:</strong> {client.phone || "N/A"}</div>
+                        </div>
+
+                        <div className="flex gap-3 justify-end pt-2 border-t border-black/5">
+                            <button onClick={() => openEditModal(client)} className="p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition" title="Edit Client">
+                                <FiEdit2 size={18} />
+                            </button>
+                            {client.status === 'active' && (
+                                <button onClick={() => cancelClient(client._id)} className="p-2 text-orange-500 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition" title="Cancel Client">
+                                    <FiX size={18} />
+                                </button>
+                            )}
+                            <button onClick={() => deleteClient(client._id)} className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition" title="Delete Permanently">
+                                <FiTrash2 size={18} />
+                            </button>
+                        </div>
+                    </div>
+                ))}
+                {clients.length === 0 && (
+                    <div className="bg-white p-8 text-center text-dark/50 rounded-xl border border-black/5">No clients found.</div>
+                )}
             </div>
 
             {/* Create / Edit Modal */}

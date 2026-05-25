@@ -9,17 +9,18 @@ export default function BookingDetailsPage({ params }: { params: Promise<{ id: s
     const [booking, setBooking] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const fetchBooking = async () => {
+        try {
+            const res = await fetch(`/api/bookings/${resolvedParams.id}`, { cache: 'no-store' });
+            if (res.ok) setBooking(await res.json());
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchBooking = async () => {
-            try {
-                const res = await fetch(`/api/bookings/${resolvedParams.id}`);
-                if (res.ok) setBooking(await res.json());
-            } catch (e) {
-                console.error(e);
-            } finally {
-                setIsLoading(false);
-            }
-        };
         fetchBooking();
     }, [resolvedParams.id]);
 
@@ -57,7 +58,7 @@ export default function BookingDetailsPage({ params }: { params: Promise<{ id: s
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ status: "cancelled" })
                             });
-                            if (res.ok) window.location.reload();
+                            if (res.ok) fetchBooking();
                         }}
                         className="px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg hover:bg-red-700 transition"
                     >
@@ -76,7 +77,7 @@ export default function BookingDetailsPage({ params }: { params: Promise<{ id: s
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ status: "moved", newDate: newDate })
                         }).then(res => {
-                            if (res.ok) window.location.reload();
+                            if (res.ok) fetchBooking();
                             else alert("Failed to reschedule. Check date format or availability.");
                         });
                     }}
