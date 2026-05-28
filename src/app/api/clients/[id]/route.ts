@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Client from "@/models/Client";
 import { sendTemplatedEmail } from "@/lib/emailService";
@@ -6,9 +7,12 @@ import Booking from "@/models/Booking";
 
 export async function GET(req: Request, { params }: any) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const { id } = await params;
-        const client = await Client.findById(id);
+        const client = await Client.findById(id).lean();
         if (!client) {
             return NextResponse.json({ error: "Client not found" }, { status: 404 });
         }
@@ -20,6 +24,9 @@ export async function GET(req: Request, { params }: any) {
 
 export async function PATCH(req: Request, { params }: any) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const body = await req.json();
         const { status } = body; // expecting "cancelled"
@@ -60,6 +67,9 @@ export async function PATCH(req: Request, { params }: any) {
 
 export async function PUT(req: Request, { params }: any) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const { id } = await params;
         const body = await req.json();
@@ -76,6 +86,9 @@ export async function PUT(req: Request, { params }: any) {
 
 export async function DELETE(req: Request, { params }: any) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const { id } = await params;
 

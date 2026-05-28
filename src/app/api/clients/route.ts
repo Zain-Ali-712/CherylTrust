@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Client from "@/models/Client";
 import { sendTemplatedEmail } from "@/lib/emailService";
 
 export async function GET() {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
-        const clients = await Client.find({}).sort({ createdAt: -1 });
+        const clients = await Client.find({})
+            .select("firstName lastName email phone status")
+            .sort({ createdAt: -1 })
+            .lean();
         return NextResponse.json(clients);
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch clients" }, { status: 500 });
