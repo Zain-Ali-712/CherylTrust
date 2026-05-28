@@ -33,14 +33,14 @@ export default function TestimonialList({ initialTestimonials }: { initialTestim
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-dark/5 overflow-hidden">
             <div className="overflow-x-auto">
-                <table className="w-full text-left font-sans">
+                <table className="w-full table-fixed text-left font-sans">
                     <thead className="bg-bg-light/50 border-b border-dark/10">
                         <tr>
-                            <th className="px-6 py-4 text-xs font-bold text-dark/70 uppercase tracking-wider">Client Info</th>
-                            <th className="px-6 py-4 text-xs font-bold text-dark/70 uppercase tracking-wider">Service</th>
-                            <th className="px-6 py-4 text-xs font-bold text-dark/70 uppercase tracking-wider">Rating</th>
-                            <th className="px-6 py-4 text-xs font-bold text-dark/70 uppercase tracking-wider w-1/3">Preview Text</th>
-                            <th className="px-6 py-4 text-xs font-bold text-dark/70 uppercase tracking-wider text-right">Actions</th>
+                            <th className="px-2 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold text-dark/70 uppercase tracking-wider w-1/3 sm:w-1/4">Client Info</th>
+                            <th className="px-2 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold text-dark/70 uppercase tracking-wider w-1/5 hidden sm:table-cell">Service</th>
+                            <th className="px-2 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold text-dark/70 uppercase tracking-wider w-16 sm:w-24">Rating</th>
+                            <th className="px-2 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold text-dark/70 uppercase tracking-wider w-1/3 sm:w-1/3">Preview Text</th>
+                            <th className="px-2 md:px-6 py-3 md:py-4 text-[10px] md:text-xs font-bold text-dark/70 uppercase tracking-wider text-right w-16 sm:w-24">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-dark/5">
@@ -53,58 +53,58 @@ export default function TestimonialList({ initialTestimonials }: { initialTestim
                         ) : (
                             testimonials.map((t: any) => (
                                 <tr key={t._id} className="hover:bg-bg-light/30 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-2 md:px-6 py-3 md:py-4 whitespace-nowrap overflow-hidden text-ellipsis">
                                         {editingId === t._id ? (
-                                            <input value={editData.name} onChange={e => setEditData({...editData, name: e.target.value})} className="border rounded px-2 py-1 text-sm w-full font-sans" />
+                                            <input value={editData.name} onChange={e => setEditData({...editData, name: e.target.value})} className="border rounded px-2 py-1 text-xs md:text-sm w-full font-sans" />
                                         ) : (
-                                            <div className="flex items-center gap-4">
-                                                <div className="h-10 w-10 shrink-0 rounded-full bg-primary-light/20 flex items-center justify-center overflow-hidden border border-primary-light/30 relative">
+                                            <div className="flex items-center gap-2 md:gap-4 truncate">
+                                                <div className="h-8 w-8 md:h-10 md:w-10 shrink-0 rounded-full bg-primary-light/20 items-center justify-center overflow-hidden border border-primary-light/30 relative hidden xl:flex">
                                                     {t.imageUrl ? <Image src={t.imageUrl} alt={t.name} fill className="object-cover" /> : <span>{t.name.charAt(0)}</span>}
                                                 </div>
-                                                <div className="font-bold text-dark text-sm">{t.name}</div>
+                                                <div className="font-bold text-dark text-xs md:text-sm truncate">{t.name}</div>
                                             </div>
                                         )}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-2 md:px-6 py-3 md:py-4 whitespace-nowrap overflow-hidden text-ellipsis hidden sm:table-cell">
                                         {editingId === t._id ? (
-                                            <input value={editData.service} onChange={e => setEditData({...editData, service: e.target.value})} className="border rounded px-2 py-1 text-sm w-full font-sans" />
+                                            <input value={editData.service} onChange={e => setEditData({...editData, service: e.target.value})} className="border rounded px-2 py-1 text-xs md:text-sm w-full font-sans" />
                                         ) : (
-                                            <span className="text-sm text-dark/70">{t.service}</span>
+                                            <span className="text-xs md:text-sm text-dark/70 truncate block">{t.service}</span>
                                         )}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-2 md:px-6 py-3 md:py-4 whitespace-nowrap overflow-hidden">
                                         {editingId === t._id ? (
-                                            <select value={editData.rating} onChange={e => setEditData({...editData, rating: parseInt(e.target.value)})} className="border rounded px-2 py-1 text-sm font-sans">
+                                            <select value={editData.rating} onChange={e => setEditData({...editData, rating: parseInt(e.target.value)})} className="border rounded px-1 py-1 text-xs md:text-sm font-sans w-full">
                                                 {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                                             </select>
                                         ) : (
                                             <div className="flex gap-0.5">
-                                                {[...Array(5)].map((_, i) => <FiStar key={i} size={14} className={i < t.rating ? "text-accent fill-accent" : "text-dark/10 fill-dark/10"} />)}
+                                                {[...Array(5)].map((_, i) => <FiStar key={i} size={12} className={i < t.rating ? "text-accent fill-accent" : "text-dark/10 fill-dark/10"} />)}
                                             </div>
                                         )}
                                     </td>
 
-                                    <td className="px-6 py-4">
+                                    <td className="px-2 md:px-6 py-3 md:py-4 overflow-hidden text-ellipsis">
                                         {editingId === t._id ? (
-                                            <textarea value={editData.text} onChange={e => setEditData({...editData, text: e.target.value})} className="border rounded px-2 py-1 text-sm w-full resize-none font-sans" rows={2} />
+                                            <textarea value={editData.text} onChange={e => setEditData({...editData, text: e.target.value})} className="border rounded px-2 py-1 text-xs md:text-sm w-full resize-none font-sans" rows={2} />
                                         ) : (
-                                            <div className="truncate max-w-xs xl:max-w-md text-sm text-dark/70 font-sans">
+                                            <div className="truncate text-xs md:text-sm text-dark/70 font-sans w-full">
                                                 &quot;{t.text}&quot;
                                             </div>
                                         )}
                                     </td>
 
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2">
+                                    <td className="px-2 md:px-6 py-3 md:py-4 text-right">
+                                        <div className="flex justify-end gap-1 md:gap-2">
                                             {editingId === t._id ? (
                                                 <>
-                                                    <button onClick={() => handleSave(t._id)} className="p-2 text-green-600 hover:bg-green-50 rounded-lg" title="Save"><FiCheck size={18} /></button>
-                                                    <button onClick={() => setEditingId(null)} className="p-2 text-dark/30 hover:bg-dark/5 rounded-lg" title="Cancel"><FiX size={18} /></button>
+                                                    <button onClick={() => handleSave(t._id)} className="p-1 md:p-2 text-green-600 hover:bg-green-50 rounded-lg" title="Save"><FiCheck size={16} /></button>
+                                                    <button onClick={() => setEditingId(null)} className="p-1 md:p-2 text-dark/30 hover:bg-dark/5 rounded-lg" title="Cancel"><FiX size={16} /></button>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <button onClick={() => handleEdit(t)} className="p-2 text-dark/30 hover:text-accent hover:bg-bg-light rounded-lg transition-colors" title="Edit"><FiEdit2 size={16} /></button>
-                                                    <button onClick={() => handleDelete(t._id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete"><FiTrash2 size={16} /></button>
+                                                    <button onClick={() => handleEdit(t)} className="p-1 md:p-2 text-dark/30 hover:text-accent hover:bg-bg-light rounded-lg transition-colors" title="Edit"><FiEdit2 size={14} /></button>
+                                                    <button onClick={() => handleDelete(t._id)} className="p-1 md:p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete"><FiTrash2 size={14} /></button>
                                                 </>
                                             )}
                                         </div>

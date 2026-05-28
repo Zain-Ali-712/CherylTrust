@@ -57,10 +57,10 @@ export default function AdminReviewsPage() {
     if (isLoading) return <div className="p-12 text-center text-dark/50 font-sans">Loading submitted reviews...</div>;
 
     return (
-        <div className="max-w-6xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-serif font-bold text-dark">Client Reviews</h1>
+                    <h1 className="text-2xl sm:text-3xl font-serif font-bold text-dark">Client Reviews</h1>
                     <p className="text-dark/60 font-sans mt-1">Moderate, edit, and approve reviews submitted on-site.</p>
                 </div>
             </div>
@@ -75,7 +75,7 @@ export default function AdminReviewsPage() {
                         <div key={r._id} className={`bg-white p-6 lg:p-8 rounded-[2rem] border ${r.isApproved ? 'border-green-100 shadow-sm' : 'border-orange-100 shadow-md bg-orange-50/[0.02]'} transition-all`}>
                             {editingId === r._id ? (
                                 <div className="space-y-4 font-sans">
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-1">
                                             <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1">Name</label>
                                             <input 
@@ -112,13 +112,13 @@ export default function AdminReviewsPage() {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="flex justify-between items-start mb-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full bg-dark/5 flex items-center justify-center text-dark/40 border border-dark/5">
-                                                <FiMessageSquare size={20} />
+                                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
+                                        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-dark/5 flex items-center justify-center text-dark/40 border border-dark/5">
+                                                <FiMessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                                             </div>
-                                            <div>
-                                                <div className="font-bold text-dark text-lg flex items-center gap-2">
+                                            <div className="min-w-0 flex-1">
+                                                <div className="font-bold text-dark text-base sm:text-lg truncate flex items-center gap-2">
                                                     {r.clientName}
                                                     <button onClick={() => startEditing(r)} className="text-dark/20 hover:text-accent transition opacity-0 group-hover:opacity-100">
                                                         <FiX size={14} />
@@ -131,42 +131,42 @@ export default function AdminReviewsPage() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto border-t sm:border-t-0 border-dark/5 pt-3 sm:pt-0">
                                             <button 
                                                 onClick={() => startEditing(r)}
-                                                className="p-2 text-dark/30 hover:text-dark hover:bg-dark/5 rounded-lg transition"
+                                                className="p-1.5 sm:p-2 text-dark/30 hover:text-dark hover:bg-dark/5 rounded-lg transition"
                                                 title="Edit Review"
                                             >
-                                                <FiEdit2 size={18} />
+                                                <FiEdit2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                                             </button>
 
                                             {!r.isApproved ? (
                                                 <button 
                                                     onClick={() => handleUpdate(r._id, { isApproved: true })}
-                                                    className="px-4 py-2 bg-green-600 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 shadow-md hover:bg-green-700 transition"
+                                                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-green-600 text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 sm:gap-2 shadow-md hover:bg-green-700 transition"
                                                 >
                                                     <FiCheck /> Approve
                                                 </button>
                                             ) : (
                                                 <button 
                                                     onClick={() => handleUpdate(r._id, { isApproved: false })}
-                                                    className="px-4 py-2 bg-white border border-dark/10 text-dark/40 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-dark hover:text-white transition shadow-sm"
+                                                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white border border-dark/10 text-dark/40 rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 sm:gap-2 hover:bg-dark hover:text-white transition shadow-sm"
                                                 >
                                                     <FiX /> Unpublish
                                                 </button>
                                             )}
                                             <button 
                                                 onClick={() => handleDelete(r._id)}
-                                                className="p-2 text-dark/20 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
+                                                className="p-1.5 sm:p-2 text-dark/20 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
                                             >
-                                                <FiTrash2 size={18} />
+                                                <FiTrash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-dark font-sans leading-relaxed italic bg-dark/[0.01] p-5 rounded-2xl border border-dark/[0.04]">
+                                    <p className="text-dark font-sans text-sm sm:text-base leading-relaxed italic bg-dark/[0.01] p-4 sm:p-5 rounded-2xl border border-dark/[0.04]">
                                         &quot;{r.comment}&quot;
                                     </p>
-                                    <div className="mt-5 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-dark/30">
+                                    <div className="mt-4 sm:mt-5 flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-dark/30">
                                         <span>Submitted: {new Date(r.date).toLocaleDateString()}</span>
                                         <span className={`flex items-center gap-1 ${r.isApproved ? 'text-green-600' : 'text-orange-500'}`}>
                                             {r.isApproved ? <><FiCheck /> Published</> : 'Pending Moderation'}

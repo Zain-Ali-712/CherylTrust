@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Review from "@/models/Review";
 
@@ -43,6 +44,9 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const { id, ...updates } = await req.json();
         const review = await Review.findByIdAndUpdate(id, updates, { new: true });
@@ -54,6 +58,9 @@ export async function PATCH(req: Request) {
 
 export async function DELETE(req: Request) {
     try {
+        const adminSession = await requireAdmin();
+        if (!adminSession) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
         await dbConnect();
         const { id } = await req.json();
         await Review.findByIdAndDelete(id);

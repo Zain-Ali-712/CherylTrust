@@ -1,26 +1,18 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Membership from "@/models/Membership";
 import Client from "@/models/Client";
 
 export async function GET() {
     try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get("admin_token")?.value;
-
-        if (!token) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
-        const payload = await verifyToken(token);
-        if (!payload) {
+        const adminSession = await requireAdmin();
+        if (!adminSession) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         await dbConnect();
-        
+
         // Ensure Client model is registered (Mongoose error fix for population)
         // Accessing Client here ensures the model is loaded in the current scope
         if (!Client) {
@@ -33,19 +25,19 @@ export async function GET() {
             status: "active",
             endDate: { $gte: now }
         })
-        .select("client type startDate endDate price")
-        .populate({
-            path: "client",
-            select: "firstName lastName email phone"
-        })
-        .lean();
+            .select("client type startDate endDate price")
+            .populate({
+                path: "client",
+                select: "firstName lastName email phone"
+            })
+            .lean();
 
         // Sort alphabetically by last name, then first name
         activeMemberships.sort((a: any, b: any) => {
             const lastA = a.client?.lastName || "";
             const lastB = b.client?.lastName || "";
             if (lastA !== lastB) return lastA.localeCompare(lastB);
-            
+
             const firstA = a.client?.firstName || "";
             const firstB = b.client?.firstName || "";
             return firstA.localeCompare(firstB);
@@ -95,9 +87,9 @@ export async function GET() {
         });
     } catch (error: any) {
         console.error("Error generating membership report:", error);
-        return NextResponse.json({ 
-            error: "Failed to generate report", 
-            details: error.message 
+        return NextResponse.json({
+            error: "Failed to generate report",
+            details: error.message
         }, { status: 500 });
     }
 }

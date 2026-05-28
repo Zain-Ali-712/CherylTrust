@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
+import { cookies } from "next/headers";
 
 const secretKey = process.env.JWT_SECRET;
 if (!secretKey) {
@@ -24,4 +25,24 @@ export async function verifyToken(input: string) {
     } catch (error) {
         return null; // invalid or expired token
     }
+}
+
+export async function requireAdmin() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("admin_token")?.value;
+    
+    if (!token) return null;
+    
+    const payload = await verifyToken(token);
+    return payload ? payload : null;
+}
+
+export async function requireClient() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("client_token")?.value;
+    
+    if (!token) return null;
+    
+    const payload = await verifyToken(token);
+    return payload ? payload : null;
 }
