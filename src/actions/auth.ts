@@ -46,7 +46,7 @@ export async function login(prevState: any, formData: FormData) {
         return { error: "An unexpected error occurred" };
     }
 
-    redirect("/admin/testimonials");
+    redirect("/admin");
 }
 
 export async function logout() {

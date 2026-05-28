@@ -1,10 +1,24 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Membership from "@/models/Membership";
 import Client from "@/models/Client";
 
 export async function GET() {
     try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("admin_token")?.value;
+
+        if (!token) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const payload = await verifyToken(token);
+        if (!payload) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         await dbConnect();
         
         // Ensure Client model is registered (Mongoose error fix for population)
@@ -19,7 +33,12 @@ export async function GET() {
             status: "active",
             endDate: { $gte: now }
         })
-        .populate("client");
+        .select("client type startDate endDate price")
+        .populate({
+            path: "client",
+            select: "firstName lastName email phone"
+        })
+        .lean();
 
         // Sort alphabetically by last name, then first name
         activeMemberships.sort((a: any, b: any) => {
@@ -45,6 +64,12 @@ export async function GET() {
 
         // Generate CSV rows
         const headers = ["First Name", "Last Name", "Email", "Phone", "Membership Type", "Start Date", "End Date", "Price"];
+        const formatDate = (dateString: any) => {
+            if (!dateString) return "";
+            const d = new Date(dateString);
+            return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        };
+
         const rows = activeMemberships.map((m: any) => {
             const client = m.client;
             return [
@@ -53,8 +78,8 @@ export async function GET() {
                 client?.email || "",
                 client?.phone || "",
                 m.type || "",
-                m.startDate ? new Date(m.startDate).toLocaleDateString() : "",
-                m.endDate ? new Date(m.endDate).toLocaleDateString() : "",
+                formatDate(m.startDate),
+                formatDate(m.endDate),
                 (m.price || 0).toFixed(2)
             ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(",");
         });
