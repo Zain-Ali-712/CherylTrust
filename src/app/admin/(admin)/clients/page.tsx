@@ -39,6 +39,7 @@ type Client = {
 
 export default function ClientsPage() {
     const [clients, setClients] = useState<Client[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [formData, setFormData] = useState({ ...emptyForm });
@@ -134,13 +135,30 @@ export default function ClientsPage() {
         });
     };
 
+    const filteredClients = clients.filter(client => {
+        const q = searchQuery.toLowerCase();
+        const fullName = `${client.firstName} ${client.lastName}`.toLowerCase();
+        const email = client.email.toLowerCase();
+        const phone = client.phone?.toLowerCase() || "";
+        return fullName.includes(q) || email.includes(q) || phone.includes(q);
+    });
+
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <h1 className="text-3xl font-bold font-serif text-dark">Clients</h1>
-                <button onClick={openCreateModal} className="bg-dark text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-dark/90 transition font-bold shadow-md">
-                    <FiPlus /> New Client
-                </button>
+                <div className="flex w-full sm:w-auto items-center gap-3">
+                    <input 
+                        type="text"
+                        placeholder="Search name, email, or phone..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full sm:w-64 border border-black/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 shadow-sm"
+                    />
+                    <button onClick={openCreateModal} className="bg-dark text-white px-4 py-2.5 rounded-lg flex items-center gap-2 hover:bg-dark/90 transition font-bold shadow-md whitespace-nowrap">
+                        <FiPlus /> New Client
+                    </button>
+                </div>
             </div>
 
             {/* Desktop Table View */}
@@ -156,7 +174,7 @@ export default function ClientsPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {clients.map(client => (
+                        {filteredClients.map(client => (
                             <tr key={client._id} className="border-b border-black/5 hover:bg-black/5 transition-colors">
                                 <td className="p-4">
                                     <Link href={`/admin/clients/${client._id}`} className="font-semibold text-brand hover:underline">
@@ -179,8 +197,8 @@ export default function ClientsPage() {
                                 </td>
                             </tr>
                         ))}
-                        {clients.length === 0 && (
-                            <tr><td colSpan={5} className="p-8 text-center text-dark/50">No clients found.</td></tr>
+                        {filteredClients.length === 0 && (
+                            <tr><td colSpan={5} className="p-8 text-center text-dark/50">No clients found matching your search.</td></tr>
                         )}
                     </tbody>
                 </table>
@@ -188,7 +206,7 @@ export default function ClientsPage() {
 
             {/* Mobile Card List View */}
             <div className="block lg:hidden space-y-4">
-                {clients.map(client => (
+                {filteredClients.map(client => (
                     <div key={client._id} className="bg-white rounded-xl shadow-sm border border-black/5 p-4 space-y-3">
                         <div className="flex justify-between items-start">
                             <div>
@@ -224,8 +242,8 @@ export default function ClientsPage() {
                         </div>
                     </div>
                 ))}
-                {clients.length === 0 && (
-                    <div className="bg-white p-8 text-center text-dark/50 rounded-xl border border-black/5">No clients found.</div>
+                {filteredClients.length === 0 && (
+                    <div className="bg-white p-8 text-center text-dark/50 rounded-xl border border-black/5">No clients found matching your search.</div>
                 )}
             </div>
 

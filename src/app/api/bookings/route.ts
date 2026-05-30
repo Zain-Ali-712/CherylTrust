@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import Stripe from "stripe";
 import dbConnect from "@/lib/mongodb";
 import Booking from "@/models/Booking";
@@ -9,8 +9,11 @@ import SystemConfig from "@/models/SystemConfig";
 import { checkBookingAvailability } from "@/lib/bookingValidation";
 import { sendTemplatedEmail } from "@/lib/emailService";
 import { hasActiveMembership } from "@/lib/membership";
+import rateLimit, { getIP } from "@/lib/rateLimit";
 
-export async function GET(req: Request) {
+const limiter = rateLimit({ interval: 60 * 1000, uniqueTokenPerInterval: 500 });
+
+export async function GET(req: NextRequest) {
     try {
         await dbConnect();
         const { searchParams } = new URL(req.url);
@@ -26,8 +29,10 @@ export async function GET(req: Request) {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
+
+
         await dbConnect();
         const body = await req.json();
         const { clientId, date, service, price, startTime, endTime, voucherCode, slots } = body;
@@ -71,7 +76,7 @@ export async function POST(req: Request) {
         const { paymentStatus, paymentIntentId } = body;
 
         let finalPaymentStatus = "unpaid";
-        
+
         // --- SECURE BACKEND PRICE CALCULATION ---
         let basePrice = service.toLowerCase().includes("non") ? 25 : 20;
         if (body.packageId) {
@@ -102,7 +107,7 @@ export async function POST(req: Request) {
             try {
                 // 1. Retrieve the intent securely from Stripe
                 const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-                
+
                 // 2. Verify payment succeeded
                 if (paymentIntent.status !== "succeeded") {
                     return NextResponse.json({ error: "Payment was not successful." }, { status: 400 });

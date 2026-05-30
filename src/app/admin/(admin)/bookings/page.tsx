@@ -6,17 +6,21 @@ import Link from "next/link";
 export default function BookingsPage() {
     const [bookings, setBookings] = useState<any[]>([]);
     const [clients, setClients] = useState<any[]>([]);
+    const [bookingPackages, setBookingPackages] = useState<any[]>([]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         clientId: "", date: "", startTime: "", endTime: "",
-        service: "Canine Adventure Park session Trust Client", price: 20
+        service: "", price: 0, packageId: ""
     });
     const [moveData, setMoveData] = useState({ bookingId: "", newDate: "", startTime: "", endTime: "" });
     const [errorMsg, setErrorMsg] = useState("");
     const [sortKey, setSortKey] = useState<string>("date-desc");
     const [activeTab, setActiveTab] = useState<"upcoming" | "past" | "all">("upcoming");
+
+    const [availableSlots, setAvailableSlots] = useState<{startTime: string, endTime: string}[]>([]);
+    const [isLoadingSlots, setIsLoadingSlots] = useState(false);
 
     const fetchData = async () => {
         const bRes = await fetch("/api/bookings", { cache: 'no-store' });
@@ -26,14 +30,53 @@ export default function BookingsPage() {
         if (cRes.ok) {
             setClients((await cRes.json()).filter((c: any) => c.status === "active"));
         }
+
+        const pRes = await fetch("/api/booking-packages", { cache: 'no-store' });
+        if (pRes.ok) setBookingPackages(await pRes.json());
     };
 
 
     useEffect(() => { fetchData(); }, []);
 
+    useEffect(() => {
+        const fetchSlots = async (date: string) => {
+            if (!date) {
+                setAvailableSlots([]);
+                return;
+            }
+            setIsLoadingSlots(true);
+            try {
+                const res = await fetch(`/api/availability?date=${date}`);
+                const data = await res.json();
+                if (res.ok) {
+                    setAvailableSlots(data.availableSlots || []);
+                } else {
+                    setAvailableSlots([]);
+                }
+            } catch (e) {
+                setAvailableSlots([]);
+            } finally {
+                setIsLoadingSlots(false);
+            }
+        };
+
+        if (isMoveModalOpen && moveData.newDate) {
+            fetchSlots(moveData.newDate);
+        } else if (isModalOpen && formData.date) {
+            fetchSlots(formData.date);
+        } else {
+            setAvailableSlots([]);
+        }
+    }, [isMoveModalOpen, moveData.newDate, isModalOpen, formData.date]);
+
     const handleCreateBooking = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg("");
+
+        if (!formData.startTime || !formData.endTime) {
+            setErrorMsg("Please select an available time slot.");
+            return;
+        }
 
         const res = await fetch("/api/bookings", {
             method: "POST",
@@ -44,12 +87,13 @@ export default function BookingsPage() {
                 startTime: formData.startTime,
                 endTime: formData.endTime,
                 service: formData.service,
-                price: formData.price
+                price: formData.price,
+                packageId: formData.packageId
             })
         });
 
         if (res.ok) {
-            setFormData({ clientId: "", date: "", startTime: "", endTime: "", service: "Canine Adventure Park session Trust Client", price: 20 });
+            setFormData({ clientId: "", date: "", startTime: "", endTime: "", service: "", price: 0, packageId: "" });
             setIsModalOpen(false);
             fetchData();
         } else {
@@ -77,6 +121,12 @@ export default function BookingsPage() {
     const handleMoveBooking = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg("");
+
+        if (!moveData.startTime || !moveData.endTime) {
+            setErrorMsg("Please select an available time slot.");
+            return;
+        }
+
         const res = await fetch(`/api/bookings/${moveData.bookingId}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -331,28 +381,49 @@ export default function BookingsPage() {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-dark/70 mb-1">Service & Price</label>
-                                <select required value={formData.service} onChange={(e) => {
-                                    const val = e.target.value;
-                                    setFormData({ ...formData, service: val, price: val.includes("non") ? 25 : 20 });
+                                <label className="block text-sm font-medium text-dark/70 mb-1">Service Package</label>
+                                <select required value={formData.packageId || ""} onChange={(e) => {
+                                    const pkgId = e.target.value;
+                                    const pkg = bookingPackages.find(p => p._id === pkgId);
+                                    if (pkg) {
+                                        setFormData({ ...formData, packageId: pkg._id, service: pkg.name, price: pkg.price });
+                                    }
                                 }} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50 bg-white">
-                                    <option value="Canine Adventure Park session Trust Client">Trust Client - $20.00</option>
-                                    <option value="Canine Adventure Park session non Trust Client">Non Trust Client - $25.00</option>
+                                    <option value="" disabled>Select a package...</option>
+                                    {bookingPackages.map(pkg => (
+                                        <option key={pkg._id} value={pkg._id}>{pkg.name} - ${pkg.price}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-dark/70 mb-1">Date</label>
                                 <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-dark/70 mb-1">Start Time</label>
-                                    <input required type="time" value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-dark/70 mb-1">End Time</label>
-                                    <input required type="time" value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
-                                </div>
+                            <div>
+                                <label className="block text-sm font-medium text-dark/70 mb-1">Available Slots</label>
+                                {isLoadingSlots ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">Loading slots...</div>
+                                ) : !formData.date ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">Please select a date first</div>
+                                ) : availableSlots.length === 0 ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">No slots available on this date</div>
+                                ) : (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto">
+                                        {availableSlots.map((slot, idx) => {
+                                            const isSelected = formData.startTime === slot.startTime && formData.endTime === slot.endTime;
+                                            return (
+                                                <button
+                                                    key={idx}
+                                                    type="button"
+                                                    onClick={() => setFormData({ ...formData, startTime: slot.startTime, endTime: slot.endTime })}
+                                                    className={`p-2 rounded-lg border text-sm font-medium transition ${isSelected ? 'bg-brand text-white border-brand' : 'bg-white text-dark/80 border-black/10 hover:border-brand/50'}`}
+                                                >
+                                                    {slot.startTime} - {slot.endTime}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex justify-end gap-3 mt-6">
@@ -379,15 +450,31 @@ export default function BookingsPage() {
                                 <label className="block text-sm font-medium text-dark/70 mb-1">New Date</label>
                                 <input required type="date" value={moveData.newDate} onChange={(e) => setMoveData({ ...moveData, newDate: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-dark/70 mb-1">New Start Time</label>
-                                    <input required type="time" value={moveData.startTime} onChange={(e) => setMoveData({ ...moveData, startTime: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-dark/70 mb-1">New End Time</label>
-                                    <input required type="time" value={moveData.endTime} onChange={(e) => setMoveData({ ...moveData, endTime: e.target.value })} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50" />
-                                </div>
+                            <div>
+                                <label className="block text-sm font-medium text-dark/70 mb-1">Available Slots</label>
+                                {isLoadingSlots ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">Loading slots...</div>
+                                ) : !moveData.newDate ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">Please select a date first</div>
+                                ) : availableSlots.length === 0 ? (
+                                    <div className="text-sm text-dark/50 p-2 border border-black/10 rounded-lg">No slots available on this date</div>
+                                ) : (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto">
+                                        {availableSlots.map((slot, idx) => {
+                                            const isSelected = moveData.startTime === slot.startTime && moveData.endTime === slot.endTime;
+                                            return (
+                                                <button
+                                                    key={idx}
+                                                    type="button"
+                                                    onClick={() => setMoveData({ ...moveData, startTime: slot.startTime, endTime: slot.endTime })}
+                                                    className={`p-2 rounded-lg border text-sm font-medium transition ${isSelected ? 'bg-brand text-white border-brand' : 'bg-white text-dark/80 border-black/10 hover:border-brand/50'}`}
+                                                >
+                                                    {slot.startTime} - {slot.endTime}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex justify-end gap-3 mt-6">

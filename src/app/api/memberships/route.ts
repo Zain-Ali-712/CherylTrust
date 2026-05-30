@@ -72,7 +72,13 @@ export async function POST(req: Request) {
         let finalPrice = price || 0;
 
         // --- SECURE PAYMENT VERIFICATION ---
-        if (paymentIntentId) {
+        if (paymentIntentId === "admin_manual") {
+            const { requireAdmin } = await import("@/lib/auth");
+            const adminSession = await requireAdmin();
+            if (!adminSession) {
+                return NextResponse.json({ error: "Unauthorized manual assignment." }, { status: 403 });
+            }
+        } else if (paymentIntentId) {
             const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
                 apiVersion: "2025-01-27.acacia" as any,
             });

@@ -1,11 +1,21 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Client from "@/models/Client";
 import bcrypt from "bcryptjs";
 import { signToken } from "@/lib/auth";
+import rateLimit, { getIP } from "@/lib/rateLimit";
 
-export async function POST(req: Request) {
+const limiter = rateLimit({ interval: 60 * 1000, uniqueTokenPerInterval: 500 });
+
+export async function POST(req: NextRequest) {
     try {
+        const ip = getIP(req);
+        try {
+            await limiter.check(5, ip); // Max 5 requests per minute
+        } catch {
+            return NextResponse.json({ error: "Too many login attempts. Please try again later." }, { status: 429 });
+        }
+
         await dbConnect();
         const body = await req.json();
 

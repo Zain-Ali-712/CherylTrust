@@ -35,15 +35,12 @@ export const sendTemplatedEmail = async ({ to, type, subject, variables }: Email
 
     // Initialize transporter with proper auth mechanism
     const transporter = nodemailer.createTransport({
-        host: "smtp.hostinger.com",
+        host: "smtp.gmail.com",
         port: 465,
         secure: true, // Use SSL
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASSWORD,
-        },
-        tls: {
-            rejectUnauthorized: false
         }
     });
 
@@ -107,7 +104,7 @@ export const sendTemplatedEmail = async ({ to, type, subject, variables }: Email
             
             <div style="background-color: #fcfaf8; border: 1px solid #cfd0bb; padding: 20px; border-radius: 15px; margin: 25px 0;">
                 <h3 style="margin-top: 0; color: #121e28;">Getting Started</h3>
-                <p>Booking for the facilities is easy on our website: <a href="https://cheryltrust.com/adventure-park#book-now" style="color: #cfd0bb; font-weight: bold;">Book Here</a></p>
+                <p>Booking for the facilities is easy on our website: <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://cheryltrust.com'}/adventure-park#book-now" style="color: #cfd0bb; font-weight: bold;">Book Here</a></p>
                 <p><strong>Note:</strong> When you make a booking, you will receive a confirmation email containing a unique 4-digit padlock code. You will need this code to unlock the gate and access the Adventure Park.</p>
             </div>
 

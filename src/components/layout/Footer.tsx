@@ -109,9 +109,19 @@ export default function Footer() {
                     <p className="text-[0.75rem] font-sans text-white/60 tracking-[0.05em]">
                         © {new Date().getFullYear()} Cheryl — Trust Technique NZ. All rights reserved.
                     </p>
-                    <p className="text-[0.75rem] font-sans text-white/60">
-                        Wellington, New Zealand &nbsp;·&nbsp; Serving clients worldwide
-                    </p>
+                    <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                        <div className="flex items-center gap-4 border-r border-white/20 pr-4 sm:pr-6">
+                            <Link href="/privacy-policy" className="text-[0.75rem] font-sans text-white/60 hover:text-white transition-colors">
+                                Privacy Policy
+                            </Link>
+                            <Link href="/website-terms" className="text-[0.75rem] font-sans text-white/60 hover:text-white transition-colors">
+                                Website Terms
+                            </Link>
+                        </div>
+                        <p className="text-[0.75rem] font-sans text-white/60">
+                            Wellington, New Zealand &nbsp;·&nbsp; Serving clients worldwide
+                        </p>
+                    </div>
                 </div>
             </div>
         </footer>

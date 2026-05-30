@@ -47,17 +47,19 @@ export default function ClientProfilePage() {
   const [client, setClient] = useState<Client | null>(null);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
+  const [membershipPackages, setMembershipPackages] = useState<any[]>([]);
   
   const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
-  const [membershipData, setMembershipData] = useState({ type: "Country Club Trust Membership", price: 30, startDate: "", endDate: "" });
+  const [membershipData, setMembershipData] = useState({ packageId: "", type: "", price: 0, startDate: "", endDate: "" });
 
   const fetchClientDetails = async () => {
     try {
       // Fire all fetch requests concurrently to eliminate network waterfall
-      const [clientRes, memRes, bookRes] = await Promise.all([
+      const [clientRes, memRes, bookRes, pkgRes] = await Promise.all([
         fetch(`/api/clients/${id}`),
         fetch(`/api/memberships?clientId=${id}`),
-        fetch(`/api/bookings?clientId=${id}`)
+        fetch(`/api/bookings?clientId=${id}`),
+        fetch(`/api/membership-packages`)
       ]);
 
       // Handle Client
@@ -77,6 +79,10 @@ export default function ClientProfilePage() {
       if (bookRes.ok) {
         setBookings(await bookRes.json());
       }
+
+      if (pkgRes.ok) {
+        setMembershipPackages(await pkgRes.json());
+      }
     } catch (e) {
       console.error("Failed to fetch client details:", e);
     }
@@ -88,10 +94,14 @@ export default function ClientProfilePage() {
 
   const handleCreateMembership = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!membershipData.packageId) {
+      alert("Please select a package.");
+      return;
+    }
     const res = await fetch("/api/memberships", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...membershipData, clientId: id })
+      body: JSON.stringify({ ...membershipData, clientId: id, paymentIntentId: "admin_manual" })
     });
 
     if (res.ok) {
@@ -326,10 +336,17 @@ export default function ClientProfilePage() {
             <h2 className="text-xl font-bold font-serif mb-4">Add Membership</h2>
             <form onSubmit={handleCreateMembership} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-dark/70 mb-1">Type</label>
-                <select value={membershipData.type} onChange={(e) => setMembershipData({...membershipData, type: e.target.value, price: 30})} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50 bg-white">
-                  <option value="Country Club Trust Membership">Country Club Trust Membership - $30.00</option>
-                  <option value="Country Club Non Trust Membership">Country Club Non Trust Membership - $30.00</option>
+                <label className="block text-sm font-medium text-dark/70 mb-1">Package</label>
+                <select value={membershipData.packageId || ""} onChange={(e) => {
+                  const pkg = membershipPackages.find(p => p._id === e.target.value);
+                  if (pkg) {
+                    setMembershipData({...membershipData, packageId: pkg._id, type: pkg.availableFor, price: pkg.price});
+                  }
+                }} className="w-full border border-black/10 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-brand/50 bg-white">
+                  <option value="" disabled>Select a package...</option>
+                  {membershipPackages.map(pkg => (
+                    <option key={pkg._id} value={pkg._id}>{pkg.name} - ${pkg.price}</option>
+                  ))}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-4">
