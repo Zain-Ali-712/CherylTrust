@@ -6,16 +6,15 @@ import { FiArrowRight, FiCheckCircle } from "react-icons/fi";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const stats = [
-    { val: "6+", label: "Years Experience" },
-    { val: "100+", label: "Animals Helped" },
-    { val: "40+", label: "Countries Reach" },
+    { val: "9+", label: "Years Experience" },
+    { val: "1500+", label: "Animals Helped" },
+    { val: "3", label: "Years ConTact C.A.R.E" },
     { val: "NZ", label: "Wellington Based" },
 ];
 
 const credentials = [
     "Certified Trust Technique® Practitioner",
-    "Equine & Canine Body Therapist",
-    "Emotion Code Releasing Practitioner",
+    "Equine & Canine Body Therapist – ConTact C.A.R.E",
 ];
 
 export default function AboutTeaser() {
@@ -36,7 +35,7 @@ export default function AboutTeaser() {
                         {/* Photo */}
                         <div className="about-img-wrap relative z-10 overflow-hidden border-2 border-white shadow-xl cursor-pointer ml-auto w-[90%] lg:w-[85%]"
                             style={{ marginTop: "2rem", aspectRatio: "3/4" }}>
-                            <Image src="/Aboutme.jpg" alt="Cheryl McDonough" fill sizes="(max-width: 1024px) 90vw, 40vw"
+                            <Image src="/person-around.jpg" alt="Cheryl McDonough" fill sizes="(max-width: 1024px) 90vw, 40vw"
                                 className="about-img object-cover object-top transition-transform duration-700 hover:scale-105" />
                         </div>
 
@@ -44,7 +43,7 @@ export default function AboutTeaser() {
                         <div className="absolute z-20 bg-primary-dark p-5 max-w-[180px] shadow-lg" style={{ top: "4rem", left: "-1rem" }}>
                             <p className="font-serif font-bold text-[1.15rem] text-white leading-[1.2]">Cheryl</p>
                             <p className="font-serif font-bold text-[1.15rem] text-white leading-[1.2] mb-1.5">McDonough</p>
-                            <p className="text-[0.6rem] font-bold tracking-[0.15em] uppercase font-sans text-accent">Animal Healer</p>
+                            <p className="text-[0.55rem] font-bold tracking-[0.15em] uppercase font-sans text-accent">Animal Behaviourist and Bodyworker</p>
                         </div>
 
                         {/* Stats strip - Rebuilt as a rich dark contrast element */}
@@ -76,10 +75,10 @@ export default function AboutTeaser() {
                         <div className="h-px bg-gradient-to-r from-primary-dark/30 to-transparent mb-7" />
 
                         <p className="text-[0.95rem] text-dark/60 font-sans leading-[1.8] mb-4">
-                            Cheryl is a certified Trust Technique® Practitioner and pet behaviourist based in Wellington, New Zealand — helping animals and their people find genuine peace, connection, and lasting change.
+                            Cheryl is a certified and insured Trust Technique® Practitioner and ConTact C.A.R.E bodyworker based in Wellington, New Zealand — helping animals and their people find genuine peace, connection, and lasting change.
                         </p>
                         <p className="text-[0.95rem] text-dark/60 font-sans leading-[1.8] mb-8 lg:mb-10">
-                            She addresses fear, aggression, and anxiety at their root using a holistic toolkit: Trust Technique®, Emotion Code Releasing, body therapy, and Red Light treatment.
+                            As a professional behaviourist she addresses fear, aggression, and anxiety at their root using the Trust Technique methodology. For a holistic approach she can also address structural skeletal issues or pains with ConTact CARE, or use one of many tools in her toolkit: Emotion Code Releasing, body therapy, Fascia unwinding, and Red Light treatment.
                         </p>
 
                         {/* Credentials with hover accent */}

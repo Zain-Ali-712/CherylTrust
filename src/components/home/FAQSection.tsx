@@ -15,7 +15,7 @@ const faqs = [
     },
     {
         q: "How many sessions does my dog or horse typically need?",
-        a: "Every animal is different. Most clients begin to see meaningful changes within 1–3 sessions. More entrenched issues — severe PTSD, long-term aggression — may benefit from an ongoing programme. Cheryl will discuss a realistic plan with you from the start.",
+        a: "Every animal is unique. Minor issues may improve in 1-2 sessions, but deep trauma and entrenched behaviours take time and commitment. The appropriate approach will be discussed during the initial conversation.",
     },
     {
         q: "What types of animals do you work with?",

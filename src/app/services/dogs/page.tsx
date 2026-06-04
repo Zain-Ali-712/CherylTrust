@@ -6,10 +6,33 @@ import HomeCTA from "@/components/home/HomeCTA";
 import { FaPaw } from "react-icons/fa";
 
 export const metadata: Metadata = {
-    title: "Dog Behaviour & Training | Cheryl McDonough Trust Technique NZ",
+    title: "Canine | Cheryl McDonough Trust Technique NZ",
     description: "Expert dog rehabilitation in Wellington, NZ. Specialising in aggression, rescue dogs, separation anxiety, and fear using the Trust Technique.",
 };
 
+
+const dogTherapies = [
+    {
+        title: "Trust Technique - Foundation Program",
+        desc: "A comprehensive program teaching you and your dog to share a deep connection, eliminating fear-based reactions and building a confident and stable relationship.",
+    },
+    {
+        title: "Trust Technique Consult for Clients",
+        desc: "Private coaching tailored to behavioural challenges such as trauma, aggression, PTSD, and adoption transitions.",
+    },
+    {
+        title: "New Puppy / Newly Adopted Dog Set-Up Session",
+        desc: "Start your new relationship off right. Help your new dog thrive with a personalised routine and environment plan, creating a calm and effective introduction to your home and daily life.",
+    },
+    {
+        title: "ConTact C.A.R.E for Dogs and Other Small Animals",
+        desc: "A practical, gentle and pain-free method for releasing trapped physical pressure and tension. It can help alleviate both acute and complex body issues.",
+    },
+    {
+        title: "Emergency Assistance Consult",
+        desc: "Immediate support and guidance for sudden behavioural issues, injuries, or acute crisis situations.",
+    }
+];
 
 export default function DogServicesPage() {
     return (
@@ -59,7 +82,7 @@ export default function DogServicesPage() {
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-5 h-px bg-accent/70" />
                         <span className="text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans text-accent/85">
-                            Dog Behaviour & Rehabilitation
+                            Canine
                         </span>
                     </div>
 
@@ -107,7 +130,7 @@ export default function DogServicesPage() {
                                     When a dog lunges, barks continuously, or panics when left alone, they aren&apos;t trying to be &quot;bad&quot; or dominant. They are overwhelmed, fearful, or trapped in high anxiety.
                                 </p>
                                 <p>
-                                    Regular obedience training frequently suppresses these symptoms without addressing the emotional distress causing them. At CherylTrust, we don&apos;t use commands, corrections, or force. We teach you how to lower your dog&apos;s &quot;thinking levels&quot; so they process their environment safely.
+                                    Regular obedience training frequently suppresses these symptoms without addressing the emotional distress causing them. At Cheryl - Trust Technique NZ, we don&apos;t use commands, corrections, or force. We teach you how to lower your dog&apos;s &quot;thinking levels&quot; so they process their environment safely.
                                 </p>
                             </div>
                         </div>
@@ -116,7 +139,7 @@ export default function DogServicesPage() {
                         <div className="order-1 lg:order-2">
                             {/* Shorter Image */}
                             <div className="relative w-full aspect-[5/3] sm:aspect-video rounded-3xl overflow-hidden shadow-xl border-4 border-white mb-6">
-                                <Image src="/Skyler2.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 20%" }} />
+                                <Image src="/service-canine.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 40%" }} />
                             </div>
 
                             {/* Tags moved below image */}
@@ -160,13 +183,8 @@ export default function DogServicesPage() {
                                 <p className="text-dark/70 font-sans leading-[1.8] text-base mb-6">
                                     Overcome fear and reactive patterns peacefully. We work at a pace that suits you and your dog, addressing trauma, aggression, PTSD, and adoption transitions.
                                 </p>
-                                <ul className="space-y-3 font-sans text-[0.95rem] text-dark/80 mb-8 font-medium">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Private 1-on-1 coaching</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Immediate lowering of anxiety levels</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> No force or dominance used</li>
-                                </ul>
-                                <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors">
-                                    Book a Session <FiArrowRight size={14} />
+                                <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors mt-auto">
+                                    Enquire <FiArrowRight size={14} />
                                 </Link>
                             </div>
                         </div>
@@ -201,13 +219,13 @@ export default function DogServicesPage() {
                             </div>
                             <div>
                                 <div className="text-primary-dark/30 font-serif font-bold text-6xl mb-4">03</div>
-                                <h3 className="font-serif font-normal text-3xl text-dark mb-5 tracking-[-0.01em]">Body & Energy Work</h3>
+                                <h3 className="font-serif font-normal text-3xl text-dark mb-5 tracking-[-0.01em]">Body &amp; Energy Work</h3>
                                 <p className="text-dark/70 font-sans leading-[1.8] text-base mb-6">
                                     Behavioural issues are often linked to hidden physical pain. We ensure the body is as comfortable as the mind using Red Light Therapy, Musculoskeletal Unwinding, and Emotion Code Releasing.
                                 </p>
                                 <ul className="space-y-3 font-sans text-[0.95rem] text-dark/80 mb-8 font-medium">
                                     <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Red Light Therapy for injury/surgery recovery</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Fascia & deep trauma release</li>
+                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Fascia &amp; deep trauma release</li>
                                     <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-primary-dark" /> Clearing trapped emotional baggage</li>
                                 </ul>
                                 <Link href="/contact" className="inline-flex items-center gap-2 text-primary-dark font-bold font-sans uppercase tracking-widest text-xs hover:text-dark transition-colors">

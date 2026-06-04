@@ -10,21 +10,21 @@ import HomeCTA from "@/components/home/HomeCTA";
 export const metadata: Metadata = {
     title: "About Cheryl McDonough | Trust Technique Practitioner NZ",
     description:
-        "Meet Cheryl McDonough — Certified Trust Technique Practitioner & Pet Behaviorist in Wellington NZ, specialising in fear, aggression, and anxiety in dogs and horses.",
+        "Meet Cheryl McDonough — Certified Trust Technique Practitioner & ConTact C.A.R.E Bodyworker in Wellington NZ, specialising in fear, aggression, and anxiety in dogs and horses.",
 };
 
 const tools = [
     {
         Icon: MdSelfImprovement,
         name: "Trust Technique®",
-        desc: "A mindfulness-based method of creating deep, connected communication between humans and animals. Available globally via Skype or FaceTime.",
+        desc: "A mindfulness-based method of creating a deep, connected relationship between humans and animals, this empowers behavioural change. Available globally via Teams or FaceTime.",
         tag: "Global Online + In Person",
     },
     {
         Icon: GiLightBulb,
-        name: "Emotion Code Releasing",
-        desc: "Identify and release trapped emotions that are causing stress, anxiety, or behavioural issues in your animal. Available globally.",
-        tag: "Global Online + In Person",
+        name: "ConTact C.A.R.E",
+        desc: "Natural hands on body treatment to restore balance, release pressure and relieve pain. Gentle and effective care for your animal. Available in person only",
+        tag: "In Person only",
     },
     {
         Icon: TbMassage,
@@ -42,11 +42,11 @@ const tools = [
 
 const credentials = [
     "Certified Trust Technique® Practitioner",
-    "Equine & Canine Bodywork Specialist",
+    "ConTact C.A.R.E Bodyworker",
     "Emotion Code Releasing Practitioner",
     "Red Light Therapy Therapist",
-    "Dog Rehabilitation Specialist",
-    "Over 6 years of hands-on animal therapy",
+    "Equine & Canine Bodywork Specialist",
+    "Over 9 years of hands-on animal therapy",
 ];
 
 export default function AboutPage() {
@@ -115,8 +115,7 @@ export default function AboutPage() {
                     <p
                         className="text-white/75 font-sans leading-[1.8] max-w-[500px] text-[0.95rem] sm:text-base mb-8"
                     >
-                        Certified Trust Technique® Practitioner, Pet Behaviourist & Animal Body Therapist
-                        — helping animals and their people find safety, trust, and deep emotional healing.
+                        Certified Trust Technique® Practitioner  — helping animals and their people develop a new relationship that supports changing behaviours, builds trust, and offers deep emotional healing. Physical issues can also be addressed with bodywork using ConTact C.A.R.E which is a gentle hands on approach to releasing pressure, and alleviating pain, and improving well being.
                     </p>
 
                     <div className="flex flex-wrap gap-4">
@@ -141,7 +140,7 @@ export default function AboutPage() {
 
                             {/* Real Image */}
                             <div className="relative z-10 w-[92%] aspect-[3/4] rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(28,43,54,0.12)] border-4 border-white">
-                                <Image src="/Aboutme.jpg" alt="Cheryl McDonough" fill className="object-cover object-[center_20%]" />
+                                <Image src="/about-cheryl.jpg" alt="Cheryl McDonough" fill className="object-cover object-[center_20%]" />
                             </div>
 
                             {/* Credentials Floating Box */}
@@ -169,19 +168,25 @@ export default function AboutPage() {
 
                             <h2 className="font-serif font-normal text-dark leading-[1.12] mb-8 tracking-[-0.01em]"
                                 style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}>
-                                A Deep Passion for<br />
+                                A Deep Passion for <br />
                                 <span className="text-primary-dark">Animal Healing</span>
                             </h2>
 
                             <div className="prose prose-lg prose-p:text-dark/65 prose-p:font-sans prose-p:leading-[1.85] prose-p:text-[0.95rem] mb-10">
                                 <p className="mb-5">
-                                    Cheryl McDonough is a certified Trust Technique pet behaviourist who has dedicated her practice to helping animals and their people find peace, trust, and deep connection. Working from Wellington, New Zealand, she serves clients both in person and globally online.
+                                    Cheryl McDonough is a certified Trust Technique® practitioner and ConTact C.A.R.E bodyworker who has dedicated her practice to helping animals and their people find peace, trust, and deep connection. Working from Wellington, New Zealand, she serves clients both in person and globally online.
                                 </p>
                                 <p className="mb-5">
-                                    She specialises in working with animals experiencing fear, aggression, and anxiety — the cases that feel impossible. Her holistic toolkit includes the Trust Technique®, Emotion Code Releasing, Musculoskeletal Unwinding, and Red Light Therapy.
+                                    Helping animals find skeletal relief from pain and restrictions with <strong>ConTact C.A.R.E</strong>, musculoskeletal relief with <strong>Fascia Release</strong>, and <strong>Red Light Therapy</strong>.
+                                </p>
+                                <p className="mb-5">
+                                    Her  journey with her rescue dogs has led her to specialise in dog <strong>reactiveness and emotional trauma</strong>, she has extensive training in it. The cases that feel impossible are the ones she welcomes with excitement to help, these are the dogs she works with everyday.
+                                </p>
+                                <p className="mb-5">
+                                    Her holistic toolkit includes the Trust Technique®, ConTact C.A.R.E., Musculoskeletal Unwinding, Emotion Code release, and Red Light Therapy.
                                 </p>
                                 <p>
-                                    Cheryl works with all types of animals — from dogs and horses to llamas, donkeys, and beyond. Her approach is always private, compassionate, and deeply personalised, focusing on working <em>with</em> the animal, not <em>on</em> them.
+                                    Cheryl works with many animals, specialising in <strong>cats, dogs, and horses</strong>. Her approach is always private, compassionate, and personalised, focusing on working <em>with</em> the animal, not <em>on</em> them.
                                 </p>
                             </div>
 
@@ -259,7 +264,7 @@ export default function AboutPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                         {/* LEFT: Image (Shorter aspect ratio) */}
                         <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[5/4] rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white/60">
-                            <Image src="/Helena.jpg" alt="Cheryl teaching Trust Technique" fill className="object-cover object-center" />
+                            <Image src="/about-age.jpg" alt="Cheryl teaching Trust Technique" fill className="object-cover object-center" />
                         </div>
 
                         {/* RIGHT: Quote Box */}

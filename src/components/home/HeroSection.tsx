@@ -25,7 +25,7 @@ export default function HeroSection() {
         >
             {/* Background image */}
             <Image
-                src="/Mike.jpg"
+                src="/kiri.jpg"
                 alt="A dog in a peaceful setting"
                 fill
                 priority
@@ -91,46 +91,16 @@ export default function HeroSection() {
                         href="/contact"
                         className="inline-flex items-center gap-2 px-9 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 bg-dark text-white border border-dark hover:bg-dark/80 hover:border-dark/80"
                     >
-                        Enquire & Book <FiArrowRight size={13} />
+                        Enquire &amp; Book <FiArrowRight size={13} />
                     </Link>
                     <Link
-                        href="/services"
-                        className="inline-flex items-center gap-2 px-9 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 text-dark/90 border border-dark/30 hover:text-dark hover:border-dark/70 hover:bg-dark/5"
+                        href="#services-overview"
+                        className="inline-flex items-center justify-center gap-2 px-9 py-3.5 text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans no-underline transition-all duration-300 text-white border border-white/40 hover:bg-white hover:text-dark hover:border-white"
                     >
                         Explore Services
                     </Link>
                 </div>
             </div>
-
-            {/* Responsive adjustments */}
-            <style jsx>{`
-        @media (max-width: 768px) {
-          .hero-content {
-            padding-top: 10rem; /* extra space for mobile nav */
-            bottom: 6rem;
-          }
-          h1 {
-            font-size: clamp(2rem, 8vw, 2.8rem) !important;
-          }
-          p {
-            font-size: 0.9rem !important;
-            max-width: 100% !important;
-          }
-          .hero-content > div:last-child {
-            gap: 0.75rem;
-          }
-          .hero-content a {
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-            font-size: 0.65rem;
-          }
-        }
-        @media (min-width: 769px) {
-          .hero-content {
-            padding-top: 9rem; /* desktop top padding */
-          }
-        }
-      `}</style>
         </section>
     );
 }

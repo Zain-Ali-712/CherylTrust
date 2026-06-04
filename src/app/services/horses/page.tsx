@@ -6,7 +6,7 @@ import HomeCTA from "@/components/home/HomeCTA";
 import { FaHorse } from "react-icons/fa";
 
 export const metadata: Metadata = {
-    title: "Horse Sessions & Equine Therapy | Cheryl McDonough Trust Technique NZ",
+    title: "Equine | Cheryl McDonough Trust Technique NZ",
     description: "Holistic equine therapy in Wellington NZ. Addressing spooking, floating issues, laminitis recovery, and musculoskeletal tension using the Trust Technique and bodywork.",
 };
 
@@ -21,20 +21,20 @@ const horseIssues = [
 
 const horseTherapies = [
     {
-        title: "Trust Technique®",
+        title: "Trust Technique - Foundation Programme",
         desc: "Teaching you and your horse to share a deep nervous system connection, eliminating fear-based reactions and building unshakeable confidence.",
     },
     {
-        title: "Musculoskeletal Unwinding",
-        desc: "A blend of acupressure, Kinesiology, ortho bionomy, and massage to release deep fascial tension and skeleton misalignment.",
+        title: "Trust Technique Consult for Clients",
+        desc: "Tailored sessions for your specific needs, addressing spooking, floating issues, and general tension.",
     },
     {
-        title: "Red Light Therapy",
-        desc: "Therapeutic wavelengths applied to accelerate healing for acute injuries, joint issues, or post-surgery recovery right in your paddock.",
+        title: "Emergency Assistance Consult",
+        desc: "Immediate support for acute issues, sudden behavioral changes, or post-injury trauma.",
     },
     {
-        title: "Emotion Code Releasing",
-        desc: "Releasing trapped energetic trauma. Horses hold immense emotional memory in their bodies; clearing this creates space for physical healing.",
+        title: "ConTact C.A.R.E for Horses *and other large animals",
+        desc: "Releasing trapped energetic trauma and physical pressure. Horses hold immense emotional memory; clearing this creates space for physical healing.",
     },
 ];
 
@@ -83,7 +83,7 @@ export default function HorseServicesPage() {
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-5 h-px bg-accent/70" />
                         <span className="text-[0.72rem] font-bold tracking-[0.22em] uppercase font-sans text-accent/85">
-                            Equine Therapy & Sessions
+                            Equine
                         </span>
                     </div>
 
@@ -99,7 +99,8 @@ export default function HorseServicesPage() {
                     <p
                         className="text-white/75 font-sans leading-[1.8] max-w-[500px] text-[0.95rem] sm:text-base mb-8"
                     >
-                        Whether it&apos;s deep-seated trauma, spooking, or physical tension holding your horse back — our holistic bodywork and Trust Technique sessions create profound shifts.
+                        Whether it&apos;s deep-seated trauma, spooking, or physical tension holding your horse back — our holistic bodywork and Trust Technique sessions create profound shifts.From hard to saddle, to anxious rider or refusing to load, and everything in between, I can help you and your horse have a different outcome.
+
                     </p>
 
                     <div className="flex flex-wrap gap-4">
@@ -117,7 +118,7 @@ export default function HorseServicesPage() {
                     {/* Top Row: Interleaved Image & Text */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center mb-24">
                         <div className="relative w-full aspect-[4/3] lg:aspect-[5/4] rounded-2xl overflow-hidden shadow-2xl border border-dark/5 lg:order-2">
-                            <Image src="/Horse.jpg" alt="Connecting with a horse" fill className="object-cover object-[center_30%]" />
+                            <Image src="/horse.jpg" alt="Connecting with a horse" fill className="object-cover object-[center_30%]" />
                         </div>
 
                         <div className="lg:order-1">

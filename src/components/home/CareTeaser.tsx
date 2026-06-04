@@ -8,21 +8,22 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 const panels = [
     {
         title: "Dogs", tagline: "Behaviour · Rehabilitation · Body Therapy",
-        points: ["Aggression & fear behaviour", "Anxiety & PTSD recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
-        href: "/care#dogs", image: "/Foster-story1-3.jpg", stat: { val: "100+", label: "Dogs Helped" },
+        points: ["Aggression & fear behaviour", "Anxiety & Trauma recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
+        href: "/services/dogs", image: "/home-expert.jpg", stat: { val: "1500+", label: "Dogs Helped" },
     },
     {
-        title: "Horses", tagline: "Paddock Sessions · Musculoskeletal Care",
-        points: ["Trust Technique® at your paddock", "Laminitis recovery guidance", "Musculoskeletal unwinding", "Pre-season sessions"],
-        href: "/care#horses", image: "/horse.jpg", stat: { val: "NZ", label: "Wellington & Online" },
+        title: "Horses", tagline: "Behaviour · Rehabilitation · Body Therapy",
+        points: ["Trust Technique® at your paddock", "ConTact CARE", "Musculoskeletal unwinding", "Pre-season sessions"],
+        href: "/services/horses", image: "/horse.jpg", stat: { val: "NZ", label: "Wellington & Online" },
     },
 ];
 
 function CarePanel({ p, index }: { p: typeof panels[0]; index: number }) {
-    const { ref, style } = useScrollReveal({ delay: index * 100 });
+    // Set consistent delay to ensure they reveal together and stay aligned
+    const { ref, style } = useScrollReveal({ delay: 0 });
 
     return (
-        <div ref={ref} style={style} className="care-panel relative overflow-hidden min-h-[520px] rounded-2xl group flex-1">
+        <div ref={ref} style={style} className="care-panel relative overflow-hidden h-full min-h-[520px] rounded-2xl group flex-1">
             <Image src={p.image} alt={p.title} fill className="care-img object-cover transition-transform duration-[850ms] ease-out group-hover:scale-105" />
 
             {/* Overlay – slightly darker for better contrast */}
@@ -44,16 +45,16 @@ function CarePanel({ p, index }: { p: typeof panels[0]; index: number }) {
                     <span className="text-[0.62rem] font-bold tracking-[0.2em] uppercase font-sans text-accent/80">{p.tagline}</span>
                 </div>
 
-                {/* Title */}
-                <h3 className="font-serif font-normal text-white leading-[1.08] tracking-[-0.01em] mb-5"
+                {/* Title - Fixed height to ensure alignment */}
+                <h3 className="font-serif font-normal text-white leading-[1.08] tracking-[-0.01em] mb-5 min-h-[3rem] flex items-end"
                     style={{ fontSize: "clamp(2rem,3vw,2.5rem)" }}>
                     {p.title}
                 </h3>
 
                 <div className="h-px bg-white/10 mb-6" />
 
-                {/* 2-col bullets – fade on hover (stack on very small screens, then 2-col) */}
-                <div className="care-bullets grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 mb-8 opacity-70 group-hover:opacity-100 transition-opacity">
+                {/* 2-col bullets – Fixed height to ensure alignment */}
+                <div className="care-bullets grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 mb-8 opacity-70 group-hover:opacity-100 transition-opacity min-h-[85px]">
                     {p.points.map((pt) => (
                         <div key={pt} className="flex items-start gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-accent/90 shrink-0 mt-[0.4rem]" />
@@ -97,7 +98,7 @@ export default function CareTeaser() {
             {/* Two image panels – wrapped in container with spacing */}
             <div className="max-w-[1280px] mx-auto pb-20"
                 style={{ paddingLeft: "clamp(1.25rem,6vw,4rem)", paddingRight: "clamp(1.25rem,6vw,4rem)" }}>
-                <div className="flex flex-col md:grid md:grid-cols-2 gap-6 lg:gap-8">
+                <div className="flex flex-col md:grid md:grid-cols-2 items-stretch gap-6 lg:gap-8">
                     {panels.map((p, i) => <CarePanel key={p.title} p={p} index={i} />)}
                 </div>
             </div>
