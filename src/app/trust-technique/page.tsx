@@ -48,12 +48,12 @@ export default function TrustTechniquePage() {
             >
                 {/* Background image */}
                 <Image
-                    src="/Red.jpg"
+                    src="/Skyler2.jpg"
                     alt="Cheryl sitting peacefully with an animal"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: "center 30%" }}
+                    style={{ objectPosition: "center 5%" }}
                 />
 
                 {/* Gradient overlay – matching home page */}

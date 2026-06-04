@@ -23,12 +23,12 @@ export default function DogServicesPage() {
             >
                 {/* Background image */}
                 <Image
-                    src="/Mitch.jpg"
+                    src="/Skyler31.jpg"
                     alt="Dog resting calmly"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: "center 30%" }}
+                    style={{ objectPosition: "center 10%" }}
                 />
 
                 {/* Gradient overlay – matching home page */}
@@ -116,7 +116,7 @@ export default function DogServicesPage() {
                         <div className="order-1 lg:order-2">
                             {/* Shorter Image */}
                             <div className="relative w-full aspect-[5/3] sm:aspect-video rounded-3xl overflow-hidden shadow-xl border-4 border-white mb-6">
-                                <Image src="/adopt3.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 40%" }} />
+                                <Image src="/Skyler2.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 20%" }} />
                             </div>
 
                             {/* Tags moved below image */}
@@ -152,7 +152,7 @@ export default function DogServicesPage() {
                         {/* Therapy 1 */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                             <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-dark/5">
-                                <Image src="/Kash.jpg" alt="Trust Technique with dogs" fill className="object-cover" />
+                                <Image src="/Weenie.jpg" alt="Trust Technique with dogs" fill className="object-cover" />
                             </div>
                             <div>
                                 <div className="text-primary-dark/30 font-serif font-bold text-6xl mb-4">01</div>
@@ -175,7 +175,7 @@ export default function DogServicesPage() {
                         <div className="bg-dark text-white rounded-[2.5rem] p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center shadow-2xl relative overflow-hidden">
                             <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
                             <div className="relative z-10 w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 lg:order-2">
-                                <Image src="/adopt5.jpg" alt="Rehabilitation Board and Train" fill className="object-cover" />
+                                <Image src="/Ayla.jpg" alt="Rehabilitation Board and Train" fill className="object-cover" />
                             </div>
                             <div className="lg:order-1 relative z-10">
                                 <div className="text-accent/30 font-serif font-bold text-6xl mb-4">02</div>
@@ -197,7 +197,7 @@ export default function DogServicesPage() {
                         {/* Therapy 3 */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                             <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-dark/5">
-                                <Image src="/adopt4.jpg" alt="Physical & Emotional therapy" fill className="object-cover" />
+                                <Image src="/Adam.jpg" alt="Physical & Emotional therapy" fill className="object-cover" />
                             </div>
                             <div>
                                 <div className="text-primary-dark/30 font-serif font-bold text-6xl mb-4">03</div>

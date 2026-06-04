@@ -28,12 +28,12 @@ export default function DonatePage() {
             >
                 {/* Background image - Changed from donate.jpg to another image as requested */}
                 <Image
-                    src="/adopt4.jpg"
+                    src="/Ryan.jpg"
                     alt="Dog resting calmly"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: "center 40%" }}
+                    style={{ objectPosition: "center 50%" }}
                 />
 
                 {/* Gradient overlay – matching home page */}
@@ -106,7 +106,7 @@ export default function DonatePage() {
                         <div className="lg:col-span-5 relative">
                             {/* Main Background Image */}
                             <div className="relative w-full aspect-[3/5] sm:aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-dark/5">
-                                <Image src="/adopt3.jpg" alt="Rescue dog support" fill className="object-cover object-center" />
+                                <Image src="/Charity.jpg" alt="Rescue dog support" fill className="object-cover object-center" />
                                 <div className="absolute inset-0 bg-dark/10" />
                             </div>
 

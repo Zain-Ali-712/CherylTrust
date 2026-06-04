@@ -61,7 +61,7 @@ export default function AboutPage() {
             >
                 {/* Background image */}
                 <Image
-                    src="/Kash.jpg"
+                    src="/Beagal.jpg"
                     alt="Cheryl with horse"
                     fill
                     priority
@@ -259,7 +259,7 @@ export default function AboutPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                         {/* LEFT: Image (Shorter aspect ratio) */}
                         <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[5/4] rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white/60">
-                            <Image src="/kiri.jpg" alt="Cheryl teaching Trust Technique" fill className="object-cover object-center" />
+                            <Image src="/Helena.jpg" alt="Cheryl teaching Trust Technique" fill className="object-cover object-center" />
                         </div>
 
                         {/* RIGHT: Quote Box */}

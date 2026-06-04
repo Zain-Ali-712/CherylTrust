@@ -76,12 +76,12 @@ export default function ContactPage() {
             >
                 {/* Background image */}
                 <Image
-                    src="/adopt5.jpg"
+                    src="/Anors.jpg"
                     alt="Contact Cheryl - Dog outdoors"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: "center 30%" }}
+                    style={{ objectPosition: "center 50%" }}
                 />
 
                 {/* Gradient overlay – matching home page */}

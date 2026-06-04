@@ -63,17 +63,17 @@ export default function CanineClubPage() {
                 style={{ height: "100vh", minHeight: 600, maxHeight: 920 }}
             >
                 <Image
-                    src="/kiri2.jpg"
+                    src="/Justin.jpg"
                     alt="Canine Country Club"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: "center 40%" }}
+                    style={{ objectPosition: "center 30%" }}
                 />
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: "linear-gradient(108deg, rgba(18, 30, 40, 0.93) 0%, rgba(28, 43, 54, 0.52) 52%, rgba(28,43,54,0.2) 100%)",
+                        background: "linear-gradient(108deg, rgba(18, 30, 40, 0.93) 0%, rgba(28, 43, 54, 0.52) 32%, rgba(28,43,54,0.2) 80%)",
                     }}
                 />
                 <div

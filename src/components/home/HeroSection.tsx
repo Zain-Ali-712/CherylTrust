@@ -25,12 +25,12 @@ export default function HeroSection() {
         >
             {/* Background image */}
             <Image
-                src="/Kiri1.jpg"
+                src="/Mike.jpg"
                 alt="A dog in a peaceful setting"
                 fill
                 priority
                 className="object-cover"
-                style={{ objectPosition: "center 15%" }}
+                style={{ objectPosition: "center 40%" }}
             />
 
             {/* Gradient overlay – slightly darker for better contrast */}

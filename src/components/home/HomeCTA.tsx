@@ -10,11 +10,11 @@ export default function HomeCTA() {
 
     return (
         <section className="relative overflow-hidden">
-            <Image src="/kiri1.jpg" alt="Cheryl with an animal" fill
-                className="object-cover" style={{ objectPosition: "center 40%" }} />
+            <Image src="/Aditya.jpg" alt="Cheryl with an animal" fill
+                className="object-cover" style={{ objectPosition: "center 20%" }} />
 
             {/* Dark overlay - reduced opacity as requested */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(108deg, rgba(28,43,54,0.85) 0%, rgba(28,43,54,0.65) 55%, rgba(28,43,54,0.4) 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(108deg, rgba(28,43,54,0.85) 0%, rgba(28,43,54,0.65) 40%, rgba(28,43,54,0.4) 90%)" }} />
 
             {/* Content */}
             <div ref={ref} style={{ ...style, paddingLeft: "clamp(1.25rem,6vw,4rem)", paddingRight: "clamp(1.25rem,6vw,4rem)" }}
@@ -35,9 +35,9 @@ export default function HomeCTA() {
                             <span className="text-primary-light">for your animal.</span>
                         </h2>
 
-                        <div className="h-px bg-white/[0.08] mb-5 max-w-[500px]" />
+                        <div className="h-px bg-white/[0.18] mb-5 max-w-[500px]" />
 
-                        <p className="text-[0.9rem] text-white/45 font-sans leading-[1.85] max-w-[460px]">
+                        <p className="text-[0.9rem] text-white/65 font-sans leading-[1.85] max-w-[460px]">
                             Whether you have an anxious dog, a fearful horse, or a rescue animal with a difficult past — Cheryl can help. Sessions available in Wellington or online globally. Reach out for a free initial consultation.
                         </p>
                     </div>
@@ -49,7 +49,7 @@ export default function HomeCTA() {
                             Enquire &amp; Book <FiArrowRight size={13} />
                         </Link>
                         <Link href="/services"
-                            className="block px-9 py-[0.875rem] text-[0.72rem] font-semibold tracking-[0.2em] uppercase font-sans no-underline text-center text-white/38 border border-white/12 hover:text-white/85 hover:border-white/32 transition-all duration-300 whitespace-nowrap">
+                            className="block px-9 py-[0.875rem] text-[0.72rem] font-semibold tracking-[0.2em] uppercase font-sans no-underline text-center text-white/60 border border-white/25 hover:text-white/95 hover:border-white/50 transition-all duration-300 whitespace-nowrap">
                             View Services
                         </Link>
                     </div>
