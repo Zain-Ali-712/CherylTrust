@@ -25,7 +25,7 @@ export default function HeroSection() {
         >
             {/* Background image */}
             <Image
-                src="/kiri.jpg"
+                src="/Mike.jpg"
                 alt="A dog in a peaceful setting"
                 fill
                 priority
@@ -54,7 +54,7 @@ export default function HeroSection() {
                 style={{
                     paddingLeft: "clamp(1.25rem, 7vw, 7rem)",
                     paddingRight: "clamp(1.25rem, 7vw, 7rem)",
-                    bottom: "8rem", // less bottom space on mobile, adjusted via media query
+                    bottom: "8rem sm:0rem", // less bottom space on mobile, adjusted via media query
                 }}
             >
                 {/* Eyebrow */}

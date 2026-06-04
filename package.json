@@ -18,7 +18,7 @@
     "lru-cache": "^11.5.1",
     "lucide-react": "^0.575.0",
     "mongodb": "^6.21.0",
-    "mongoose": "^8.23.0",
+    "mongoose": "^8.24.0",
     "next": "16.1.6",
     "nodemailer": "^8.0.4",
     "react": "19.2.3",

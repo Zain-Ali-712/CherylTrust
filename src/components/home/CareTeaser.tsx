@@ -9,7 +9,7 @@ const panels = [
     {
         title: "Dogs", tagline: "Behaviour · Rehabilitation · Body Therapy",
         points: ["Aggression & fear behaviour", "Anxiety & Trauma recovery", "Red Light & body therapy", "Rescue & new puppy setup"],
-        href: "/services/dogs", image: "/home-expert.jpg", stat: { val: "1500+", label: "Dogs Helped" },
+        href: "/services/dogs", image: "/Aditya.jpg", stat: { val: "1500+", label: "Dogs Helped" },
     },
     {
         title: "Horses", tagline: "Behaviour · Rehabilitation · Body Therapy",

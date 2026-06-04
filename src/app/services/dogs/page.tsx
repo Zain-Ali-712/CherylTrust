@@ -139,7 +139,7 @@ export default function DogServicesPage() {
                         <div className="order-1 lg:order-2">
                             {/* Shorter Image */}
                             <div className="relative w-full aspect-[5/3] sm:aspect-video rounded-3xl overflow-hidden shadow-xl border-4 border-white mb-6">
-                                <Image src="/service-canine.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 40%" }} />
+                                <Image src="/Skyler3.jpg" alt="Dog therapy in nature" fill className="object-cover" style={{ objectPosition: "center 40%" }} />
                             </div>
 
                             {/* Tags moved below image */}

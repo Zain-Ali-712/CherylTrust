@@ -78,7 +78,7 @@ export default function AdventureParkPage() {
                 style={{ height: "100vh", minHeight: 600, maxHeight: 920 }}
             >
                 <Image
-                    src="/kiri2.jpg"
+                    src="/Anors.jpg"
                     alt="Canine Country Club"
                     fill
                     priority
